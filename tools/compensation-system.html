@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鞋帽厂片区房屋征收补偿自助系统 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ========== 菜单卡片 ========== */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+        .menu-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+        .menu-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .menu-card h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .menu-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== 补偿标准简览 ========== */
+        .info-section {
+            animation: fadeUp 0.4s ease;
+        }
+        .info-section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--bioluminescent);
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        @media (max-width: 700px) {
+            .info-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .info-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s;
+        }
+        .info-card:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.08);
+        }
+        .info-card-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .info-card-value {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+        }
+        .info-card-note {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            margin-top: 0.4rem;
+            line-height: 1.4;
+        }
+
+        /* ========== 计算规则说明 ========== */
+        .rules-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+        }
+        .rule-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            align-items: flex-start;
+        }
+        .rule-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .rule-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            color: var(--bioluminescent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .rule-content strong {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .rule-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ========== 视图切换 ========== */
+        .view {
+            display: none;
+            animation: fadeUp 0.35s ease;
+        }
+        .view.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== 视图卡片 ========== */
+        .view-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem 2rem 2.25rem;
+        }
+        .view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .view-header h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            cursor: pointer;
+            padding: 8px 18px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* ========== 表单 ========== */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .form-row label {
+            font-weight: 500;
+            min-width: 140px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .form-row input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 18px;
+            border: 1.5px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: rgba(2, 11, 20, 0.3);
+            color: var(--text-primary);
+            transition: all 0.3s;
+            outline: none;
+        }
+        .form-row input:focus {
+            border-color: var(--bioluminescent);
+            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.12);
+        }
+        .form-row input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* ========== 按钮 ========== */
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+        .btn {
+            padding: 12px 36px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(0, 200, 255, 0.2));
+            color: var(--bioluminescent);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(0, 200, 255, 0.3));
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* ========== 结果区域 ========== */
+        .result-box {
+            margin-top: 1.75rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
+            display: none;
+        }
+        .result-box.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .result-grid { grid-template-columns: 1fr; }
+            .form-row label { min-width: 100%; }
+        }
+
+        /* ========== 结果卡片 ========== */
+        .comp-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+        .comp-card h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            color: var(--bioluminescent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .comp-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .comp-item:last-child { border-bottom: none; }
+        .comp-item .label {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+        .comp-item .value {
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+            font-family: monospace;
+        }
+        .comp-item .step {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            width: 100%;
+            text-align: right;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+        .total-row {
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+        .total-row .value {
+            color: var(--bioluminescent);
+            font-size: 1.15rem;
+        }
+
+        /* ========== 徽章信息 ========== */
+        .badge-info {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 40px;
+            padding: 2px 12px;
+            font-size: 0.75rem;
+            color: var(--bioluminescent);
+            white-space: nowrap;
+        }
+
+        /* ========== 备注框 ========== */
+        .remark {
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: rgba(0, 240, 255, 0.03);
+            border-left: 4px solid var(--bioluminescent);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .remark strong {
+            color: var(--bioluminescent);
+        }
+
+        /* ========== 工具页脚 ========== */
+        .tool-footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            opacity: 0.7;
+        }
+
+        /* ========== 辅助 ========== */
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">鞋帽厂片区征收补偿自助系统</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Compensation Tool</span>
+            <h1 class="page-hero-title">🧢 鞋帽厂片区 · 征收补偿自助系统</h1>
+            <p class="page-hero-desc">点击功能入口，查询补偿明细或按面积估算</p>
+        </div>
+
+        <div class="page-body">
+            <div class="tool-container">
+
+                <!-- 主菜单 -->
+                <div id="menuContainer" class="menu-grid">
+                    <div class="menu-card" id="enterQuery">
+                        <div class="icon">🔍</div>
+                        <h2>查询我的补偿</h2>
+                        <p>输入姓名，查看详细的补偿明细</p>
+                    </div>
+                    <div class="menu-card" id="enterEstimate">
+                        <div class="icon">📐</div>
+                        <h2>按面积估算</h2>
+                        <p>输入房屋产权面积和储藏室面积，估算补偿</p>
+                    </div>
+                </div>
+
+                <!-- 查询视图 -->
+                <div id="queryView" class="view">
+                    <div class="view-card">
+                        <div class="view-header">
+                            <h2>🔍 查询我的补偿</h2>
+                            <button class="back-btn" id="backFromQuery">← 返回主菜单</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="qName">姓名</label>
+                                <input type="text" id="qName" placeholder="请输入您的姓名" autocomplete="off">
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" id="queryBtn">查询</button>
+                                <button class="btn btn-secondary" id="resetBtn">清空</button>
+                            </div>
+                        </div>
+                        <div id="queryResult" class="result-box"></div>
+                    </div>
+                </div>
+
+                <!-- 估算视图 -->
+                <div id="estimateView" class="view">
+                    <div class="view-card">
+                        <div class="view-header">
+                            <h2>📐 按面积估算</h2>
+                            <button class="back-btn" id="backFromEstimate">← 返回主菜单</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="estArea">房屋产权面积 (㎡)</label>
+                                <input type="number" id="estArea" placeholder="例如 89.28" step="any" min="0">
+                            </div>
+                            <div class="form-row">
+                                <label for="estStorage">储藏室面积 (㎡)</label>
+                                <input type="number" id="estStorage" placeholder="例如 5.04" step="any" min="0" value="0">
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" id="calcBtn">估算</button>
+                                <button class="btn btn-secondary" id="clearEstBtn">清空</button>
+                            </div>
+                        </div>
+                        <div id="estimateResult" class="result-box"></div>
+                    </div>
+                </div>
+
+                <!-- 补偿标准简览 -->
+                <div class="info-section" style="margin-top:2rem;">
+                    <div class="info-section-title">📊 补偿标准简览</div>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-label">住宅评估单价</div>
+                            <div class="info-card-value">10,154 元/㎡</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">储藏室补偿单价</div>
+                            <div class="info-card-value">700 元/㎡</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">搬迁补助费</div>
+                            <div class="info-card-value">20 元/㎡</div>
+                            <div class="info-card-note">实物安置发2次，货币补偿发1次</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">临时安置过渡费</div>
+                            <div class="info-card-value">15 元/㎡/月</div>
+                            <div class="info-card-note">货币补偿6个月，实物安置12个月（一年一发）</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">面积奖励</div>
+                            <div class="info-card-value">10 ㎡/户</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">交房奖励</div>
+                            <div class="info-card-value">20,000 元/户</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">户奖励</div>
+                            <div class="info-card-value">80,000 元/户</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 计算规则说明 -->
+                <div class="info-section" style="margin-top:1.5rem;">
+                    <div class="info-section-title">📋 计算规则说明</div>
+                    <div class="rules-card">
+                        <div class="rule-item">
+                            <div class="rule-num">1</div>
+                            <div class="rule-content">
+                                <strong>认定补偿面积</strong>
+                                <p>房屋产权面积 + 10㎡面积奖励（每户固定）</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-num">2</div>
+                            <div class="rule-content">
+                                <strong>货币补偿计算</strong>
+                                <p>认定补偿面积 × 住宅评估单价(10,154元/㎡) + 搬迁费(面积×20元/㎡) + 过渡费(面积×15元/㎡×6个月) + 户奖励(80,000元) + 交房奖励(20,000元) + 储藏室补偿(面积×700元/㎡)</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-num">3</div>
+                            <div class="rule-content">
+                                <strong>实物置换补助计算</strong>
+                                <p>搬迁费(面积×20元/㎡×2次) + 过渡费(面积×15元/㎡×12个月) + 户奖励(80,000元) + 交房奖励(20,000元) + 储藏室补偿(面积×700元/㎡)</p>
+                                <p style="margin-top:4px;font-size:0.82rem;opacity:0.7;">注：实物置换以面积置换为主，补助金额为附加补偿</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-num">4</div>
+                            <div class="rule-content">
+                                <strong>储藏室补偿</strong>
+                                <p>储藏室面积 × 700元/㎡，货币补偿和实物置换均包含此项</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-num">5</div>
+                            <div class="rule-content">
+                                <strong>签约奖励户奖励</strong>
+                                <p>在规定签约期间内搬迁，第一阶段签约奖励 80,000 元/户，第二阶段签约奖励 40,000 元/户。在规定期间内未签约的，取消户奖励。</p>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-num">6</div>
+                            <div class="rule-content">
+                                <strong>模拟房改</strong>
+                                <p>按照《关于进一步加强公有房屋管理工作的通知》（长政办发[2021]57号）及《94方案》《98方案》参照执行。房改房缴纳费用由被征收人承担，在补偿中需进行扣减。本系统暂不显示扣减部分，待提交住户相应信息后，需重新核算货币补偿最终结算。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-footer">
+                    依据《鞋帽厂片区城市更新改造项目房屋征收补偿安置方案》| 本工具仅用于模拟测算，最终补偿以正式协议为准
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ======================== 数据 ========================
+        const households = [
+            ['唐进群',115.77,5.04],
+            ['韩建平',93.69,5.04],
+            ['张艳玲',89.97,5.04],
+            ['平关伟',89.97,5.04],
+            ['刘和尚',93.69,5.04],
+            ['何小刚',115.77,5.04],
+            ['曹晓飞',115.77,5.04],
+            ['晋守正',93.69,5.04],
+            ['牛丽波',89.97,5.04],
+            ['牛鹏华',89.97,5.04],
+            ['梁晨',93.69,5.04],
+            ['晋顺城',115.77,5.04],
+            ['郭栓福',115.77,5.04],
+            ['赵刚',93.69,5.04],
+            ['朱李斌',89.97,5.04],
+            ['张海库',89.97,5.04],
+            ['程新平',93.69,5.04],
+            ['郭生江',115.77,5.04],
+            ['候先吉',115.77,5.04],
+            ['任志斌',93.69,5.04],
+            ['李尉钧',89.97,5.04],
+            ['孙建立',89.97,5.04],
+            ['常初生',93.69,5.04],
+            ['候晋涛',115.77,5.04],
+            ['牛进斌',115.77,5.04],
+            ['赵文良',93.69,5.04],
+            ['温雄心',89.97,5.04],
+            ['王建明',89.97,5.04],
+            ['石伟',93.69,5.04],
+            ['李玲玉',115.77,5.04]
+        ];
+
+        const nameMap = {};
+        households.forEach(h => {
+            nameMap[h[0]] = { area: h[1], storage: h[2] };
+        });
+
+        // ======================== 计算函数 ========================
+        function calcCompensationWithSteps(areaBuilding, areaStorage) {
+            const housePrice = 10154;
+            const storagePrice = 700;
+            const relocPerM2 = 20;
+            const transPerM2 = 15;
+            const deliveryAward = 20000;
+            const householdReward = 80000;
+            const extraRewardArea = 10;
+
+            const recognized = areaBuilding + extraRewardArea;
+            const houseComp = recognized * housePrice;
+            const relocFee = areaBuilding * relocPerM2;
+            const trans6 = areaBuilding * transPerM2 * 6;
+            const trans12 = areaBuilding * transPerM2 * 12;
+            const storageComp = areaStorage * storagePrice;
+            const realReloc = relocFee * 2;
+
+            const moneyTotal = houseComp + relocFee + trans6 + householdReward + deliveryAward + storageComp;
+            const realTotal = realReloc + trans12 + householdReward + deliveryAward + storageComp;
+
+            return {
+                recognized,
+                houseComp,
+                houseCompStep: `${recognized.toFixed(2)} × ${housePrice}`,
+                relocFee,
+                relocFeeStep: `${areaBuilding.toFixed(2)} × ${relocPerM2}`,
+                trans6,
+                trans6Step: `${areaBuilding.toFixed(2)} × ${transPerM2} × 6`,
+                trans12,
+                trans12Step: `${areaBuilding.toFixed(2)} × ${transPerM2} × 12`,
+                householdReward,
+                householdRewardStep: `80000 元`,
+                deliveryAward,
+                storageComp,
+                storageCompStep: `${areaStorage.toFixed(2)} × ${storagePrice}`,
+                realReloc,
+                realRelocStep: `${areaBuilding.toFixed(2)} × ${relocPerM2} × 2`,
+                moneyTotal,
+                realTotal
+            };
+        }
+
+        function fmt(v) {
+            return v.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // ======================== 渲染结果 ========================
+        function renderDetailedResult(containerId, data, name = '', area = '', storage = '') {
+            const container = document.getElementById(containerId);
+            if (!data) {
+                container.classList.remove('show');
+                container.innerHTML = '';
+                return;
+            }
+
+            const d = data;
+            let infoHtml = '';
+            if (name) {
+                infoHtml = `<div class="flex-between"><span><strong>${name}</strong> 的补偿明细</span><span class="badge-info">房屋产权面积 ${area} ㎡ · 储藏室 ${storage} ㎡</span></div>`;
+            } else {
+                infoHtml = `<div><strong>估算结果</strong>（房屋产权面积 ${area} ㎡，储藏室 ${storage} ㎡）</div>`;
+            }
+
+            container.innerHTML = `
+                <div class="result-grid">
+                    <div class="comp-card">
+                        <h3>🏗️ 实物置换 · 补助合计</h3>
+                        <div class="comp-item"><span class="label">应安置面积（含10㎡奖励）</span><span class="value">${d.recognized.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item">
+                            <span class="label">搬迁费（2次）</span>
+                            <span class="value">${fmt(d.realReloc)} 元</span>
+                            <span class="step">= ${d.realRelocStep}</span>
+                        </div>
+                        <div class="comp-item">
+                            <span class="label">过渡费（12个月）</span>
+                            <span class="value">${fmt(d.trans12)} 元</span>
+                            <span class="step">= ${d.trans12Step}</span>
+                        </div>
+                        <div class="comp-item"><span class="label">交房奖励</span><span class="value">${fmt(d.deliveryAward)} 元</span></div>
+                        <div class="comp-item">
+                            <span class="label">户奖励</span>
+                            <span class="value">${fmt(d.householdReward)} 元</span>
+                            <span class="step">= ${d.householdRewardStep}</span>
+                        </div>
+                        <div class="comp-item">
+                            <span class="label">储藏室补偿</span>
+                            <span class="value">${fmt(d.storageComp)} 元</span>
+                            <span class="step">= ${d.storageCompStep}</span>
+                        </div>
+                        <div class="comp-item total-row"><span class="label">✨ 实物补助总金额</span><span class="value">${fmt(d.realTotal)} 元</span></div>
+                    </div>
+                    <div class="comp-card">
+                        <h3>💰 货币补偿方案</h3>
+                        <div class="comp-item"><span class="label">认定补偿面积（含10㎡奖励）</span><span class="value">${d.recognized.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item">
+                            <span class="label">房屋补偿（住宅）</span>
+                            <span class="value">${fmt(d.houseComp)} 元</span>
+                            <span class="step">= ${d.houseCompStep}</span>
+                        </div>
+                        <div class="comp-item">
+                            <span class="label">搬迁费</span>
+                            <span class="value">${fmt(d.relocFee)} 元</span>
+                            <span class="step">= ${d.relocFeeStep}</span>
+                        </div>
+                        <div class="comp-item">
+                            <span class="label">过渡费（6个月）</span>
+                            <span class="value">${fmt(d.trans6)} 元</span>
+                            <span class="step">= ${d.trans6Step}</span>
+                        </div>
+                        <div class="comp-item"><span class="label">交房奖励</span><span class="value">${fmt(d.deliveryAward)} 元</span></div>
+                        <div class="comp-item">
+                            <span class="label">户奖励</span>
+                            <span class="value">${fmt(d.householdReward)} 元</span>
+                            <span class="step">= ${d.householdRewardStep}</span>
+                        </div>
+                        <div class="comp-item">
+                            <span class="label">储藏室补偿</span>
+                            <span class="value">${fmt(d.storageComp)} 元</span>
+                            <span class="step">= ${d.storageCompStep}</span>
+                        </div>
+                        <div class="comp-item total-row"><span class="label">💰 货币补偿总计</span><span class="value">${fmt(d.moneyTotal)} 元</span></div>
+                    </div>
+                </div>
+                <div class="remark">
+                    <strong>📌 备注：模拟房改费</strong><br>
+                    房改房缴纳费用由被征收人承担，在补偿中需进行扣减。本系统暂不显示扣减部分，待提交住户相应信息后，需重新核算货币补偿最终结算。
+                </div>
+            `;
+            container.classList.add('show');
+        }
+
+        // ======================== 页面控制 ========================
+        const menu = document.getElementById('menuContainer');
+        const queryView = document.getElementById('queryView');
+        const estimateView = document.getElementById('estimateView');
+
+        function showView(viewId) {
+            menu.classList.add('hidden');
+            queryView.classList.remove('active');
+            estimateView.classList.remove('active');
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function showMenu() {
+            menu.classList.remove('hidden');
+            queryView.classList.remove('active');
+            estimateView.classList.remove('active');
+            document.getElementById('queryResult').classList.remove('show');
+            document.getElementById('queryResult').innerHTML = '';
+            document.getElementById('qName').value = '';
+            document.getElementById('estimateResult').classList.remove('show');
+            document.getElementById('estimateResult').innerHTML = '';
+            document.getElementById('estArea').value = '';
+            document.getElementById('estStorage').value = '0';
+        }
+
+        document.getElementById('enterQuery').addEventListener('click', () => showView('queryView'));
+        document.getElementById('enterEstimate').addEventListener('click', () => showView('estimateView'));
+        document.getElementById('backFromQuery').addEventListener('click', showMenu);
+        document.getElementById('backFromEstimate').addEventListener('click', showMenu);
+
+        // ======================== 功能事件 ========================
+        document.getElementById('queryBtn').addEventListener('click', function() {
+            const name = document.getElementById('qName').value.trim();
+            if (!name) {
+                alert('请输入您的姓名');
+                return;
+            }
+            const info = nameMap[name];
+            if (!info) {
+                alert('未找到该住户，请检查姓名是否正确');
+                document.getElementById('queryResult').classList.remove('show');
+                document.getElementById('queryResult').innerHTML = '';
+                return;
+            }
+            const data = calcCompensationWithSteps(info.area, info.storage);
+            renderDetailedResult('queryResult', data, name, info.area, info.storage);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.getElementById('qName').value = '';
+            document.getElementById('queryResult').classList.remove('show');
+            document.getElementById('queryResult').innerHTML = '';
+        });
+
+        document.getElementById('calcBtn').addEventListener('click', function() {
+            const area = parseFloat(document.getElementById('estArea').value);
+            const storage = parseFloat(document.getElementById('estStorage').value) || 0;
+            if (isNaN(area) || area <= 0) {
+                alert('请输入有效的房屋产权面积');
+                return;
+            }
+            const data = calcCompensationWithSteps(area, storage);
+            renderDetailedResult('estimateResult', data, '', area, storage);
+        });
+
+        document.getElementById('clearEstBtn').addEventListener('click', function() {
+            document.getElementById('estArea').value = '';
+            document.getElementById('estStorage').value = '0';
+            document.getElementById('estimateResult').classList.remove('show');
+            document.getElementById('estimateResult').innerHTML = '';
+        });
+
+        // 回车触发
+        document.getElementById('qName').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('queryBtn').click();
+        });
+        document.getElementById('estArea').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('calcBtn').click();
+        });
+        document.getElementById('estStorage').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('calcBtn').click();
+        });
+    </script>
+</body>
+</html>

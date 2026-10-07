@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480">
+  <rect width="900" height="480" fill="#0b1424"/>
+  <rect x="1" y="1" width="898" height="478" fill="none" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="450" cy="240" r="172" fill="none" stroke="#00f0ff" stroke-opacity="0.16" stroke-width="2"/>
+  <circle cx="450" cy="240" r="115" fill="none" stroke="#00f0ff" stroke-opacity="0.10" stroke-width="2"/>
+  <text x="450" y="234" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="46" font-weight="700" fill="#dce8f7">AI 分析功能</text>
+  <text x="450" y="274" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="20" fill="#00f0ff">个性化诊断与提分建议</text>
+  <text x="450" y="444" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="14" fill="#8399b8">功能示意图 · 待替换为实际截图</text>
+</svg>

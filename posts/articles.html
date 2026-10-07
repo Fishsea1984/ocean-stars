@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部文章 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--bioluminescent);
+            color: var(--bioluminescent);
+            background: rgba(0, 240, 255, 0.1);
+        }
+        .article-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .article-item:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+            box-shadow: var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        .article-item-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .article-item-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            color: var(--bioluminescent);
+            background: rgba(0, 240, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .article-item-tag.tool { background: rgba(240, 147, 251, 0.1); color: #f093fb; }
+        .article-item-tag.land { background: rgba(0, 255, 150, 0.1); color: #00ff96; }
+        .article-item-tag.edu { background: rgba(255, 180, 0, 0.1); color: #ffb400; }
+        .article-item-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        .article-item-arrow {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .article-item:hover .article-item-arrow { transform: translateX(4px); }
+        .article-item-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        .article-item-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .article-item-actions a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .article-item-actions .btn-view-article {
+            border: 1px solid var(--bioluminescent);
+            color: var(--bioluminescent);
+            background: rgba(0, 240, 255, 0.06);
+        }
+        .article-item-actions .btn-view-article:hover {
+            background: rgba(0, 240, 255, 0.15);
+        }
+        .article-item-actions .btn-view-pdf {
+            border: 1px solid rgba(240, 147, 251, 0.4);
+            color: #f093fb;
+            background: rgba(240, 147, 251, 0.06);
+        }
+        .article-item-actions .btn-view-pdf:hover {
+            background: rgba(240, 147, 251, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <span class="current">全部文章</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">All Articles</span>
+            <h1 class="page-hero-title">全部文章与工具</h1>
+            <p class="page-hero-desc">浏览所有已发布的内容</p>
+        </div>
+
+        <div class="page-body">
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="tool">征收补偿</button>
+                <button class="filter-btn" data-filter="land">土地分摊</button>
+                <button class="filter-btn" data-filter="edu">教育工具</button>
+                <button class="filter-btn" data-filter="enterprise">企业工具</button>
+            </div>
+
+            <div id="articleList">
+                <a href="../tools/compensation-system.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">鞋帽厂片区房屋征收补偿自助系统</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">依据官方补偿方案，支持货币补偿与实物置换两种模式的自助测算工具</div>
+                </a>
+
+                <a href="../tools/shangdang-compensation.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">上党门片区房屋征收补偿计算器</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">支持单元楼与独院/伙院两种房屋类型的精准测算，含详细计算规则说明</div>
+                </a>
+
+                <a href="../tools/huadong-compensation.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">华东城中村拆迁安置补偿计算器</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">产权置换与货币补偿双方案对比，含产业折现、生活保障、奖励补助完整测算</div>
+                </a>
+
+                <a href="post-002.html" class="article-item" data-category="land">
+                    <div class="article-item-header">
+                        <span class="article-item-tag land">土地分摊</span>
+                        <span class="article-item-title">史家大院 · 土地分摊完整计算</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">16户建筑占地明细、分摊系数、公摊面积、1.5倍补偿面积完整计算</div>
+                </a>
+
+                <a href="post-003.html" class="article-item" data-category="land">
+                    <div class="article-item-header">
+                        <span class="article-item-tag land">土地分摊</span>
+                        <span class="article-item-title">鱼氏家族土地恢复面积 · 分摊明细表</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">6户（含3户已拆除）建筑占地、公摊系数、合计面积完整推导</div>
+                </a>
+
+                <a href="post-004.html" class="article-item" data-category="edu">
+                    <div class="article-item-header">
+                        <span class="article-item-tag edu">教育工具</span>
+                        <span class="article-item-title">AI成绩管理分析系统</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">面向山西长治初高中学生的智能成绩管理与AI分析平台使用说明</div>
+                </a>
+
+                <a href="post-005.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">英雄路等道路更新改造 · 征收补偿安置方案</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">潞州政办发[2026]6号，涵盖11条道路更新改造范围，含面积认定、补偿标准、安置房源</div>
+
+                </a>
+
+                <a href="post-006.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">长治市人民政府 · 潞州区房屋征收与补偿规范通知</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">长政规〔2023〕2号，"三补一奖"政策、面积认定、附着物补偿指导价、资金测算拨付</div>
+
+                </a>
+
+                <a href="post-007.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">上党门片区城市更新改造 · 征收补偿安置方案</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">潞州政办发[2026]4号，英雄中路东西片区征收范围，含安置房价格表及选购标准</div>
+
+                </a>
+
+                <a href="post-008.html" class="article-item" data-category="enterprise">
+                    <div class="article-item-header">
+                        <span class="article-item-tag" style="background:rgba(139,92,246,0.15);color:#a78bfa;">企业工具</span>
+                        <span class="article-item-title">智薪通 · 工资管理申报发放系统</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">专为建筑与工程行业打造，覆盖制薪、审核、员工管理全生命周期</div>
+                </a>
+
+                <a href="post-010.html" class="article-item" data-category="enterprise">
+                    <div class="article-item-header">
+                        <span class="article-item-tag" style="background:rgba(16,185,129,0.15);color:#10b981;">工作计划</span>
+                        <span class="article-item-title">新民装饰城 · 五级详细工作计划</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">年度·季度·月度·周·日常五级推进方案，从筹备到竣工全流程管控</div>
+                </a>
+
+                <a href="../tools/herosouth-compensation.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">英雄南路街道 · 城市更新补偿计算系统</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">演武社区·西南城社区，独院+单元楼双模，实物货币双方案精准计算</div>
+                </a>
+                <a href="../tools/hengye-compensation.html" class="article-item" data-category="tool">
+                    <div class="article-item-header">
+                        <span class="article-item-tag tool">征收补偿</span>
+                        <span class="article-item-title">恒业花园片区（煤运小区）· 征收补偿自助系统</span>
+                        <span class="article-item-arrow">→</span>
+                    </div>
+                    <div class="article-item-desc">楼栋号+房号查询，64户数据，评估单价8,471元/㎡，含模拟房改费扣减</div>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 分类筛选
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const articles = document.querySelectorAll('.article-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+
+                let visibleCount = 0;
+                articles.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // 无结果提示
+                const noResults = document.querySelector('.no-results');
+                if (noResults) noResults.remove();
+                if (visibleCount === 0) {
+                    const nr = document.createElement('div');
+                    nr.className = 'no-results';
+                    nr.textContent = '该分类下暂无文章';
+                    document.getElementById('articleList').appendChild(nr);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

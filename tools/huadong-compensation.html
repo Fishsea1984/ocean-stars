@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华东城中村拆迁安置补偿计算器 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ====== 工具页面专属覆盖 ====== */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .breadcrumb a { color: var(--bioluminescent); text-decoration: none; }
+        .breadcrumb .sep { margin: 0 8px; }
+
+        /* ====== Tab 切换 ====== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 30px;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 6px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Noto Sans SC', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active {
+            background: rgba(0, 240, 255, 0.12);
+            color: var(--bioluminescent);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+        }
+        .tab-btn .badge {
+            font-size: 0.7rem;
+            background: rgba(0, 240, 255, 0.15);
+            padding: 2px 10px;
+            border-radius: 30px;
+            margin-left: 8px;
+            color: var(--bioluminescent);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ====== 主布局 ====== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2rem;
+        }
+        .input-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+        .input-panel h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: rgba(2, 11, 20, 0.3);
+            color: var(--text-primary);
+            transition: all 0.3s;
+            outline: none;
+            appearance: auto;
+        }
+        .form-group select option { background: var(--ocean-mid); color: var(--text-primary); }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--bioluminescent);
+            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.12);
+        }
+        .btn-calc {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(0, 200, 255, 0.2));
+            color: var(--bioluminescent);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .btn-calc:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(0, 200, 255, 0.3));
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        .btn-share {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.25), rgba(245, 87, 108, 0.2));
+            color: #f093fb;
+            border: 1px solid rgba(240, 147, 251, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.75rem;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .btn-share:hover {
+            box-shadow: 0 0 25px rgba(240, 147, 251, 0.2);
+            transform: translateY(-2px);
+        }
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .scheme-box {
+            border-radius: 24px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+        }
+        .scheme-box.property {
+            background: rgba(0, 240, 255, 0.04);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        .scheme-box.money {
+            background: rgba(240, 147, 251, 0.04);
+            border: 1px solid rgba(240, 147, 251, 0.15);
+        }
+        .scheme-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed var(--glass-border);
+        }
+        .scheme-header h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .scheme-header.property h2 { color: var(--bioluminescent); }
+        .scheme-header.money h2 { color: #f093fb; }
+        .scheme-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        .result-card {
+            background: rgba(2, 11, 20, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+        .result-card:last-child { margin-bottom: 0; }
+        .result-card h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .result-card.property-card h3 { color: var(--bioluminescent); }
+        .result-card.money-card h3 { color: #f093fb; }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        .result-item {
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
+            border-radius: 12px;
+            border-left: 4px solid var(--bioluminescent);
+        }
+        .result-item.highlight { background: rgba(0, 240, 255, 0.06); border-left-color: var(--bioluminescent); }
+        .result-item.gold { background: rgba(255, 180, 0, 0.06); border-left-color: #f0a500; }
+        .result-item.red { background: rgba(255, 107, 107, 0.06); border-left-color: #ff6b6b; }
+        .result-item.green { background: rgba(0, 255, 150, 0.06); border-left-color: #00ff96; }
+        .result-item .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .result-item .value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .result-item .unit {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 3px;
+        }
+        .result-item .sub-value {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+        .total-box {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(0, 150, 255, 0.2));
+            padding: 1.25rem;
+            border-radius: 16px;
+            margin-top: 1rem;
+            text-align: center;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+        .total-box .total-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .total-box .total-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+        }
+        .total-box .total-unit {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .total-box.money-total {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.15));
+            border-color: rgba(240, 147, 251, 0.2);
+        }
+        .total-box.money-total .total-value { color: #f093fb; }
+        .warning-box {
+            background: rgba(255, 180, 0, 0.08);
+            border: 1px solid rgba(255, 180, 0, 0.2);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .encourage-box {
+            background: rgba(0, 240, 255, 0.04);
+            border-left: 4px solid var(--bioluminescent);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+        .encourage-box p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+        }
+        .encourage-box strong { color: var(--bioluminescent); }
+        .empty-state {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(20px);
+        }
+        .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; color: var(--text-secondary); }
+        .empty-state h3 { color: var(--text-primary); font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .empty-state p { color: var(--text-secondary); font-size: 0.9rem; }
+        .info-tip {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .info-tip strong { color: var(--bioluminescent); display: block; margin-bottom: 0.5rem; }
+        .tool-footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            opacity: 0.7;
+        }
+
+        /* ===== 回签计算器专属样式 ===== */
+        .simple-calc .input-panel-simple {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            max-width: 720px;
+            margin: 0 auto 2rem;
+        }
+        .simple-calc .input-panel-simple h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f093fb;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .simple-calc .input-panel-simple h2 .badge {
+            font-size: 0.7rem;
+            background: rgba(240, 147, 251, 0.15);
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: #f093fb;
+            font-weight: 400;
+        }
+        .simple-calc .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 20px;
+        }
+        .simple-calc .form-group-simple { margin-bottom: 1rem; }
+        .simple-calc .form-group-simple label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+        }
+        .simple-calc .form-group-simple input,
+        .simple-calc .form-group-simple select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: rgba(2, 11, 20, 0.3);
+            color: var(--text-primary);
+            transition: all 0.3s;
+            outline: none;
+        }
+        .simple-calc .form-group-simple input:focus,
+        .simple-calc .form-group-simple select:focus {
+            border-color: var(--bioluminescent);
+            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.12);
+        }
+        .simple-calc .form-group-simple .readonly-input {
+            background: rgba(2, 11, 20, 0.3);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            border-color: var(--glass-border);
+        }
+        .simple-calc .form-group-simple input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+        .simple-calc .btn-simple {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.3), rgba(245, 87, 108, 0.2));
+            color: #f093fb;
+            border: 1px solid rgba(240, 147, 251, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .simple-calc .btn-simple:hover {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.4), rgba(245, 87, 108, 0.3));
+            box-shadow: 0 0 25px rgba(240, 147, 251, 0.2);
+            transform: translateY(-2px);
+        }
+        .simple-calc .result-box {
+            background: rgba(2, 11, 20, 0.5);
+            border-radius: 18px;
+            padding: 1.8rem 2rem;
+            border: 1px solid var(--glass-border);
+            margin-top: 1.5rem;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .simple-calc .result-box .result-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+        .simple-calc .result-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .simple-calc .result-item-row:last-child { border-bottom: none; }
+        .simple-calc .result-item-row .rlabel {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .simple-calc .result-item-row .rvalue {
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+        }
+        .simple-calc .result-item-row .rvalue.cyan { color: var(--bioluminescent); }
+        .simple-calc .result-item-row .rvalue.gold { color: #f0a500; }
+        .simple-calc .result-item-row .rvalue.pink { color: #f093fb; }
+        .simple-calc .result-item-row .rvalue.green { color: #00ff96; }
+        .simple-calc .result-divider-row {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 12px;
+            margin-top: 6px;
+        }
+        .simple-calc .result-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 4px;
+        }
+        .simple-calc .result-total-row .total-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .simple-calc .result-total-row .total-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff96;
+        }
+        .simple-calc .formula-box {
+            background: rgba(0, 240, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(0, 240, 255, 0.06);
+            line-height: 2;
+            opacity: 0.8;
+        }
+        .simple-calc .formula-box code {
+            color: var(--bioluminescent);
+            background: rgba(0, 240, 255, 0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .simple-calc .formula-box .hl-pink { color: #f093fb; font-weight: 600; }
+        .simple-calc .formula-box .hl-green { color: #00ff96; font-weight: 600; }
+        .simple-calc .empty-simple {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            opacity: 0.3;
+        }
+        .simple-calc .empty-simple .icon { font-size: 2.4rem; margin-bottom: 6px; opacity: 0.3; }
+
+        @media (max-width: 800px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .input-panel { position: static; }
+            .result-grid { grid-template-columns: 1fr; }
+            .tabs { flex-direction: column; gap: 4px; }
+            .tab-btn { text-align: center; }
+            .page-hero-title { font-size: 1.6rem; }
+        }
+        @media (max-width: 600px) {
+            .simple-calc .form-row { grid-template-columns: 1fr; }
+            .simple-calc .result-total-row .total-amount { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">华东城中村拆迁安置补偿计算器</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Compensation Tool</span>
+            <h1 class="page-hero-title">🏘️ 华东城中村 · 拆迁安置补偿计算器</h1>
+            <p class="page-hero-desc">支持宅基地、房屋建筑面积、过渡月数等参数，产业面积自动判定</p>
+        </div>
+
+        <!-- Tab 切换 -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1" onclick="switchTab('tab1')">
+                📊 拆迁安置补偿计算器
+                <span class="badge">主工具</span>
+            </button>
+            <button class="tab-btn" data-tab="tab2" onclick="switchTab('tab2')">
+                📐 回签安置房计算器
+                <span class="badge">简版</span>
+            </button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: 拆迁安置补偿计算器 -->
+        <!-- ============================================================ -->
+        <div class="tab-content active" id="tab1">
+            <div class="main-layout">
+                <!-- 输入面板 -->
+                <div class="input-panel">
+                    <h2>📋 核对证件填写</h2>
+                    <div class="form-group">
+                        <label>宅基地证载面积（平方米）</label>
+                        <input type="number" id="landArea" placeholder="请输入宅基地面积" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>实测房屋建筑面积（平方米）</label>
+                        <input type="number" id="buildArea" placeholder="请输入房屋建筑面积" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>过渡月数</label>
+                        <input type="number" id="transitionMonths" placeholder="请输入过渡月数" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>房屋类型（产业面积规则）</label>
+                        <select id="houseType">
+                            <option value="auto">🤖 自动判定（根据面积）</option>
+                            <option value="2">🏠 2间独院 → 产业面积30㎡</option>
+                            <option value="3">🏠 3间独院 → 产业面积35㎡</option>
+                            <option value="5">🏠 5间及以上独院 → 产业面积60㎡</option>
+                            <option value="huoyuan">🏘️ 伙院（产业面积按25%计算）</option>
+                        </select>
+                        <div style="font-size:0.75rem;color:var(--text-secondary);opacity:0.6;margin-top:6px;">自动判定：面积≤120㎡为2间，≤200㎡为3间，＞200㎡为5间及以上</div>
+                    </div>
+                    <button class="btn-calc" onclick="calculateMain()">🧮 开始计算</button>
+                    <button class="btn-share" onclick="shareResult()">📸 分享结果（生成图片）</button>
+                    <div class="info-tip">
+                        <strong>📌 补偿标准简览</strong>
+                        <div>🏠 <strong>安置系数：</strong>宅基地×1.5（安置）+ ×0.3（奖励）= ×1.8（总补偿面积）</div>
+                        <div>🏢 <strong>产业面积规则：</strong>2间=30㎡、3间=35㎡、5间及以上=60㎡、伙院=宅基地面积×25%</div>
+                        <div>🏡 <strong>生活保障：</strong>宅基地×0.2，已计入住宅面积</div>
+                        <div>💰 <strong>货币单价：</strong>4500元/㎡ | 超266㎡部分3000元/㎡ | 差价700元/㎡</div>
+                        <div>🎁 <strong>奖励：</strong>签约4万 + 面积300元/㎡ + 简装5万 + 过渡14元/㎡/月</div>
+                    </div>
+                </div>
+
+                <!-- 结果面板 -->
+                <div class="results-panel" id="resultsPanel">
+                    <div class="empty-state" id="emptyState">
+                        <div class="icon">📊</div>
+                        <h3>等待计算</h3>
+                        <p>请在左侧输入相关参数，点击"开始计算"查看结果</p>
+                    </div>
+                    <div id="mainResultContent" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: 回签安置房计算器 -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab2">
+            <div class="simple-calc">
+                <div class="input-panel-simple">
+                    <h2>
+                        📐 华东城中村回签安置房计算器
+                        <span class="badge">签约后 · 选房结算</span>
+                    </h2>
+                    <p style="color:var(--text-secondary);opacity:0.6;font-size:0.9rem;margin-bottom:1.5rem;">
+                        输入实际回签选房面积，自动计算应得总补偿（货币补偿 + 未选面积补偿）。
+                    </p>
+
+                    <div class="form-row">
+                        <div class="form-group-simple">
+                            <label>💰 安置房单价 <span style="color:var(--text-secondary);opacity:0.4;">（元/㎡）</span></label>
+                            <input type="number" id="unitPriceSimple" placeholder="请输入安置房单价" step="100" min="0">
+                        </div>
+                        <div class="form-group-simple">
+                            <label>📐 应安置住宅面积 <span style="color:var(--text-secondary);opacity:0.4;">（㎡）</span></label>
+                            <input type="number" id="shouldAreaDisplay" placeholder="请输入应安置住宅面积" step="0.01" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group-simple">
+                            <label>📋 应得货币补偿总额 <span style="color:var(--text-secondary);opacity:0.4;">（元）</span></label>
+                            <input type="number" id="totalCompDisplay" placeholder="请输入应得货币补偿总额" step="0.01" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group-simple" style="margin-top:0.5rem;">
+                        <label>🏠 实际回签选房面积 <span style="color:var(--text-secondary);opacity:0.4;">（㎡）</span></label>
+                        <input type="number" id="actualAreaSimple" placeholder="请输入选择回签安置房总面积" step="0.01" min="0">
+                    </div>
+
+                    <button class="btn-simple" onclick="calculateSimple()">🧮 计算</button>
+
+                    <div class="formula-box">
+                        <strong>📐 计算公式</strong><br>
+                        <span style="color:var(--text-secondary);opacity:0.7;">未选面积</span> = 应安置面积 − 实际选房面积 <span style="color:var(--text-secondary);opacity:0.4;">（若实际选房面积 ≥ 应安置面积，则未选面积为 0）</span><br>
+                        <span style="color:var(--text-secondary);opacity:0.7;">未选面积补偿</span> = 未选面积 × 安置房单价<br>
+                        <span style="color:var(--text-secondary);opacity:0.7;">应得总补偿</span> = 应得货币补偿总额 + 未选面积补偿
+                    </div>
+                </div>
+
+                <!-- 回签结果 -->
+                <div id="simpleResultArea" style="max-width:720px;margin:0 auto;">
+                    <div class="empty-simple" id="emptySimple">
+                        <div class="icon">📊</div>
+                        <p>输入实际选房面积后点击「计算」查看结果</p>
+                    </div>
+                    <div id="simpleResultContent" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="tool-footer">
+            依据《城中村改造拆迁补偿安置办法》| 本工具仅用于模拟测算，最终补偿以正式协议为准
+        </div>
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // ================================================================
+        // 1. TAB 切换
+        // ================================================================
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+            // 如果切换到回签窗口，检查是否已有输入则自动计算
+            if (tabId === 'tab2') {
+                // 如果有输入则自动计算，但不要预填数字
+                const actual = document.getElementById('actualAreaSimple').value;
+                if (actual && parseFloat(actual) > 0) {
+                    calculateSimple();
+                }
+            }
+        }
+
+        // ================================================================
+        // 2. 主计算器（拆迁安置补偿）—— 与原逻辑一致
+        // ================================================================
+        const MAIN = {
+            MONEY_PRICE: 4500,
+            ANZHI_COEF: 1.5,
+            JIANGLI_COEF: 0.3,
+            TOTAL_COEF: 1.8,
+            LIFE_COEF: 0.2,
+            CHANYE_RATIO: 0.25,
+            PRICE_CHAOCHU: 700,
+            PRICE_CHAO266: 3000,
+            PRICE_CHANYE_MONEY: 8000,
+            TRANSITION_FEE: 14,
+            SIGN_REWARD: 40000,
+            AREA_REWARD_RATE: 300,
+            JIANZHUANG_REWARD: 50000,
+            BANQIAN_FEE: 1000,
+            HUIQIAN_FEE: 1000
+        };
+
+        function formatMoney(num) {
+            return num.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        function formatArea(num) {
+            return num.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function autoDetectRooms(area) {
+            if (area <= 120) return 2;
+            else if (area <= 200) return 3;
+            else return 5;
+        }
+
+        function getChanyeArea(houseType, area) {
+            if (houseType === '2') return 30;
+            if (houseType === '3') return 35;
+            if (houseType === '5') return 60;
+            if (houseType === 'huoyuan') return area * MAIN.CHANYE_RATIO;
+            const rooms = autoDetectRooms(area);
+            if (rooms === 2) return 30;
+            else if (rooms === 3) return 35;
+            else return 60;
+        }
+
+        function getRoomsText(houseType, area) {
+            if (houseType === '2') return '2间（独院）';
+            if (houseType === '3') return '3间（独院）';
+            if (houseType === '5') return '5间及以上（独院）';
+            if (houseType === 'huoyuan') return '伙院';
+            const rooms = autoDetectRooms(area);
+            if (rooms === 2) return '自动判定：2间';
+            else if (rooms === 3) return '自动判定：3间';
+            else return '自动判定：5间及以上';
+        }
+
+        function calculateMain() {
+            const landArea = parseFloat(document.getElementById('landArea').value) || 0;
+            const buildArea = parseFloat(document.getElementById('buildArea').value) || 0;
+            const transitionMonths = parseInt(document.getElementById('transitionMonths').value) || 12;
+            const houseType = document.getElementById('houseType').value;
+
+            if (landArea <= 0) { alert('请输入有效的宅基地面积！'); return; }
+
+            const isOver266 = landArea > 266;
+            const area266 = Math.min(landArea, 266);
+            const areaOver266 = Math.max(0, landArea - 266);
+
+            const anzhiArea = area266 * MAIN.ANZHI_COEF;
+            const jiangliArea = area266 * MAIN.JIANGLI_COEF;
+            const totalCompArea = area266 * MAIN.TOTAL_COEF;
+
+            const chanyeArea = getChanyeArea(houseType, area266);
+            const zhuzhaiAreaBeforeLife = totalCompArea - chanyeArea;
+            const lifeArea = area266 * MAIN.LIFE_COEF;
+            const zhuzhaiAreaFinal = zhuzhaiAreaBeforeLife + lifeArea;
+            const chanyeCashValue = chanyeArea * MAIN.PRICE_CHANYE_MONEY;
+
+            const diffArea = buildArea - anzhiArea;
+            const diffMoney = diffArea * MAIN.PRICE_CHAOCHU;
+            const isPayDiff = diffArea < 0;
+            const over266Money = areaOver266 * MAIN.PRICE_CHAO266;
+
+            const signReward = MAIN.SIGN_REWARD;
+            const areaReward = area266 * MAIN.AREA_REWARD_RATE;
+            const jianzhuangReward = MAIN.JIANZHUANG_REWARD;
+            const transitionMoney = area266 * MAIN.TRANSITION_FEE * transitionMonths;
+            const banqianFee = MAIN.BANQIAN_FEE;
+            const huiqianFee = MAIN.HUIQIAN_FEE;
+
+            const totalRewardProperty = signReward + areaReward + jianzhuangReward + transitionMoney + banqianFee + huiqianFee;
+            const propertyTotalValue = totalRewardProperty + chanyeCashValue + over266Money + (isPayDiff ? -Math.abs(diffMoney) : Math.abs(diffMoney));
+
+            const houseMoney = totalCompArea * MAIN.MONEY_PRICE;
+            const chanyeMoney = chanyeArea * MAIN.PRICE_CHANYE_MONEY;
+            const totalMoneyComp = houseMoney + chanyeMoney + over266Money;
+            const totalRewardMoney = signReward + areaReward + jianzhuangReward + transitionMoney + banqianFee;
+            const moneyTotalValue = totalMoneyComp + totalRewardMoney;
+
+            const roomText = getRoomsText(houseType, landArea);
+
+            let html = `
+                <div class="result-card">
+                    <h3>📋 计算概览</h3>
+                    <div class="result-grid">
+                        <div class="result-item"><div class="label">宅基地面积</div><div class="value">${formatArea(landArea)} <span class="unit">㎡</span></div></div>
+                        <div class="result-item"><div class="label">房屋建筑面积</div><div class="value">${formatArea(buildArea)} <span class="unit">㎡</span></div></div>
+                        <div class="result-item highlight"><div class="label">房屋类型</div><div class="value">${roomText}</div></div>
+                        <div class="result-item"><div class="label">过渡月数</div><div class="value">${transitionMonths} <span class="unit">月</span></div></div>
+                    </div>
+                    ${isOver266 ? `<div class="warning-box">⚠️ 宅基地面积超过266㎡，超出部分（${formatArea(areaOver266)}㎡）按3000元/㎡货币补偿，不再给予面积安置。</div>` : ''}
+                </div>
+
+                <div class="scheme-box property">
+                    <div class="scheme-header property">
+                        <h2>🏠 产权置换方案</h2>
+                        <div class="scheme-sub">实物安置 + 产业折现 + 奖励</div>
+                    </div>
+                    <div class="result-card property-card">
+                        <h3>📐 面积计算结果</h3>
+                        <div class="result-grid">
+                            <div class="result-item"><div class="label">安置补偿面积</div><div class="value">${formatArea(anzhiArea)} <span class="unit">㎡</span></div><div class="sub-value">${formatArea(area266)}㎡ × 1.5</div></div>
+                            <div class="result-item"><div class="label">奖励补偿面积</div><div class="value">${formatArea(jiangliArea)} <span class="unit">㎡</span></div><div class="sub-value">${formatArea(area266)}㎡ × 0.3</div></div>
+                            <div class="result-item highlight"><div class="label">总补偿面积（含产业）</div><div class="value">${formatArea(totalCompArea)} <span class="unit">㎡</span></div><div class="sub-value">${formatArea(area266)}㎡ × 1.8</div></div>
+                            <div class="result-item gold"><div class="label">产业面积（不提供实物）</div><div class="value">${formatArea(chanyeArea)} <span class="unit">㎡</span></div><div class="sub-value">${houseType === 'huoyuan' ? '25%比例' : (houseType === 'auto' ? '自动判定' : '固定值')}，按8000元/㎡折现</div></div>
+                            <div class="result-item"><div class="label">住宅面积（含生活保障）</div><div class="value">${formatArea(zhuzhaiAreaFinal)} <span class="unit">㎡</span></div><div class="sub-value">原住宅${formatArea(zhuzhaiAreaBeforeLife)}㎡ + 生活保障${formatArea(lifeArea)}㎡</div></div>
+                            <div class="result-item green"><div class="label">生活保障面积</div><div class="value">${formatArea(lifeArea)} <span class="unit">㎡</span></div><div class="sub-value">已计入住宅面积</div></div>
+                        </div>
+                        <div class="result-grid" style="margin-top:0.75rem;">
+                            <div class="result-item ${isPayDiff ? 'red' : 'gold'}"><div class="label">建筑面积差价结算</div><div class="value">${formatMoney(Math.abs(diffMoney))} <span class="unit">元</span></div><div class="sub-value">${isPayDiff ? '住户需补差' : '住户应收'} | ${formatArea(Math.abs(diffArea))}㎡ × 700元/㎡</div></div>
+                            ${isOver266 ? `<div class="result-item red"><div class="label">超266㎡货币补偿</div><div class="value">${formatMoney(over266Money)} <span class="unit">元</span></div><div class="sub-value">${formatArea(areaOver266)}㎡ × 3000元/㎡</div></div>` : ''}
+                            <div class="result-item gold"><div class="label">产业面积折现（实物不提供）</div><div class="value">${formatMoney(chanyeCashValue)} <span class="unit">元</span></div><div class="sub-value">${formatArea(chanyeArea)}㎡ × 8000元/㎡</div></div>
+                        </div>
+                    </div>
+                    <div class="result-card property-card">
+                        <h3>🎁 奖励与补助</h3>
+                        <div class="result-grid">
+                            <div class="result-item gold"><div class="label">签约奖励（户）</div><div class="value">${formatMoney(signReward)} <span class="unit">元</span></div><div class="sub-value">7天内：4万元</div></div>
+                            <div class="result-item gold"><div class="label">面积签约奖励</div><div class="value">${formatMoney(areaReward)} <span class="unit">元</span></div><div class="sub-value">${formatArea(area266)}㎡ × 300元/㎡</div></div>
+                            <div class="result-item gold"><div class="label">简装费奖励</div><div class="value">${formatMoney(jianzhuangReward)} <span class="unit">元</span></div><div class="sub-value">独院固定5万元</div></div>
+                            <div class="result-item"><div class="label">过渡费（${transitionMonths}个月）</div><div class="value">${formatMoney(transitionMoney)} <span class="unit">元</span></div><div class="sub-value">${formatArea(area266)}㎡ × 14元/㎡/月 × ${transitionMonths}月</div></div>
+                            <div class="result-item"><div class="label">搬迁费</div><div class="value">${formatMoney(banqianFee)} <span class="unit">元</span></div><div class="sub-value">统一1000元</div></div>
+                            <div class="result-item"><div class="label">回迁费</div><div class="value">${formatMoney(huiqianFee)} <span class="unit">元</span></div><div class="sub-value">产权置换特有</div></div>
+                            <div class="result-item highlight"><div class="label">产权置换奖励合计</div><div class="value">${formatMoney(totalRewardProperty)} <span class="unit">元</span></div></div>
+                        </div>
+                    </div>
+                    <div class="total-box">
+                        <div class="total-label">产权置换总价值</div>
+                        <div class="total-value">${formatMoney(propertyTotalValue)} <span class="total-unit">元</span></div>
+                        <div style="font-size:0.75rem;margin-top:6px;color:var(--text-secondary);">= 奖励合计 + 产业折现 + 超266补偿 ± 差价</div>
+                        <div style="font-size:0.75rem;color:var(--text-secondary);opacity:0.7;">其中住宅安置面积 ${formatArea(zhuzhaiAreaFinal)}㎡（毛墙毛地交付）</div>
+                    </div>
+                </div>
+
+                <div class="scheme-box money">
+                    <div class="scheme-header money">
+                        <h2>💰 货币补偿方案</h2>
+                        <div class="scheme-sub">一次性现金补偿</div>
+                    </div>
+                    <div class="result-card money-card">
+                        <h3>💰 补偿金额计算</h3>
+                        <div class="result-grid">
+                            <div class="result-item"><div class="label">住宅面积补偿</div><div class="value">${formatMoney(houseMoney)} <span class="unit">元</span></div><div class="sub-value">${formatArea(totalCompArea)}㎡ × ${MAIN.MONEY_PRICE}元/㎡</div></div>
+                            <div class="result-item"><div class="label">产业面积补偿</div><div class="value">${formatMoney(chanyeMoney)} <span class="unit">元</span></div><div class="sub-value">${formatArea(chanyeArea)}㎡ × 8000元/㎡</div></div>
+                            ${isOver266 ? `<div class="result-item red"><div class="label">超266㎡补偿</div><div class="value">${formatMoney(over266Money)} <span class="unit">元</span></div><div class="sub-value">${formatArea(areaOver266)}㎡ × 3000元/㎡</div></div>` : ''}
+                            <div class="result-item highlight"><div class="label">货币补偿合计（不含奖励）</div><div class="value">${formatMoney(totalMoneyComp)} <span class="unit">元</span></div></div>
+                        </div>
+                    </div>
+                    <div class="result-card money-card">
+                        <h3>🎁 奖励与补助</h3>
+                        <div class="result-grid">
+                            <div class="result-item gold"><div class="label">签约奖励（户）</div><div class="value">${formatMoney(signReward)} <span class="unit">元</span></div></div>
+                            <div class="result-item gold"><div class="label">面积签约奖励</div><div class="value">${formatMoney(areaReward)} <span class="unit">元</span></div></div>
+                            <div class="result-item gold"><div class="label">简装费奖励</div><div class="value">${formatMoney(jianzhuangReward)} <span class="unit">元</span></div></div>
+                            <div class="result-item"><div class="label">过渡费（${transitionMonths}个月）</div><div class="value">${formatMoney(transitionMoney)} <span class="unit">元</span></div></div>
+                            <div class="result-item"><div class="label">搬迁费</div><div class="value">${formatMoney(banqianFee)} <span class="unit">元</span></div></div>
+                            <div class="result-item highlight"><div class="label">货币补偿奖励合计</div><div class="value">${formatMoney(totalRewardMoney)} <span class="unit">元</span></div><div class="sub-value">无回迁费</div></div>
+                        </div>
+                    </div>
+                    <div class="total-box money-total">
+                        <div class="total-label">货币补偿总价值</div>
+                        <div class="total-value">${formatMoney(moneyTotalValue)} <span class="total-unit">元</span></div>
+                        <div style="font-size:0.75rem;margin-top:6px;color:var(--text-secondary);">= 补偿合计 + 奖励合计</div>
+                    </div>
+                </div>
+
+                <div class="encourage-box">
+                    <p><strong>✨ 为什么强烈推荐您选择产权置换？</strong></p>
+                    <p>🏡 <strong>安居乐业，资产增值</strong> —— 获得的安置房不仅满足家庭长期居住需求，随着城市发展和地段成熟，房产价值将持续攀升，留给子孙是一份实实在在的不动产。</p>
+                    <p>💰 <strong>综合收益更高</strong> —— 除了眼前的一次性现金补偿，您还将获得住宅面积、过渡费、搬迁奖励、简装补贴等多项叠加福利，总价值往往远超货币补偿。</p>
+                    <p>📈 <strong>抵御通胀，稳健长远</strong> —— 货币补偿可能随时间贬值，而实物房产是对抗通胀的最佳资产，未来无论是自住、出租还是转让，都拥有更大主动权。</p>
+                    <p>👨‍👩‍👧‍👦 <strong>家庭生活有保障</strong> —— 城中村改造后，社区环境、配套设施、教育医疗资源全面升级，为您和家人提供更宜居的生活空间。</p>
+                    <p style="margin-bottom:0;">✅ 选择产权置换，就是选择一份安定的未来。抓住改造机遇，让家园更美好！</p>
+                </div>
+            `;
+
+            document.getElementById('emptyState').style.display = 'none';
+            const contentDiv = document.getElementById('mainResultContent');
+            contentDiv.style.display = 'block';
+            contentDiv.innerHTML = html;
+        }
+
+        // 主计算器回车触发
+        ['landArea', 'buildArea', 'transitionMonths'].forEach(id => {
+            document.getElementById(id).addEventListener('keydown', e => {
+                if (e.key === 'Enter') calculateMain();
+            });
+        });
+
+        function shareResult() {
+            const empty = document.getElementById('emptyState');
+            if (empty.style.display !== 'none') {
+                alert('请先点击"开始计算"生成结果后再分享！');
+                return;
+            }
+            alert('截图功能已准备就绪（可扩展使用 html2canvas 实现）。');
+        }
+
+
+        // ================================================================
+        // 3. 回签安置房计算器
+        // ================================================================
+
+        function calculateSimple() {
+            const totalComp = parseFloat(document.getElementById('totalCompDisplay').value) || 0;
+            const shouldArea = parseFloat(document.getElementById('shouldAreaDisplay').value) || 0;
+            const actualArea = parseFloat(document.getElementById('actualAreaSimple').value) || 0;
+            const unitPrice = parseFloat(document.getElementById('unitPriceSimple').value) || 0;
+
+            if (shouldArea <= 0) {
+                alert('请输入有效的应安置住宅面积！');
+                return;
+            }
+            if (actualArea <= 0) {
+                alert('请输入有效的实际选房面积（>0）！');
+                return;
+            }
+            if (unitPrice <= 0) {
+                alert('请输入有效的安置房单价！');
+                return;
+            }
+
+            const unselected = Math.max(0, shouldArea - actualArea);
+            const unselectedComp = unselected * unitPrice;
+            const totalPayable = totalComp + unselectedComp;
+
+            let areaStatus = '';
+            if (actualArea > shouldArea) {
+                areaStatus = `超选 ${formatArea(actualArea - shouldArea)} ㎡`;
+            } else if (actualArea < shouldArea) {
+                areaStatus = `少选 ${formatArea(shouldArea - actualArea)} ㎡`;
+            } else {
+                areaStatus = '面积一致';
+            }
+
+            const resultHtml = `
+                <div class="result-box">
+                    <div class="result-title">📊 结算结果</div>
+                    <div class="result-item-row">
+                        <span class="rlabel">📋 应得货币补偿总额</span>
+                        <span class="rvalue cyan">${formatMoney(totalComp)} 元</span>
+                    </div>
+                    <div class="result-item-row">
+                        <span class="rlabel">📐 应安置住宅面积</span>
+                        <span class="rvalue">${formatArea(shouldArea)} ㎡</span>
+                    </div>
+                    <div class="result-item-row">
+                        <span class="rlabel">🏠 实际选房面积</span>
+                        <span class="rvalue">${formatArea(actualArea)} ㎡ <span style="font-size:0.75rem;color:var(--text-secondary);opacity:0.4;">${areaStatus}</span></span>
+                    </div>
+                    ${unselected > 0 ? `
+                    <div class="result-item-row">
+                        <span class="rlabel">未选面积（少选部分）</span>
+                        <span class="rvalue gold">${formatArea(unselected)} ㎡</span>
+                    </div>
+                    <div class="result-item-row">
+                        <span class="rlabel">未选面积补偿（未选面积×单价）</span>
+                        <span class="rvalue gold">${formatMoney(unselectedComp)} 元</span>
+                    </div>
+                    ` : `
+                    <div class="result-item-row">
+                        <span class="rlabel" style="color:var(--text-secondary);opacity:0.3;">未选面积</span>
+                        <span class="rvalue" style="color:var(--text-secondary);opacity:0.3;">无（选房面积 ≥ 应安置面积）</span>
+                    </div>
+                    `}
+                    <div class="result-item-row">
+                        <span class="rlabel">💰 安置房单价</span>
+                        <span class="rvalue">${formatMoney(unitPrice)} 元/㎡</span>
+                    </div>
+
+                    <div class="result-divider-row"></div>
+
+                    <div class="result-total-row">
+                        <span class="total-label">🏦 华东应支付/退还</span>
+                        <span class="total-amount">${formatMoney(totalPayable)} 元</span>
+                    </div>
+
+                    <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04);font-size:0.8rem;color:var(--text-secondary);opacity:0.5;line-height:1.9;">
+                        <strong>💡 结算说明</strong><br>
+                        应得总补偿 = 应得货币补偿总额 + 未选面积补偿<br>
+                        ${unselected > 0
+                            ? `应得总补偿 = ${formatMoney(totalComp)} + ${formatMoney(unselectedComp)} = <strong style="color:#00ff96;">${formatMoney(totalPayable)} 元</strong>`
+                            : `应得总补偿 = ${formatMoney(totalComp)} + 0 = <strong style="color:#00ff96;">${formatMoney(totalPayable)} 元</strong>`}
+                        ${unselected > 0 ? `<br>🔹 未选面积 ${formatArea(unselected)}㎡ 按 ${formatMoney(unitPrice)}元/㎡ 计算，折现补偿 ${formatMoney(unselectedComp)} 元。` : ''}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('emptySimple').style.display = 'none';
+            const content = document.getElementById('simpleResultContent');
+            content.style.display = 'block';
+            content.innerHTML = resultHtml;
+        }
+
+        // 回签事件绑定 - 输入变化时自动重新计算
+        ['totalCompDisplay', 'shouldAreaDisplay', 'unitPriceSimple', 'actualAreaSimple'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                const actual = document.getElementById('actualAreaSimple').value;
+                if (actual && parseFloat(actual) > 0) {
+                    calculateSimple();
+                }
+            });
+        });
+        document.getElementById('actualAreaSimple').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') calculateSimple();
+        });
+        document.getElementById('unitPriceSimple').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') calculateSimple();
+        });
+
+        // ================================================================
+        // 页面加载
+        // ================================================================
+        window.onload = function() {
+            // 无需预填数据
+        };
+    </script>
+</body>
+</html>

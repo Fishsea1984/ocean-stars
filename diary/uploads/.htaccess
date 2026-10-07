@@ -1,0 +1,4 @@
+# 上传目录禁止执行脚本（Apache 环境生效）
+<FilesMatch "\.(php|phtml|php[0-9]|pht|phar|shtml|cgi|pl)$">
+  Require all denied
+</FilesMatch>

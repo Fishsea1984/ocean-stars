@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晋蒙陕八日温柔自驾 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 旅程详情页样式 */
+        .trip-hero {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+        .trip-hero-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--bioluminescent);
+            background: rgba(0, 240, 255, 0.15);
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            margin-bottom: 1.2rem;
+        }
+        .trip-hero-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+        .trip-hero-sub {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .trip-hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .trip-meta-item {
+            text-align: center;
+        }
+        .trip-meta-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+        }
+        .trip-meta-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        /* 天数导航 */
+        .day-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            background: rgba(2, 11, 20, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem;
+            margin-bottom: 2.5rem;
+            scrollbar-width: thin;
+        }
+        .day-nav::-webkit-scrollbar {
+            height: 4px;
+        }
+        .day-nav::-webkit-scrollbar-thumb {
+            background: var(--glass-border-strong);
+            border-radius: 2px;
+        }
+        .day-nav-item {
+            flex: 1;
+            min-width: 80px;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            border: none;
+            background: transparent;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .day-nav-item:hover {
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--text-primary);
+        }
+        .day-nav-item.active {
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--bioluminescent);
+            font-weight: 600;
+        }
+
+        /* 天数区块 */
+        .day-section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .day-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            min-width: 60px;
+        }
+        .day-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .day-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+        .day-count {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* 照片网格 */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        @media (max-width: 600px) {
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+        .photo-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+        .photo-item:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+            transform: scale(1.02);
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .photo-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* 灯箱 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .lightbox-close:hover {
+            color: #fff;
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            padding: 1rem;
+            transition: color 0.3s;
+            user-select: none;
+        }
+        .lightbox-nav:hover {
+            color: #fff;
+        }
+        .lightbox-prev { left: 1rem; }
+        .lightbox-next { right: 1rem; }
+        .lightbox-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* 返回按钮 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: var(--bioluminescent);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="index.html" class="active">记录</a></li>
+                <li><a href="../posts/articles.html">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="index.html">旅途记录</a>
+            <span class="sep">/</span>
+            <span class="current">晋蒙陕八日自驾</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <a href="index.html" class="back-link">
+            <i class="fa fa-arrow-left"></i> 返回旅途记录
+        </a>
+
+        <div class="trip-hero">
+            <span class="trip-hero-tag">家庭自驾 · 2026暑假</span>
+            <h1 class="trip-hero-title">晋蒙陕八日温柔自驾</h1>
+            <p class="trip-hero-sub">四口之家从长治启程，穿越山西古韵、内蒙古旷野、陕西文脉。八天里走过云冈石窟、响沙湾、延安革命纪念馆，在旅途中收获成长与温情。</p>
+            <div class="trip-hero-meta">
+                <div class="trip-meta-item">
+                    <div class="trip-meta-value">8</div>
+                    <div class="trip-meta-label">天旅程</div>
+                </div>
+                <div class="trip-meta-item">
+                    <div class="trip-meta-value">3</div>
+                    <div class="trip-meta-label">个省份</div>
+                </div>
+                <div class="trip-meta-item">
+                    <div class="trip-meta-value">256</div>
+                    <div class="trip-meta-label">张照片</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 天数导航 -->
+        <div class="day-nav" id="dayNav">
+            <button class="day-nav-item active" data-day="1">D1 启程</button>
+            <button class="day-nav-item" data-day="2">D2 古韵</button>
+            <button class="day-nav-item" data-day="3">D3 旷野</button>
+            <button class="day-nav-item" data-day="4">D4 青城</button>
+            <button class="day-nav-item" data-day="5">D5 大漠</button>
+            <button class="day-nav-item" data-day="6">D6 文脉</button>
+            <button class="day-nav-item" data-day="7">D7 初心</button>
+            <button class="day-nav-item" data-day="8">D8 归途</button>
+        </div>
+
+        <!-- 照片区域 -->
+        <div class="page-body" id="photoContainer">
+            <!-- 由 JavaScript 动态生成 -->
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <!-- 灯箱 -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <span class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</span>
+        <img id="lightboxImg" src="" alt="">
+        <span class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</span>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script>
+        // 照片数据（由脚本自动生成）
+        const daysData = {
+        "1": [
+                "images/trip-01-jinmengshan/day1/0679c54c2leadb1c9cfc60f1d6313051.jpg",
+                "images/trip-01-jinmengshan/day1/1a6fd1412lc18e66a8160d102a04b222.jpg",
+                "images/trip-01-jinmengshan/day1/1d4638b4dn7817cca518a167d58327f3.jpg",
+                "images/trip-01-jinmengshan/day1/283eb3276ke1e48028218617cc195bd6.jpg",
+                "images/trip-01-jinmengshan/day1/319e0ceb3ldb7021a813c95ac6370965.jpg",
+                "images/trip-01-jinmengshan/day1/3722158e1gb9813921fff6a45d505d30.jpg",
+                "images/trip-01-jinmengshan/day1/3948e26a4n7d1a483876e0c4a0b0a803.jpg",
+                "images/trip-01-jinmengshan/day1/414e4e0ecp1437c6a5cde73e5ea06951.jpg",
+                "images/trip-01-jinmengshan/day1/4be3b701clf8530c61110f30c1def56b.jpg",
+                "images/trip-01-jinmengshan/day1/4eeee14f7u761f9c6620afcbf2388710.jpg",
+                "images/trip-01-jinmengshan/day1/537274ffdn7545c95e039a6fea0c8d93.jpg",
+                "images/trip-01-jinmengshan/day1/57ac08e53qff2bc59752ea3018f2ddab.jpg",
+                "images/trip-01-jinmengshan/day1/63d72e7c3n9482ea98a69a96b99d0f6c.jpg",
+                "images/trip-01-jinmengshan/day1/6c36762demc0eaa54756f25b9cd8f152.jpg",
+                "images/trip-01-jinmengshan/day1/6dce5508ds3318d82f635e14e48cfa5b.jpg",
+                "images/trip-01-jinmengshan/day1/706352b42v15617ff6d2482b7bc1ed39.jpg",
+                "images/trip-01-jinmengshan/day1/8b5ff44ffn3be658780ea4c79cab0b92.jpg",
+                "images/trip-01-jinmengshan/day1/8c70495c8p0b8106e02203799aafdd4e.jpg",
+                "images/trip-01-jinmengshan/day1/9c47692ffv7f696f8a2860cfe275346e.jpg",
+                "images/trip-01-jinmengshan/day1/a513c9ff8l4ad9498d1ad8c673e93ad4.jpg",
+                "images/trip-01-jinmengshan/day1/be7579477jcfa187e4a35112f0e946ec.jpg",
+                "images/trip-01-jinmengshan/day1/daf7db3b0ibe9a14223c7574c7be6692.jpg",
+                "images/trip-01-jinmengshan/day1/ead647162q54693de2be7fb96dc4d334.jpg",
+                "images/trip-01-jinmengshan/day1/ed32fd217s95b47c7d37df53f29d29af.jpg",
+                "images/trip-01-jinmengshan/day1/f2ad1c062o0f317db24d04f1938cb41e.jpg",
+                "images/trip-01-jinmengshan/day1/f5b9220e3gdebf5429a047f0eb248b93.jpg"
+        ],
+        "2": [
+                "images/trip-01-jinmengshan/day2/01079b8a0g68d952f93063464de42e1e.jpg",
+                "images/trip-01-jinmengshan/day2/059cbf5b5l84522b06fe1d863c17a63c.jpg",
+                "images/trip-01-jinmengshan/day2/1b746af2ei2b6492a538a065b0cb0367.jpg",
+                "images/trip-01-jinmengshan/day2/1bff008dck9fb6d4861901b847cd9714.jpg",
+                "images/trip-01-jinmengshan/day2/1e025f51eg2864ea72568b5f0cecfaa9.jpg",
+                "images/trip-01-jinmengshan/day2/2a88882ebm3ae0d9509e15bed890a868.jpg",
+                "images/trip-01-jinmengshan/day2/370ec978flca5942bb7cc215e931fd15.jpg",
+                "images/trip-01-jinmengshan/day2/4d26a8872s6087d2e5e1f95577765dd0.jpg",
+                "images/trip-01-jinmengshan/day2/4d36af5a8p49e67b88782240308dfd34.jpg",
+                "images/trip-01-jinmengshan/day2/56ca654c6k47b8eb64be3ab3d6d1bbbc.jpg",
+                "images/trip-01-jinmengshan/day2/57a7f96a8gb3e07e0b4729b29244d0a9.jpg",
+                "images/trip-01-jinmengshan/day2/58dab0e6frfecad763dbbb5f5ea56230.jpg",
+                "images/trip-01-jinmengshan/day2/5958a27d1ndf2b702c5756d2315f3983.jpg",
+                "images/trip-01-jinmengshan/day2/5cef3c18bv99308803b2082f2b786951.jpg",
+                "images/trip-01-jinmengshan/day2/5f57039bfq138f7da89593f818a758ec.jpg",
+                "images/trip-01-jinmengshan/day2/6497c667ai6b6035d3a801e390846f48.jpg",
+                "images/trip-01-jinmengshan/day2/6528e4756t4308b248fbc920210d1316.jpg",
+                "images/trip-01-jinmengshan/day2/66ed7e6faj1262eb0ecb894eb2937431.jpg",
+                "images/trip-01-jinmengshan/day2/6a263d7bfhd4925f90169242e9ac6e0f.jpg",
+                "images/trip-01-jinmengshan/day2/70b3609f7mf905ae6d0c6bd8d3636c9a.jpg",
+                "images/trip-01-jinmengshan/day2/727b6bb7fpbf8c9f6f2f00e305008a51.jpg",
+                "images/trip-01-jinmengshan/day2/7c6d65d02o38f746c1949fad6857ce49.jpg",
+                "images/trip-01-jinmengshan/day2/88cf83c5fgcf2921b245836298742e10.jpg",
+                "images/trip-01-jinmengshan/day2/94e158bccr3d682c7a50566aae5682ea.jpg",
+                "images/trip-01-jinmengshan/day2/960057cf0m6e7e63a8c9736ee7adc258.jpg",
+                "images/trip-01-jinmengshan/day2/965f6b249tfa90b365390d8c393a3c1d.jpg",
+                "images/trip-01-jinmengshan/day2/9894b680dse7c9d9a7666f176f5717b5.jpg",
+                "images/trip-01-jinmengshan/day2/9b9f34e15r7e5c50bf4b157c482332b2.jpg",
+                "images/trip-01-jinmengshan/day2/9f59efd5bsd057b081569da611de73d4.jpg",
+                "images/trip-01-jinmengshan/day2/b2818daf0l35b1efab68ae80c6bbd36d.jpg",
+                "images/trip-01-jinmengshan/day2/b7062fd3ej3b3cd8a3f4516d8c755ea0.jpg",
+                "images/trip-01-jinmengshan/day2/b72b5afc8m65c4d6c142eaa5c96e1228.jpg",
+                "images/trip-01-jinmengshan/day2/bf61fe2a2ibc53c06ff67d78dd590d56.jpg",
+                "images/trip-01-jinmengshan/day2/c82a7c13bj9b268b1f968a0ef7c26a1b.jpg",
+                "images/trip-01-jinmengshan/day2/d05c41f5bja3c8bbc9034a048ef4affb.jpg",
+                "images/trip-01-jinmengshan/day2/d7e4bc147i36111d700efad1426f5dac.jpg",
+                "images/trip-01-jinmengshan/day2/dabe268b3heb8b48af5fc24ad5ec1db7.jpg",
+                "images/trip-01-jinmengshan/day2/dd9ced56bm146cf31d78b2b8b03795fa.jpg",
+                "images/trip-01-jinmengshan/day2/e5d9a2f87l07551e602d3d60c05e2567.jpg",
+                "images/trip-01-jinmengshan/day2/eef028075k4457645b403f857ba3091e.jpg",
+                "images/trip-01-jinmengshan/day2/f5238be55l733b396bcf871862814c63.jpg"
+        ],
+        "3": [
+                "images/trip-01-jinmengshan/day3/071555b1bv10fdf896d96d6b7bfe67d1.jpg",
+                "images/trip-01-jinmengshan/day3/0f616b81eoa8f750f4623254f08c64de.jpg",
+                "images/trip-01-jinmengshan/day3/1512339e5r69ca31fc2aac961c4c78ca.jpg",
+                "images/trip-01-jinmengshan/day3/1a859b8d4sa4f4b2472ed15211f47bef.jpg",
+                "images/trip-01-jinmengshan/day3/1ac93881cu93ed681b16b3ced587a9af.jpg",
+                "images/trip-01-jinmengshan/day3/21c3e5e40uf74853535cc53f06f0135c.jpg",
+                "images/trip-01-jinmengshan/day3/279f70873m9dbd9593b7ac4036c8d3c2.jpg",
+                "images/trip-01-jinmengshan/day3/36481b60dha9a13b9a74cf60d20c6f04.jpg",
+                "images/trip-01-jinmengshan/day3/37b6dea15g00c1c74cc4ad9fb6e5cd10.jpg",
+                "images/trip-01-jinmengshan/day3/3beb11210p9f5a98219434bfd6ecfda9.jpg",
+                "images/trip-01-jinmengshan/day3/3dc483951m52792e89f97312698284c6.jpg",
+                "images/trip-01-jinmengshan/day3/3e02a4c33ne130fc1e1cb60c6b013e4b.jpg",
+                "images/trip-01-jinmengshan/day3/5043bb2b0mdfdc62c1c5fe427ddd5fa2.jpg",
+                "images/trip-01-jinmengshan/day3/56389d2dds6e4e619ce4523e7ab05fd4.jpg",
+                "images/trip-01-jinmengshan/day3/5f5e5a90ckf5273033f25d6e6360d44d.jpg",
+                "images/trip-01-jinmengshan/day3/612338eeek5f98a436a5fba6bea6c33e.jpg",
+                "images/trip-01-jinmengshan/day3/6850cb37dv667002fb5e7b15dbe60d1d.jpg",
+                "images/trip-01-jinmengshan/day3/6c57bac94of5b1506b0134d31979c0f9.jpg",
+                "images/trip-01-jinmengshan/day3/75d9f53c0i720330623dc5118429c397.jpg",
+                "images/trip-01-jinmengshan/day3/84cc60153vd3da4b24c8d477ea25e68a.jpg",
+                "images/trip-01-jinmengshan/day3/886fc31ceg571b45b23975af5111df07.jpg",
+                "images/trip-01-jinmengshan/day3/9101fc562oa7788b8804186b9f6b8662.jpg",
+                "images/trip-01-jinmengshan/day3/9234bfed6m0236567cd22528c42c7fc6.jpg",
+                "images/trip-01-jinmengshan/day3/92c4e0c14r97fae32458480b3543a32f.jpg",
+                "images/trip-01-jinmengshan/day3/96950c043u7319a0f50992e93c200fab.jpg",
+                "images/trip-01-jinmengshan/day3/9954e5047gf7e70a9230fd3211e9412a.jpg",
+                "images/trip-01-jinmengshan/day3/a058008dfof242ba0ee49abf2fb810dd.jpg",
+                "images/trip-01-jinmengshan/day3/a6d720e3bmbb3332a90ceb789c26209f.jpg",
+                "images/trip-01-jinmengshan/day3/a93053313vac9dca6d47c41e29ae8859.jpg",
+                "images/trip-01-jinmengshan/day3/a9f8bb4aaj65391e2ec2beac573b1ecc.jpg",
+                "images/trip-01-jinmengshan/day3/b3c5bc7acj83882935b0f9051a304419.jpg",
+                "images/trip-01-jinmengshan/day3/b83bc692dh83de9c9f7971a1a5203c71.jpg",
+                "images/trip-01-jinmengshan/day3/cad25a725g30e98eabce994f3bd2cea7.jpg",
+                "images/trip-01-jinmengshan/day3/ce5802881n3cbd88960a5073e6fc84ec.jpg",
+                "images/trip-01-jinmengshan/day3/d3b4045f6k60cdb84e0dadd726cc03d5.jpg",
+                "images/trip-01-jinmengshan/day3/e147ac88elb09b95677613e8cdcde340.jpg",
+                "images/trip-01-jinmengshan/day3/ebc2140f7k3e4de3029c630f78ce35bb.jpg",
+                "images/trip-01-jinmengshan/day3/f8863a85ekde6e648f7eff77db6688d2.jpg"
+        ],
+        "4": [
+                "images/trip-01-jinmengshan/day4/1541fd77aiee3f6f9d282388c62ba974.jpg",
+                "images/trip-01-jinmengshan/day4/27c245ac8p4f02e4d77fbc34993b1fbc.jpg",
+                "images/trip-01-jinmengshan/day4/34421d224kff03ebc1949b32e33fe299.jpg",
+                "images/trip-01-jinmengshan/day4/38498dd5dtc6e5f646904556b528f1ca.jpg",
+                "images/trip-01-jinmengshan/day4/3aa8d15bel80d5382d45c8a9f202a4fb.jpg",
+                "images/trip-01-jinmengshan/day4/3c885579brc6c3726b07545c5b2d8fd0.jpg",
+                "images/trip-01-jinmengshan/day4/457f158dbrf5307914be9bb4e726af65.jpg",
+                "images/trip-01-jinmengshan/day4/4afa5696cl7de775f59cb767dbe3dd7c.jpg",
+                "images/trip-01-jinmengshan/day4/59dc21f72ga56f69eec07525891241d1.jpg",
+                "images/trip-01-jinmengshan/day4/60cc4533cm3da7e1c81684c79e428bc8.jpg",
+                "images/trip-01-jinmengshan/day4/6e3967f59kce9cc7561fcd0adfc6a8d2.jpg",
+                "images/trip-01-jinmengshan/day4/6e704de70k290ec24f065a5133665de8.jpg",
+                "images/trip-01-jinmengshan/day4/7a6282622k45519aee80ed212264516c.jpg",
+                "images/trip-01-jinmengshan/day4/88c7784b8j5c2c1fdb06e9dc06cb0ba4.jpg",
+                "images/trip-01-jinmengshan/day4/a0c03b68cpd8795425f2975c2478ad74.jpg",
+                "images/trip-01-jinmengshan/day4/a908e03dbuf48adf361c4bdfe82aa97b.jpg",
+                "images/trip-01-jinmengshan/day4/b7d86b7cdp5d8127a7c709f0f825662e.jpg",
+                "images/trip-01-jinmengshan/day4/ba815635cj5cb7311fbb798c92d39b59.jpg",
+                "images/trip-01-jinmengshan/day4/c25f1f0ddl10589b692f10992756e402.jpg",
+                "images/trip-01-jinmengshan/day4/c6dc1575cs2b8b5b5af065b16e1418de.jpg",
+                "images/trip-01-jinmengshan/day4/cc83f28a2k5bd62ef7deda24b9d9dad1.jpg",
+                "images/trip-01-jinmengshan/day4/cef5262f7lb48878d5ffe56b1d48c186.jpg",
+                "images/trip-01-jinmengshan/day4/fa6e814b0u335ae1f37d730be36e6db4.jpg"
+        ],
+        "5": [
+                "images/trip-01-jinmengshan/day5/09ac234a5j320535d8a91698961a3a3d.jpg",
+                "images/trip-01-jinmengshan/day5/0bfa45d69k17e63a0197cf3911d2fa6d.jpg",
+                "images/trip-01-jinmengshan/day5/2e2dd269ao4934a032810cfe46af13c9.jpg",
+                "images/trip-01-jinmengshan/day5/42529a6b5k6229365d0f105d89a3cc23.jpg",
+                "images/trip-01-jinmengshan/day5/501905b28k8435b135e8e54e4d9dc591.jpg",
+                "images/trip-01-jinmengshan/day5/50aa4a32bueae46c614bb407873123a0.jpg",
+                "images/trip-01-jinmengshan/day5/545c1ea26sa37855a558ffd3549b9b37.jpg",
+                "images/trip-01-jinmengshan/day5/64f1a4b0buce3d63bc817b262b34b690.jpg",
+                "images/trip-01-jinmengshan/day5/695341926kc164aa2339be13ab7cd70e.jpg",
+                "images/trip-01-jinmengshan/day5/7db684ecfu540ff5ef591c4c8a306f1a.jpg",
+                "images/trip-01-jinmengshan/day5/8c7a4d400v4425a20bbe901ac7f698db.jpg",
+                "images/trip-01-jinmengshan/day5/8cb582c1bl7d7d4ec0fe7b00f4e33872.jpg",
+                "images/trip-01-jinmengshan/day5/8eead17e7s82e5bb4a1dcbc6648b4df5.jpg",
+                "images/trip-01-jinmengshan/day5/a9fbb909bl903102fe1b1c235f394e89.jpg",
+                "images/trip-01-jinmengshan/day5/b372d699fr159548b32943226d804fb1.jpg",
+                "images/trip-01-jinmengshan/day5/b560572c6qa628b2df1f1227af6fd69e.jpg",
+                "images/trip-01-jinmengshan/day5/b85bde7dfq829d5f4ec07473fec77976.jpg",
+                "images/trip-01-jinmengshan/day5/c5ac3f112he87790a290ede52d03ead8.jpg",
+                "images/trip-01-jinmengshan/day5/cae39e0dbp8cdebe08768613f038e4df.jpg",
+                "images/trip-01-jinmengshan/day5/e63b1cc29sec345cd61a621c82f98c69.jpg",
+                "images/trip-01-jinmengshan/day5/e9508e7adt289a0897a748e1b2d480ea.jpg",
+                "images/trip-01-jinmengshan/day5/ec556fc06s849b0e2bb532a570dc88cd.jpg",
+                "images/trip-01-jinmengshan/day5/f4fd3aabfh9a0026a72d98107f3bbe92.jpg",
+                "images/trip-01-jinmengshan/day5/f8921b176hd0ba621057ee457afd3010.jpg",
+                "images/trip-01-jinmengshan/day5/fa188ad1aq3a00644de8f4e276ea3489.jpg"
+        ],
+        "6": [
+                "images/trip-01-jinmengshan/day6/195f3fd86of17dae70b379d18c1662f5.jpg",
+                "images/trip-01-jinmengshan/day6/35cc1860dud25c2d84645cc663e1b1b0.jpg",
+                "images/trip-01-jinmengshan/day6/4f80e03dftd385af1656e1228c397faa.jpg",
+                "images/trip-01-jinmengshan/day6/50eaa94adg9d5130fef2d97510eb718c.jpg",
+                "images/trip-01-jinmengshan/day6/6403f9b73j0d5b16f6bbc99404e16ca3.jpg",
+                "images/trip-01-jinmengshan/day6/6951ad775q1941bce3cc5fbc2e338d3c.jpg",
+                "images/trip-01-jinmengshan/day6/69866f490vff65e7b9338d5806a8bbba.jpg",
+                "images/trip-01-jinmengshan/day6/89b40fbb8pce2402b15af30e8945f0f1.jpg",
+                "images/trip-01-jinmengshan/day6/907e48948ie2aefa671ce1d754894256.jpg",
+                "images/trip-01-jinmengshan/day6/96f4fe86av4159eff5f537eeeabc80aa.jpg",
+                "images/trip-01-jinmengshan/day6/ae71bad6fnd12ac24be1fae94511a91c.jpg",
+                "images/trip-01-jinmengshan/day6/ca297f1des022ed54149640d45b356d6.jpg",
+                "images/trip-01-jinmengshan/day6/e2b67de46kb97409583f302e7c488609.jpg",
+                "images/trip-01-jinmengshan/day6/eb3058142v99eac6a7f75b2ce56513b3.jpg",
+                "images/trip-01-jinmengshan/day6/f82cb4b25h9679a438235d8d081a1f0b.jpg",
+                "images/trip-01-jinmengshan/day6/ff1f59362pd3cd9142ee4d1463dc2b6c.jpg"
+        ],
+        "7": [
+                "images/trip-01-jinmengshan/day7/0171f962ak49298c780348942ae1b777.jpg",
+                "images/trip-01-jinmengshan/day7/03b52c4b5oacd86fa3b608b395fd8c4c.jpg",
+                "images/trip-01-jinmengshan/day7/04d4d6c17jd5a9359d6b41ff28110b11.jpg",
+                "images/trip-01-jinmengshan/day7/14dc8fa8cia9e8d868b01e2ff20e68d3.jpg",
+                "images/trip-01-jinmengshan/day7/15ae31af8t7a6776b32d5f3e0b5bba3e.jpg",
+                "images/trip-01-jinmengshan/day7/1d0a8781bjebc8026e75576850c6568d.jpg",
+                "images/trip-01-jinmengshan/day7/21758c1a4j4b521d6748e22f3ecbf400.jpg",
+                "images/trip-01-jinmengshan/day7/25a85ce37h48e622d9f342871cdd53ec.jpg",
+                "images/trip-01-jinmengshan/day7/319bbd968qe22a522bab22f513f2f62f.jpg",
+                "images/trip-01-jinmengshan/day7/3324fbdbeha2166fb57115c13ca93f0c.jpg",
+                "images/trip-01-jinmengshan/day7/450ae07c4lc738a7d9adaa1707d665fb.jpg",
+                "images/trip-01-jinmengshan/day7/456feb701ibf1e50b5bd2c1654da44f5.jpg",
+                "images/trip-01-jinmengshan/day7/5e03abfc4hee54cf69cde7caa53eb056.jpg",
+                "images/trip-01-jinmengshan/day7/62107fbf8tbc2197b5cc4f91ff02b5db.jpg",
+                "images/trip-01-jinmengshan/day7/650c098c8t862dd0a78b8b3f5caf0add.jpg",
+                "images/trip-01-jinmengshan/day7/725b70227j53fc404d3da3df3b9657ee.jpg",
+                "images/trip-01-jinmengshan/day7/8a89af3f5ub426b4f5f17387e994b870.jpg",
+                "images/trip-01-jinmengshan/day7/8d861b948i753908e59bee1344f9931c.jpg",
+                "images/trip-01-jinmengshan/day7/8e34e3d14obeec4b02640c96c732be1c.jpg",
+                "images/trip-01-jinmengshan/day7/968e6ab40secd5f26d3083c85d66558b.jpg",
+                "images/trip-01-jinmengshan/day7/a0521249dq96b6373334b20c807a334b.jpg",
+                "images/trip-01-jinmengshan/day7/aa857053eje3872fda3ef97e8c59c7db.jpg",
+                "images/trip-01-jinmengshan/day7/b0670b082vfe7695ac80e66f05a4acd8.jpg",
+                "images/trip-01-jinmengshan/day7/b32910537t25abbecb0a3cf904dfbe36.jpg",
+                "images/trip-01-jinmengshan/day7/b482a7606sf6b8bc3114ca2a477e6224.jpg",
+                "images/trip-01-jinmengshan/day7/b65b3865es74267a5b7c85f47e4492fb.jpg",
+                "images/trip-01-jinmengshan/day7/b6da16c8cu098e19907d624081cd9c46.jpg",
+                "images/trip-01-jinmengshan/day7/bcff54132h24816c3155733cab23977e.jpg",
+                "images/trip-01-jinmengshan/day7/bd4290adcm94e266303a22d6ffc213a0.jpg",
+                "images/trip-01-jinmengshan/day7/c05d48facu70b293f1dabd0ba05457ad.jpg",
+                "images/trip-01-jinmengshan/day7/c2d33c8delad84768cfab181ad6da13f.jpg",
+                "images/trip-01-jinmengshan/day7/cc66f80d8le82d81de44d94de6f39f83.jpg",
+                "images/trip-01-jinmengshan/day7/d481beb8ct642a55551a03e334f1f14b.jpg",
+                "images/trip-01-jinmengshan/day7/dc46a3ddbq08f2087c8049777c565d4b.jpg",
+                "images/trip-01-jinmengshan/day7/e81afa27er655e17310d0c5e6da8a02f.jpg",
+                "images/trip-01-jinmengshan/day7/e9ba5aa17p6a2a12aac3112e70412aa4.jpg",
+                "images/trip-01-jinmengshan/day7/ed34706dfm8953448b9d095d4529d778.jpg",
+                "images/trip-01-jinmengshan/day7/f03d7a721p63938d647889837dc281f0.jpg",
+                "images/trip-01-jinmengshan/day7/f3f18bb4che87c04afe53d693385b88d.jpg"
+        ],
+        "8": [
+                "images/trip-01-jinmengshan/day8/0dbeacf95qbaed8c7472b08bf35a8045.jpg",
+                "images/trip-01-jinmengshan/day8/0ea59f0a8t7fd1bfc399159421b40a16.jpg",
+                "images/trip-01-jinmengshan/day8/152c7b652h94b2d8ac3ec40c070c933a.jpg",
+                "images/trip-01-jinmengshan/day8/1932bd933s749689424e856d4b4a99ce.jpg",
+                "images/trip-01-jinmengshan/day8/26b4e303buf078388ea68ec5e229d4df.jpg",
+                "images/trip-01-jinmengshan/day8/2d77cd8eet41f5008cc3643faf717d94.jpg",
+                "images/trip-01-jinmengshan/day8/386fd2e80sd133865ec13454d234752d.jpg",
+                "images/trip-01-jinmengshan/day8/43ed0978cncf907e01289e9feec6d38f.jpg",
+                "images/trip-01-jinmengshan/day8/5497f4ff5r9e0d9e258a83fb03273cb7.jpg",
+                "images/trip-01-jinmengshan/day8/56af42463g4e1e318f22c7844c8a4604.jpg",
+                "images/trip-01-jinmengshan/day8/59e453149ubd169e8b2215e5d758a12f.jpg",
+                "images/trip-01-jinmengshan/day8/5ba9e703ej9ddd3d6e78f76e03b30823.jpg",
+                "images/trip-01-jinmengshan/day8/64d4aaca1q27dbbcf14fff4e7274d4a3.jpg",
+                "images/trip-01-jinmengshan/day8/64fe07bf0v9302cc2fd7b485d0322db1.jpg",
+                "images/trip-01-jinmengshan/day8/6b99edd31l67628d2ea5deaceb2f11ff.jpg",
+                "images/trip-01-jinmengshan/day8/706f92ebasfb96c8efd6c9bbd8bb3315.jpg",
+                "images/trip-01-jinmengshan/day8/7b3d1c5edv863a990dd66375483b1196.jpg",
+                "images/trip-01-jinmengshan/day8/7dcd4b2acsab708bb0f0bc48d6f61ecd.jpg",
+                "images/trip-01-jinmengshan/day8/8144be85aj6bc2d11ade4482d30779ce.jpg",
+                "images/trip-01-jinmengshan/day8/81b5d6fe0s9e1e4b52b854e784d5b005.jpg",
+                "images/trip-01-jinmengshan/day8/8af6d2b69t06c83a4938c49593941e31.jpg",
+                "images/trip-01-jinmengshan/day8/8cdc42225tca78e28110849ce99830fe.jpg",
+                "images/trip-01-jinmengshan/day8/8db568a96tdba7031bc53b89f3a2ad37.jpg",
+                "images/trip-01-jinmengshan/day8/93597e791gcdb1dbea0459e6b26eb28d.jpg",
+                "images/trip-01-jinmengshan/day8/95ad5a03cia61615bfe185516ea2cf9d.jpg",
+                "images/trip-01-jinmengshan/day8/a3286c479v60f63f7bdc649c9f7b99a9.jpg",
+                "images/trip-01-jinmengshan/day8/a796c3109v576e578db5f26163da4572.jpg",
+                "images/trip-01-jinmengshan/day8/aa33739b8r77dd255284d6bf27bd0924.jpg",
+                "images/trip-01-jinmengshan/day8/b0c00c46ej0bdaaea198b23e6364c893.jpg",
+                "images/trip-01-jinmengshan/day8/b46289806ie7c4ba191ff4aa22fe6109.jpg",
+                "images/trip-01-jinmengshan/day8/b7dd523a9me2908b1a3219fb191f9d8d.jpg",
+                "images/trip-01-jinmengshan/day8/b89bca79ar54329a7276ed79ea80bec8.jpg",
+                "images/trip-01-jinmengshan/day8/ba1e2e6b7o9562a60b9f9b254ae967ed.jpg",
+                "images/trip-01-jinmengshan/day8/cdb8dea12j4b06e42575a9ddf0d47e68.jpg",
+                "images/trip-01-jinmengshan/day8/cf266673cu2a89a3d8495f48a9a42674.jpg",
+                "images/trip-01-jinmengshan/day8/d42a49987l80a95130e42c3131e39179.jpg",
+                "images/trip-01-jinmengshan/day8/d5c9be318h472777aff5dca9ee9d1656.jpg",
+                "images/trip-01-jinmengshan/day8/d619340b0oe7b68e951dd57be5192782.jpg",
+                "images/trip-01-jinmengshan/day8/dab60200bj230343ef503fd73d61db46.jpg",
+                "images/trip-01-jinmengshan/day8/e08fd8da5o2f8a5072e157aaaab0ddd9.jpg",
+                "images/trip-01-jinmengshan/day8/e3aa17a62s7178447355d686f09d43c3.jpg",
+                "images/trip-01-jinmengshan/day8/f272b2830h808ed4aaa20b903ba347c2.jpg",
+                "images/trip-01-jinmengshan/day8/f5168a9eegaa08c6d1e1566f90cc66fc.jpg",
+                "images/trip-01-jinmengshan/day8/f5ff924b9i9f54fc376bfb4211d1e53e.jpg",
+                "images/trip-01-jinmengshan/day8/f83da5028m00532e2b43d198637efe94.jpg",
+                "images/trip-01-jinmengshan/day8/fa4bb85abv2c3f938617bad87fb0f265.jpg",
+                "images/trip-01-jinmengshan/day8/fd3f0062br113121192c1bb9bba1cf96.jpg",
+                "images/trip-01-jinmengshan/day8/ff2ac3b9ejf3b8d8b153a6cd3c3f9c22.jpg"
+        ]
+};
+
+        const dayInfo = {
+            1: { title: "启程", subtitle: "长治出发，踏上旅途" },
+            2: { title: "古韵", subtitle: "山西古建，历史回响" },
+            3: { title: "旷野", subtitle: "向北前行，旷野风光" },
+            4: { title: "青城", subtitle: "呼和浩特，青色之城" },
+            5: { title: "大漠", subtitle: "响沙湾，大漠孤烟" },
+            6: { title: "文脉", subtitle: "陕西文脉，千年古都" },
+            7: { title: "初心", subtitle: "延安革命，初心之旅" },
+            8: { title: "归途", subtitle: "满载而归，温暖回家" }
+        };
+
+        // 所有照片的扁平列表（用于灯箱导航）
+        let allPhotos = [];
+        Object.keys(daysData).forEach(d => {
+            daysData[d].forEach(src => {
+                allPhotos.push({ day: parseInt(d), src: src });
+            });
+        });
+
+        let currentPhotoIndex = 0;
+
+        // 渲染照片
+        function renderPhotos() {
+            const container = document.getElementById('photoContainer');
+            let html = '';
+            for (let day = 1; day <= 8; day++) {
+                const photos = daysData[day] || [];
+                const info = dayInfo[day];
+                html += `<div class="day-section" id="day-${day}">`;
+                html += `<div class="day-header">`;
+                html += `<div class="day-badge">D${day}</div>`;
+                html += `<div>`;
+                html += `<div class="day-title">${info.title}</div>`;
+                html += `<div class="day-subtitle">${info.subtitle}</div>`;
+                html += `</div>`;
+                html += `<div class="day-count">${photos.length} 张照片</div>`;
+                html += `</div>`;
+                html += `<div class="photo-grid">`;
+                photos.forEach((src, i) => {
+                    const globalIndex = allPhotos.findIndex(p => p.src === src);
+                    html += `<div class="photo-item" onclick="openLightbox(${globalIndex})">`;
+                    html += `<img src="${src}" alt="D${day} - ${i+1}" loading="lazy">`;
+                    html += `</div>`;
+                });
+                html += `</div>`;
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // 灯箱
+        function openLightbox(index) {
+            currentPhotoIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function updateLightbox() {
+            const photo = allPhotos[currentPhotoIndex];
+            document.getElementById('lightboxImg').src = photo.src;
+            document.getElementById('lightboxCounter').textContent =
+                `D${photo.day} · ${currentPhotoIndex + 1} / ${allPhotos.length}`;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function navLightbox(dir) {
+            currentPhotoIndex += dir;
+            if (currentPhotoIndex < 0) currentPhotoIndex = allPhotos.length - 1;
+            if (currentPhotoIndex >= allPhotos.length) currentPhotoIndex = 0;
+            updateLightbox();
+        }
+
+        // 事件绑定
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxPrev').addEventListener('click', (e) => { e.stopPropagation(); navLightbox(-1); });
+        document.getElementById('lightboxNext').addEventListener('click', (e) => { e.stopPropagation(); navLightbox(1); });
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('lightbox').classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navLightbox(-1);
+            if (e.key === 'ArrowRight') navLightbox(1);
+        });
+
+        // 天数导航
+        document.querySelectorAll('.day-nav-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.day-nav-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const day = btn.dataset.day;
+                document.getElementById('day-' + day).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // 滚动高亮
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.day-section');
+            let current = 1;
+            sections.forEach(s => {
+                const rect = s.getBoundingClientRect();
+                if (rect.top < 120) current = parseInt(s.id.split('-')[1]);
+            });
+            document.querySelectorAll('.day-nav-item').forEach(b => {
+                b.classList.toggle('active', b.dataset.day == current);
+            });
+        });
+
+        // 初始化
+        renderPhotos();
+    </script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上党门片区房屋征收补偿计算器 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ====== 上党片区融合工具页面独有样式 ====== */
+
+        /* 房屋类型标签页 */
+        .type-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .type-tab {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(2, 11, 20, 0.3);
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .type-tab.active {
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--bioluminescent);
+            border-bottom: 2px solid var(--bioluminescent);
+        }
+
+        .type-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        /* 表单区域 */
+        .calc-section {
+            display: none;
+        }
+
+        .calc-section.active {
+            display: block;
+            animation: fadeUp 0.35s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .calc-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .form-row label {
+            font-weight: 500;
+            min-width: 200px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .form-row input[type="number"] {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border: 1.5px solid var(--glass-border-strong);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: rgba(2, 11, 20, 0.5);
+            color: var(--text-primary);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-row input[type="number"]:focus {
+            border-color: var(--bioluminescent);
+            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.12);
+        }
+
+        .form-row input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* 单选按钮组 */
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            min-width: auto;
+        }
+
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--bioluminescent);
+            margin: 0;
+        }
+
+        /* 信息提示框 */
+        .info-tip {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin: 0.5rem 0 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .info-tip strong {
+            color: var(--bioluminescent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 按钮放到表单上方 */
+        .btn-group-top {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .btn {
+            padding: 12px 36px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(0, 200, 255, 0.2));
+            color: var(--bioluminescent);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(0, 200, 255, 0.3));
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* 结果区域 */
+        .result-box {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .result-grid { grid-template-columns: 1fr; }
+            .form-row label { min-width: 100%; }
+        }
+
+        /* 结果卡片 */
+        .comp-card {
+            background: rgba(2, 11, 20, 0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .comp-card h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            color: var(--bioluminescent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .comp-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .comp-item:last-child { border-bottom: none; }
+
+        .comp-item .label {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .comp-item .value {
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .comp-item .step {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            width: 100%;
+            text-align: right;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+        .total-row {
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .total-row .value {
+            color: var(--bioluminescent);
+            font-size: 1.15rem;
+        }
+
+        .negative-value { color: #ff6b6b !important; }
+
+        .tool-footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">工具</a>
+            <span class="sep">/</span>
+            <span class="current">上党门片区征收补偿计算器</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Housing Compensation</span>
+            <h1 class="page-hero-title">上党门片区房屋征收补偿计算器</h1>
+            <p class="page-hero-desc">依据《长治市上党门片区城市更新改造项目房屋征收补偿安置方案》（潞州政办发[2026]4号），支持单元楼与独院/伙院两种房屋类型测算。</p>
+        </div>
+
+        <div class="page-body">
+            <div class="tool-container">
+
+                <!-- 房屋类型切换 -->
+                <div class="type-tabs">
+                    <button class="type-tab active" data-type="danyuan">🏢 单元楼住户</button>
+                    <button class="type-tab" data-type="duyuan">🏡 独院 / 伙院住户</button>
+                </div>
+
+                <!-- 单元楼表单 -->
+                <div id="danyuanSection" class="calc-section active">
+                    <div class="calc-form">
+                        <div class="form-row">
+                            <label for="dBuild">🏠 合法建筑面积 (㎡)</label>
+                            <input type="number" id="dBuild" placeholder="请输入不动产权证面积" step="any" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label for="dBusiness">🏪 营业面积 (㎡)</label>
+                            <input type="number" id="dBusiness" placeholder="住改商无则填0" value="0" step="any" min="0">
+                        </div>
+                        <div class="btn-group-top" style="margin:0.5rem 0 1rem; padding:0; border:none;">
+                            <button class="btn btn-primary" id="calcBtnDanyuan">✨ 立即精准测算</button>
+                            <button class="btn btn-secondary" id="clearBtnDanyuan">清空</button>
+                        </div>
+                        <div class="form-row">
+                            <label>📦 地下室 / 储藏室</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="dStorageType" value="basement" checked> 地下室</label>
+                                <label><input type="radio" name="dStorageType" value="storage"> 储藏室</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="dStorageArea">📦 面积 (㎡)</label>
+                            <input type="number" id="dStorageArea" placeholder="面积（㎡）" value="0" step="any" min="0">
+                        </div>
+                    </div>
+
+                    <div class="info-tip" style="margin-top:1.5rem;">
+                        <strong>📌 补偿标准简览</strong>
+                        <div>💰 <strong>货币补偿：</strong>住宅 8,915 元/㎡ · 搬迁 20 元/㎡ · 过渡 15 元/㎡/月（6个月）· 面积奖励 ≤200㎡ 按 400 元/㎡ · 交房奖 2 万 · 营业补助 500 元/㎡ · 地下室 1,500 元/㎡ 或储藏室 500 元/㎡</div>
+                        <div>🏗️ <strong>实物置换：</strong>等量置换 · 先签先选 · 20㎡以内成本价购买 · 搬迁 20 元/㎡（2次）· 过渡 15 元/㎡/月（24个月）· 面积奖励 ≤200㎡ 按 400 元/㎡ · 交房奖 2 万 · 营业补助 500 元/㎡ · 地下室 1,500 元/㎡ 或储藏室 500 元/㎡</div>
+                    </div>
+
+                    <div class="info-tip">
+                        <strong>📐 计算规则说明</strong>
+                        <div><strong>认定补偿面积</strong> = 合法建筑面积 + 10㎡（安置奖励面积）</div>
+                        <div><strong>房屋补偿</strong> = 认定补偿面积 × 8,915 元/㎡</div>
+                        <div><strong>面积奖励</strong> = min(实测面积, 200㎡) × 400 元/㎡</div>
+                        <div><strong>搬迁费</strong> = 合法建筑面积 × 20 元/㎡（货币1次，实物2次）</div>
+                        <div><strong>过渡费</strong> = 合法建筑面积 × 15 元/㎡/月 × 6个月（货币）或 24个月（实物）</div>
+                        <div><strong>营业补助</strong> = 营业面积 × 500 元/㎡（不超过建筑面积）</div>
+                        <div><strong>地下室补偿</strong> = 面积 × 1,500 元/㎡ · <strong>储藏室补偿</strong> = 面积 × 500 元/㎡</div>
+                    </div>
+                </div>
+
+                <!-- 独院/伙院表单 -->
+                <div id="duyuanSection" class="calc-section">
+                    <div class="calc-form">
+                        <div class="form-row">
+                            <label for="yLand">📐 合法土地面积 (㎡)</label>
+                            <input type="number" id="yLand" placeholder="请输入合法土地面积" step="any" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label for="yBuild">🏠 合法建筑面积 (㎡)</label>
+                            <input type="number" id="yBuild" placeholder="请输入合法建筑面积" step="any" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label for="yAttach">🧱 附属物补偿 (元)</label>
+                            <input type="number" id="yAttach" placeholder="无则填0" value="0" step="any" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label for="yBusiness">🏪 营业面积 (㎡)</label>
+                            <input type="number" id="yBusiness" placeholder="无则填0" value="0" step="any" min="0">
+                        </div>
+                        <div class="btn-group-top" style="margin:0.5rem 0 1rem; padding:0; border:none;">
+                            <button class="btn btn-primary" id="calcBtnDuyuan">✨ 立即精准测算</button>
+                            <button class="btn btn-secondary" id="clearBtnDuyuan">清空</button>
+                        </div>
+                    </div>
+
+                    <div class="info-tip" style="margin-top:1.5rem;">
+                        <strong>📌 补偿标准简览</strong>
+                        <div>💰 <strong>货币补偿：</strong>住宅 9,000 元/㎡ · 临时建筑 700 元/㎡（二层以上三层房屋）· 搬迁 20 元/㎡ · 过渡 15 元/㎡/月（6个月）· 面积奖励 ≤200㎡ 按 400 元/㎡ · 交房奖 2 万 · 营业补助 500 元/㎡ · 附属物补偿</div>
+                        <div>🏗️ <strong>实物置换：</strong>等量置换 · 先签先选 · 20㎡以内成本价购买 · 临时建筑 700 元/㎡ · 搬迁 20 元/㎡（2次）· 过渡 15 元/㎡/月（24个月）· 面积奖励 ≤200㎡ 按 400 元/㎡ · 交房奖 2 万 · 营业补助 500 元/㎡ · 附属物补偿</div>
+                    </div>
+
+                    <div class="info-tip">
+                        <strong>📐 计算规则说明</strong>
+                        <div><strong>土地面积1.5倍</strong> = 合法土地面积 × 1.5</div>
+                        <div><strong>认定补偿面积</strong> = max(合法建筑面积, 土地面积1.5倍)</div>
+                        <div><strong>临时建筑面积</strong> = max(0, 合法建筑面积 - 土地面积 × 2)</div>
+                        <div><strong>临时建筑补偿</strong> = 临时建筑面积 × 700 元/㎡</div>
+                        <div><strong>房屋补偿</strong> = (认定补偿面积 - 临时建筑面积) × 9,000 元/㎡</div>
+                        <div><strong>补缴建安成本</strong> = 若建筑面积 &lt; 土地面积1.5倍，则差额 × 700 元/㎡（负值扣减）</div>
+                        <div><strong>面积奖励</strong> = min(实测面积与占地2倍取小, 200㎡) × 400 元/㎡</div>
+                        <div><strong>搬迁费</strong> = min(建筑面积, 土地面积×2) × 20 元/㎡（货币1次，实物2次）</div>
+                        <div><strong>过渡费</strong> = min(建筑面积, 土地面积×2) × 15 元/㎡/月 × 6个月（货币）或 24个月（实物）</div>
+                        <div><strong>营业补助</strong> = 营业面积 × 500 元/㎡（不超过建筑面积）</div>
+                    </div>
+                </div>
+
+                <!-- 结果区域 -->
+                <div id="resultBox" class="result-box"></div>
+
+                <div class="tool-footer">
+                    依据《长治市上党门片区城市更新改造项目房屋征收补偿安置方案》（潞州政办发[2026]4号）| 本工具仅用于模拟测算，最终补偿以正式协议为准
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ======================== 金额格式化 ========================
+        function fmt(v) {
+            return v.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' 元';
+        }
+
+        // ======================== 类型切换 ========================
+        const tabs = document.querySelectorAll('.type-tab');
+        const danyuanSection = document.getElementById('danyuanSection');
+        const duyuanSection = document.getElementById('duyuanSection');
+        let currentType = 'danyuan';
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentType = tab.dataset.type;
+
+                if (currentType === 'danyuan') {
+                    danyuanSection.classList.add('active');
+                    duyuanSection.classList.remove('active');
+                } else {
+                    danyuanSection.classList.remove('active');
+                    duyuanSection.classList.add('active');
+                }
+
+                // 清空结果
+                const resultBox = document.getElementById('resultBox');
+                resultBox.classList.remove('show');
+                resultBox.innerHTML = '';
+            });
+        });
+
+        // ======================== 单元楼计算逻辑（来自 dylbc.html）========================
+        function calcDanyuan() {
+            const buildArea = parseFloat(document.getElementById('dBuild').value) || 0;
+            let busiArea = parseFloat(document.getElementById('dBusiness').value) || 0;
+            const storageArea = parseFloat(document.getElementById('dStorageArea').value) || 0;
+            const isBasement = document.querySelector('input[name="dStorageType"]:checked')?.value === 'basement';
+            const storageUnitPrice = isBasement ? 1500 : 500;
+            const storageCompensation = storageArea * storageUnitPrice;
+
+            if (buildArea <= 0) {
+                alert('请输入有效的合法建筑面积');
+                return null;
+            }
+
+            // 营业面积不能超过建筑面积
+            if (busiArea > buildArea) busiArea = buildArea;
+
+            // 单元楼核心计算逻辑
+            const extraReward = 10;
+            const recognizedArea = buildArea + extraReward;
+            const houseUnitPrice = 8915;
+            const houseComp = recognizedArea * houseUnitPrice;
+            // 面积奖励按实测面积计算，封顶200㎡
+            const awardCapArea = Math.min(buildArea, 200);
+            const areaAward = awardCapArea * 400;
+            const relocationFee = buildArea * 20;
+            const transition6 = buildArea * 15 * 6;
+            const transition24 = buildArea * 15 * 24;
+            const deliveryAward = 20000;
+            const businessSubsidy = busiArea * 500;
+
+            const totalMoney = houseComp + relocationFee + transition6 + areaAward + deliveryAward + businessSubsidy + storageCompensation;
+            const realRelocation = relocationFee * 2;
+            const realTransition = transition24;
+            const realTotal = realRelocation + realTransition + areaAward + deliveryAward + businessSubsidy + storageCompensation;
+
+            return {
+                type: 'danyuan',
+                buildArea, busiArea, storageArea, storageUnitPrice,
+                recognizedArea, houseComp, awardCapArea, areaAward,
+                relocationFee, transition6, transition24,
+                deliveryAward, businessSubsidy, storageCompensation,
+                totalMoney, realRelocation, realTransition, realTotal
+            };
+        }
+
+        // ======================== 独院/伙院计算逻辑（来自 dy.html）========================
+        function calcDuyuan() {
+            const land = parseFloat(document.getElementById('yLand').value) || 0;
+            const build = parseFloat(document.getElementById('yBuild').value) || 0;
+            const attachMoney = parseFloat(document.getElementById('yAttach').value) || 0;
+            let busi = parseFloat(document.getElementById('yBusiness').value) || 0;
+
+            if (land <= 0 || build <= 0) {
+                alert('请输入有效的土地面积和建筑面积');
+                return null;
+            }
+
+            // 营业面积不超过建筑面积
+            if (busi > build) busi = build;
+
+            // 核心1：原始认定补偿面积
+            const land15 = land * 1.5;
+            const areaOrigin = build > land15 ? build : land15;
+
+            // 核心2：临时建筑面积（超出2倍土地）
+            const tempArea = Math.max(0, build - land * 2);
+            const tempMoney = tempArea * 700;
+
+            // 核心3：最终认定补偿面积（已扣除临时面积）
+            const areaFinal = areaOrigin - tempArea;
+
+            // 核心4：建安成本费
+            const jianCost = build < land15 ? -(land15 - build) * 700 : 0;
+
+            // 计费基数：不超过土地×2
+            const baseArea = Math.min(build, land * 2);
+
+            // 面积奖励：按实测面积计算；若实测面积>占地2倍，则按占地2倍计算，封顶200㎡
+            const awardBase = build > land * 2 ? land * 2 : build;
+            const awardArea = Math.min(awardBase, 200);
+            const award = awardArea * 400;
+
+            // 货币补偿
+            const house = areaFinal * 9000;
+            const move = baseArea * 20;
+            const trans = baseArea * 15 * 6;
+            const deliver = 20000;
+            const bs = busi * 500;
+            const total = house + tempMoney + move + trans + award + deliver + bs + attachMoney + jianCost;
+
+            // 实物置换
+            const hmove = baseArea * 20 * 2;
+            const htrans = baseArea * 15 * 24;
+            const htotal = hmove + htrans + award + deliver + bs + tempMoney + attachMoney + jianCost;
+
+            return {
+                type: 'duyuan',
+                land, build, attachMoney, busi,
+                areaOrigin, tempArea, tempMoney, areaFinal,
+                jianCost, baseArea, awardBase, awardArea, award,
+                house, move, trans, deliver, bs, total,
+                hmove, htrans, htotal
+            };
+        }
+
+        // ======================== 渲染单元楼结果 ========================
+        function renderDanyuanResult(data) {
+            return `
+                <div class="result-grid">
+                    <div class="comp-card">
+                        <h3>💰 货币补偿方案</h3>
+                        <div class="comp-item"><span class="label">📌 认定补偿面积（含10㎡奖励）</span><span class="value">${data.recognizedArea.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🏡 房屋补偿 (住宅)</span><span class="value">${fmt(data.houseComp)}</span><span class="step">= ${data.recognizedArea.toFixed(2)} × 8,915</span></div>
+                        <div class="comp-item"><span class="label">🚚 搬迁费</span><span class="value">${fmt(data.relocationFee)}</span><span class="step">= ${data.buildArea.toFixed(2)} × 20</span></div>
+                        <div class="comp-item"><span class="label">📦 过渡费 (6个月)</span><span class="value">${fmt(data.transition6)}</span><span class="step">= ${data.buildArea.toFixed(2)} × 15 × 6</span></div>
+                        <div class="comp-item"><span class="label">🎁 面积奖励 (≤200㎡)</span><span class="value">${fmt(data.areaAward)}</span><span class="step">= min(${data.buildArea.toFixed(2)}, 200) × 400</span></div>
+                        <div class="comp-item"><span class="label">🏅 交房奖励</span><span class="value">${fmt(data.deliveryAward)}</span></div>
+                        <div class="comp-item"><span class="label">🏪 营业补助</span><span class="value">${fmt(data.businessSubsidy)}</span><span class="step">= ${data.busiArea.toFixed(2)} × 500</span></div>
+                        <div class="comp-item"><span class="label">📦 地下室/储藏室补偿</span><span class="value">${fmt(data.storageCompensation)}</span><span class="step">= ${data.storageArea.toFixed(2)} × ${data.storageUnitPrice}</span></div>
+                        <div class="comp-item total-row"><span class="label">💎 货币补偿总计</span><span class="value">${fmt(data.totalMoney)}</span></div>
+                    </div>
+                    <div class="comp-card">
+                        <h3>🏗️ 实物置换 · 补助合计</h3>
+                        <div class="comp-item"><span class="label">🏠 应安置面积（含10㎡奖励）</span><span class="value">${data.recognizedArea.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🚚 搬迁费 (2次)</span><span class="value">${fmt(data.realRelocation)}</span><span class="step">= ${data.buildArea.toFixed(2)} × 20 × 2</span></div>
+                        <div class="comp-item"><span class="label">📆 过渡费 (24个月)</span><span class="value">${fmt(data.realTransition)}</span><span class="step">= ${data.buildArea.toFixed(2)} × 15 × 24</span></div>
+                        <div class="comp-item"><span class="label">🎁 面积奖励 (≤200㎡)</span><span class="value">${fmt(data.areaAward)}</span></div>
+                        <div class="comp-item"><span class="label">🏅 交房奖励</span><span class="value">${fmt(data.deliveryAward)}</span></div>
+                        <div class="comp-item"><span class="label">🏪 营业补助</span><span class="value">${fmt(data.businessSubsidy)}</span></div>
+                        <div class="comp-item"><span class="label">📦 地下室/储藏室补偿</span><span class="value">${fmt(data.storageCompensation)}</span></div>
+                        <div class="comp-item total-row"><span class="label">✨ 实物补助总金额</span><span class="value">${fmt(data.realTotal)}</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ======================== 渲染独院结果 ========================
+        function renderDuyuanResult(data) {
+            return `
+                <div class="result-grid">
+                    <div class="comp-card">
+                        <h3>💰 货币补偿方案</h3>
+                        <div class="comp-item"><span class="label">📌 认定补偿面积</span><span class="value">${data.areaFinal.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🧱 临时建筑面积</span><span class="value">${data.tempArea.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🏡 房屋补偿 (住宅)</span><span class="value">${fmt(data.house)}</span><span class="step">= ${data.areaFinal.toFixed(2)} × 9,000</span></div>
+                        <div class="comp-item"><span class="label">🏚️ 临时建筑补偿</span><span class="value">${fmt(data.tempMoney)}</span><span class="step">= ${data.tempArea.toFixed(2)} × 700</span></div>
+                        <div class="comp-item"><span class="label">🚚 搬迁费</span><span class="value">${fmt(data.move)}</span><span class="step">= ${data.baseArea.toFixed(2)} × 20</span></div>
+                        <div class="comp-item"><span class="label">📦 过渡费 (6个月)</span><span class="value">${fmt(data.trans)}</span><span class="step">= ${data.baseArea.toFixed(2)} × 15 × 6</span></div>
+                        <div class="comp-item"><span class="label">🎁 面积奖励 (≤200㎡)</span><span class="value">${fmt(data.award)}</span><span class="step">= min(${data.awardBase.toFixed(2)}, 200) × 400${data.build > data.land * 2 ? '（实测>占地2倍，按占地2倍计）' : ''}</span></div>
+                        <div class="comp-item"><span class="label">🏅 交房奖励</span><span class="value">${fmt(data.deliver)}</span></div>
+                        <div class="comp-item"><span class="label">🏪 营业补助</span><span class="value">${fmt(data.bs)}</span><span class="step">= ${data.busi.toFixed(2)} × 500</span></div>
+                        <div class="comp-item"><span class="label">🧱 附属物补偿</span><span class="value">${fmt(data.attachMoney)}</span></div>
+                        <div class="comp-item"><span class="label">🔄 补缴建安成本费</span><span class="value ${data.jianCost < 0 ? 'negative-value' : ''}">${fmt(data.jianCost)}</span></div>
+                        <div class="comp-item total-row"><span class="label">💎 货币补偿总计</span><span class="value">${fmt(data.total)}</span></div>
+                    </div>
+                    <div class="comp-card">
+                        <h3>🏗️ 实物置换 · 补助合计</h3>
+                        <div class="comp-item"><span class="label">🏠 应安置面积 (置换基数)</span><span class="value">${data.areaFinal.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🧱 临时建筑面积</span><span class="value">${data.tempArea.toFixed(2)} ㎡</span></div>
+                        <div class="comp-item"><span class="label">🏚️ 临时建筑补偿</span><span class="value">${fmt(data.tempMoney)}</span></div>
+                        <div class="comp-item"><span class="label">🚚 搬迁费 (2次)</span><span class="value">${fmt(data.hmove)}</span><span class="step">= ${data.baseArea.toFixed(2)} × 20 × 2</span></div>
+                        <div class="comp-item"><span class="label">📆 过渡费 (24个月)</span><span class="value">${fmt(data.htrans)}</span><span class="step">= ${data.baseArea.toFixed(2)} × 15 × 24</span></div>
+                        <div class="comp-item"><span class="label">🎁 面积奖励 (≤200㎡)</span><span class="value">${fmt(data.award)}</span></div>
+                        <div class="comp-item"><span class="label">🏅 交房奖励</span><span class="value">${fmt(data.deliver)}</span></div>
+                        <div class="comp-item"><span class="label">🏪 营业补助</span><span class="value">${fmt(data.bs)}</span></div>
+                        <div class="comp-item"><span class="label">🧱 附属物补偿</span><span class="value">${fmt(data.attachMoney)}</span></div>
+                        <div class="comp-item"><span class="label">🔄 补缴建安成本费</span><span class="value ${data.jianCost < 0 ? 'negative-value' : ''}">${fmt(data.jianCost)}</span></div>
+                        <div class="comp-item total-row"><span class="label">✨ 实物补助总金额</span><span class="value">${fmt(data.htotal)}</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ======================== 立即精准测算 ========================
+        function doCalc(type) {
+            const resultBox = document.getElementById('resultBox');
+            if (type === 'danyuan') {
+                const data = calcDanyuan();
+                if (!data) return;
+                resultBox.innerHTML = renderDanyuanResult(data);
+            } else {
+                const data = calcDuyuan();
+                if (!data) return;
+                resultBox.innerHTML = renderDuyuanResult(data);
+            }
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        document.getElementById('calcBtnDanyuan').addEventListener('click', () => doCalc('danyuan'));
+        document.getElementById('calcBtnDuyuan').addEventListener('click', () => doCalc('duyuan'));
+
+        // ======================== 清空 ========================
+        document.getElementById('clearBtnDanyuan').addEventListener('click', function() {
+            document.getElementById('dBuild').value = '';
+            document.getElementById('dBusiness').value = '0';
+            document.getElementById('dStorageArea').value = '0';
+            document.querySelector('input[name="dStorageType"][value="basement"]').checked = true;
+            const resultBox = document.getElementById('resultBox');
+            resultBox.classList.remove('show');
+            resultBox.innerHTML = '';
+        });
+
+        document.getElementById('clearBtnDuyuan').addEventListener('click', function() {
+            document.getElementById('yLand').value = '';
+            document.getElementById('yBuild').value = '';
+            document.getElementById('yAttach').value = '0';
+            document.getElementById('yBusiness').value = '0';
+            const resultBox = document.getElementById('resultBox');
+            resultBox.classList.remove('show');
+            resultBox.innerHTML = '';
+        });
+
+        // 回车触发
+        ['dBuild', 'dBusiness', 'dStorageArea'].forEach(id => {
+            document.getElementById(id).addEventListener('keydown', e => {
+                if (e.key === 'Enter') document.getElementById('calcBtnDanyuan').click();
+            });
+        });
+        ['yLand', 'yBuild', 'yAttach', 'yBusiness'].forEach(id => {
+            document.getElementById(id).addEventListener('keydown', e => {
+                if (e.key === 'Enter') document.getElementById('calcBtnDuyuan').click();
+            });
+        });
+    </script>
+</body>
+</html>

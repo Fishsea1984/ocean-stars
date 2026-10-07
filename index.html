@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星海之境 | Ocean of Stars</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">首页</a></li>
+                <li><a href="xuanmen/index.html" class="active">玄门问道</a></li>
+                <li><a href="diary/index.html">日记</a></li>
+                <li><a href="records/index.html">记录</a></li>
+                <li><a href="posts/articles.html">文章</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero-section">
+            <h1 class="hero-title">星海之境</h1>
+            <p class="hero-subtitle">在星空与海洋的交汇处，遇见无限可能</p>
+            <div class="hero-cta">
+                <a href="posts/articles.html" class="btn-glow">探索文章</a>
+                <a href="diary/index.html" class="btn-outline">阅读日记</a>
+            </div>
+        </section>
+
+        <section class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌌</div>
+                <h3 class="feature-title">星空观测</h3>
+                <p class="feature-desc">记录每一颗流星的轨迹，在浩瀚宇宙中寻找属于自己的坐标</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌊</div>
+                <h3 class="feature-title">海洋物语</h3>
+                <p class="feature-desc">倾听潮汐的呼吸，感受深海中那些未被诉说的故事</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3 class="feature-title">灵感记录</h3>
+                <p class="feature-desc">用文字捕捉瞬间的灵感，让思想在星海中自由流淌</p>
+            </div>
+            <a href="xuanmen/index.html" class="feature-card" style="display:block;text-decoration:none;color:inherit;">
+                <div class="feature-icon">☯</div>
+                <h3 class="feature-title">玄门问道</h3>
+                <p class="feature-desc">正统道教文化科普 × 轻量放置修仙，挂机修行，渐入佳境</p>
+            </a>
+        </section>
+
+        <section class="articles-section" id="articles">
+            <h2 class="section-title">文章</h2>
+            <p class="section-subtitle">工具与计算</p>
+            <div class="articles-grid">
+                <a href="tools/compensation-system.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">征收补偿</span>
+                        <h3 class="article-card-title">鞋帽厂片区房屋征收补偿自助系统</h3>
+                        <p class="article-card-desc">依据官方补偿方案，支持货币补偿与实物置换两种模式的自助测算工具</p>
+                    </div>
+                </a>
+                <a href="tools/shangdang-compensation.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">征收补偿</span>
+                        <h3 class="article-card-title">上党门片区房屋征收补偿计算器</h3>
+                        <p class="article-card-desc">支持单元楼与独院/伙院两种房屋类型的精准测算，含详细计算规则说明</p>
+                    </div>
+                </a>
+                <a href="tools/huadong-compensation.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">征收补偿</span>
+                        <h3 class="article-card-title">华东城中村拆迁安置补偿计算器</h3>
+                        <p class="article-card-desc">华东城中村回迁安置房计算器，支持货币补偿与产权调换测算</p>
+                    </div>
+                </a>
+                <a href="tools/herosouth-compensation.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">征收补偿</span>
+                        <h3 class="article-card-title">英雄南路街道征收补偿计算器</h3>
+                        <p class="article-card-desc">英雄路等道路更新改造征收补偿安置方案自助测算工具</p>
+                    </div>
+                </a>
+                <a href="tools/hengye-compensation.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">征收补偿</span>
+                        <h3 class="article-card-title">恒业花园片区（煤运小区）征收补偿自助系统</h3>
+                        <p class="article-card-desc">支持楼栋号+房号查询，评估单价8,471元/㎡，含模拟房改费扣减</p>
+                    </div>
+                </a>
+                <a href="posts/post-002.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">土地分摊</span>
+                        <h3 class="article-card-title">史家大院 · 土地分摊完整计算</h3>
+                        <p class="article-card-desc">16户建筑占地明细、分摊系数、公摊面积、1.5倍补偿面积完整计算</p>
+                    </div>
+                </a>
+                <a href="news/index.html" class="article-card">
+                    <div class="article-card-body">
+                        <span class="article-card-tag">实时新闻</span>
+                        <h3 class="article-card-title">实时新闻</h3>
+                        <p class="article-card-desc">自动抓取最新资讯，实时更新，保持信息同步</p>
+                    </div>
+                </a>
+            </div>
+            <div style="text-align:center; margin-top:2rem;">
+                <a href="posts/articles.html" class="btn-outline">查看全部文章</a>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <h2 class="section-title">关于</h2>
+            <p class="section-subtitle">关于星海之境</p>
+            <div class="about-card">
+                <p class="about-text">
+                    生命从不甘于平淡，正如星辰不甘于沉寂。在这片由代码编织的星空下，我记录着每一次灵感的闪烁，每一次与未知的相遇。
+                </p>
+                <p class="about-text">
+                    这里是我的数字花园，种植着技术的果实与艺术的芬芳。从深邃的海洋到璀璨的星河，从逻辑的严谨到想象的奔放，我相信最好的创造诞生于不同世界的交汇处。
+                </p>
+                <p class="about-text">
+                    愿每一位访客都能在这里找到属于自己的那颗星。
+                </p>
+                <a href="mailto:fishsea1984@163.com" class="about-email">fishsea1984@163.com</a>
+            </div>
+        </section>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

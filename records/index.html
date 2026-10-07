@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅途记录 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ====== 记录页面独有样式 ====== */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0 3rem;
+        }
+
+        .record-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .record-card:hover {
+            border-color: rgba(0, 240, 255, 0.25);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.12);
+            transform: translateY(-6px);
+        }
+
+        .record-card-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--glass-border);
+            transition: transform 0.5s ease;
+        }
+
+        .record-card:hover .record-card-image {
+            transform: scale(1.05);
+        }
+
+        .record-card-image-wrap {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .record-card-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.75rem;
+            color: var(--starlight);
+            background: rgba(0, 240, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            z-index: 2;
+        }
+
+        .record-card-body {
+            padding: 1.8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .record-card-date {
+            font-size: 0.8rem;
+            color: var(--bioluminescent);
+            margin-bottom: 0.6rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .record-card-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .record-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            flex: 1;
+        }
+
+        .record-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .record-card-route {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .record-card-link {
+            font-size: 0.85rem;
+            color: var(--bioluminescent);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.3s;
+        }
+
+        .record-card:hover .record-card-link {
+            gap: 8px;
+        }
+
+        /* 空白占位卡片 */
+        .record-card-placeholder {
+            border: 2px dashed var(--glass-border-strong);
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+            text-align: center;
+            border-radius: 24px;
+            transition: all 0.4s;
+            cursor: default;
+        }
+
+        .record-card-placeholder:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+            background: rgba(0, 240, 255, 0.03);
+        }
+
+        .record-card-placeholder .placeholder-icon {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            opacity: 0.4;
+            margin-bottom: 1rem;
+        }
+
+        .record-card-placeholder .placeholder-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            line-height: 1.8;
+        }
+
+        /* 统计条 */
+        .records-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bioluminescent);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 600px) {
+            .records-stats { gap: 1.5rem; }
+            .stat-value { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="index.html" class="active">记录</a></li>
+                <li><a href="../posts/articles.html">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <span class="current">旅途记录</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Travel Records</span>
+            <h1 class="page-hero-title">旅途记录</h1>
+            <p class="page-hero-desc">每一段旅程都是星辰大海中的一粒光，记录走过的路、看过的风景、遇见的人</p>
+        </div>
+
+        <!-- 统计 -->
+        <div class="records-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="statTrips">1</div>
+                <div class="stat-label">次旅程</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statDays">8</div>
+                <div class="stat-label">个日夜</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statPlaces">3</div>
+                <div class="stat-label">个省份</div>
+            </div>
+        </div>
+
+        <div class="page-body">
+            <!--
+            ================================================================
+            【如何新增旅途记录】
+            ================================================================
+            复制下方 <a class="record-card"> ... </a> 整块代码，
+            修改以下内容即可：
+              1. href        → 指向旅途详情页（如 trip-002.html）
+              2. 图片 src     → 指向对应旅程文件夹的封面图
+              3. tag         → 旅程类型标签
+              4. date        → 旅行日期
+              5. title       → 旅程标题
+              6. desc        → 简短描述
+              7. route       → 路线摘要
+
+            图片文件夹结构：
+              images/
+                └── trip-01-jinmengshan/     ← 旅程1文件夹
+                    ├── cover.jpg            ← 旅程封面图（卡片展示用）
+                    ├── day1/                ← 第1天照片
+                    ├── day2/                ← 第2天照片
+                    └── ...                  ← 以此类推
+
+            新增旅程时：
+              1. 在 images/ 下新建文件夹，如 trip-02-xxx/
+              2. 在文件夹内放 cover.jpg 作为封面
+              3. 按天创建 day1/、day2/ 子文件夹存放每日照片
+              4. 在下方 records-grid 中添加新的 record-card
+            ================================================================
+            -->
+
+            <div class="records-grid">
+                <!-- ===== 旅程 1：晋蒙陕八日自驾 ===== -->
+                <a href="trip-01-jinmengshan.html" class="record-card">
+                    <div class="record-card-image-wrap">
+                        <span class="record-card-tag">家庭自驾</span>
+                        <img class="record-card-image" src="images/trip-01-jinmengshan/cover.jpg" alt="晋蒙陕八日自驾" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg, var(--ocean-mid), var(--ocean-surface))';">
+                    </div>
+                    <div class="record-card-body">
+                        <div class="record-card-date">2026 · 暑假</div>
+                        <h3 class="record-card-title">晋蒙陕八日温柔自驾</h3>
+                        <p class="record-card-desc">四口之家从长治启程，穿越山西古韵、内蒙古旷野、陕西文脉。八天里走过云冈石窟、响沙湾、延安革命纪念馆，在旅途中收获成长与温情。</p>
+                        <div class="record-card-footer">
+                            <span class="record-card-route"><i class="fa fa-map-marker"></i> 晋 → 蒙 → 陕</span>
+                            <span class="record-card-link">查看详情 <i class="fa fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ===== 旅程 2：占位（待添加） ===== -->
+                <div class="record-card-placeholder">
+                    <div class="placeholder-icon"><i class="fa fa-plus-circle"></i></div>
+                    <div class="placeholder-text">
+                        下一段旅程<br>即将启程
+                    </div>
+                </div>
+
+                <!-- ===== 旅程 3：占位（待添加） ===== -->
+                <div class="record-card-placeholder">
+                    <div class="placeholder-icon"><i class="fa fa-plus-circle"></i></div>
+                    <div class="placeholder-text">
+                        下一段旅程<br>即将启程
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

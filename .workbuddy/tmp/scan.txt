@@ -1,0 +1,65 @@
+扫描文件 45 个
+
+==============================================================
+一、可疑代码模式
+==============================================================
+
+[外链 JS]  1 处
+    tools/huadong-compensation.html:702
+
+==============================================================
+二、外部域名清单（确认都是可信来源）
+==============================================================
+  fonts.googleapis.com                   x42
+  beian.miit.gov.cn                      x22
+  www.beian.gov.cn                       x22
+  fonts.gstatic.com                      x21
+  www.w3.org                             x12
+  cdn.jsdelivr.net                       x6
+  localhost                              x5
+  politics.people.com.cn                 x5
+  finance.people.com.cn                  x5
+  www.people.com.cn                      x4
+  ocean-stars.pages.dev                  x3
+  ent.people.com.cn                      x3
+  edu.people.com.cn                      x3
+  gz.zgrecruit.com                       x3
+  www.yhtaoism.com                       x3
+  nodejs.org                             x2
+  github.com                             x2
+  www.bilibili.com                       x2
+  opinion.people.com.cn                  x2
+  dash.cloudflare.com                    x1
+  v.youku.com                            x1
+  www.youtube.com                        x1
+  tw.people.com.cn                       x1
+  society.people.com.cn                  x1
+  v.people.cn                            x1
+  world.people.com.cn                    x1
+  127.0.0.1                              x1
+  rsshub.rssforever.com                  x1
+  www.changzhi.gov.cn                    x1
+  www.shanxi.gov.cn                      x1
+  www.gov.cn                             x1
+  reactjs.org                            x1
+
+[!] 直接写死 IP 的地址:
+    scripts/smoke_test.py http://127.0.0.1
+
+==============================================================
+三、新闻数据是否夹带 HTML（存储型 XSS 风险）
+==============================================================
+  HTML 标签残留: 0 
+  script/on* 事件: 0
+  结论: ✅ 已清洗
+
+==============================================================
+四、可写接口与敏感目录
+==============================================================
+  [PHP]  server-api/xuanmen/save.php
+  站点内 PHP 文件数: 1
+  目录 .git         不存在
+  目录 .workbuddy   存在（发布前必须排除）
+  目录 server-api   存在（发布前必须排除）
+  目录 scripts      存在（发布前必须排除）
+  目录 functions    存在（发布前必须排除）

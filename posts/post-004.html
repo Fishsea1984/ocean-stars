@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI成绩管理分析系统 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-content .hero-section {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .post-content .hero-section img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.45);
+        }
+        .post-content .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+        }
+        .post-content .hero-badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.2);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--bioluminescent);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        .post-content .hero-content h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            border: none;
+            padding: 0;
+        }
+        .post-content .hero-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .post-content .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .post-content .feature-card {
+            background: rgba(0, 240, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .post-content .feature-card:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+            box-shadow: var(--accent-glow);
+        }
+        .post-content .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.8rem;
+        }
+        .post-content .feature-icon.blue { background: rgba(0, 240, 255, 0.1); }
+        .post-content .feature-icon.green { background: rgba(0, 255, 150, 0.1); }
+        .post-content .feature-icon.orange { background: rgba(255, 180, 0, 0.1); }
+        .post-content .step-list {
+            counter-reset: step;
+            margin: 1.5rem 0;
+        }
+        .post-content .step-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        .post-content .step-number {
+            counter-increment: step;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--bioluminescent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .post-content .step-number::before {
+            content: counter(step);
+        }
+        .post-content .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .post-content .step-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .post-content .info-box {
+            background: rgba(0, 240, 255, 0.04);
+            border-left: 4px solid var(--bioluminescent);
+            padding: 1rem 1.2rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .post-content .tip-box {
+            background: rgba(255, 180, 0, 0.05);
+            border-left: 4px solid rgba(255, 180, 0, 0.5);
+            padding: 1rem 1.2rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .post-content .faq-item {
+            margin-bottom: 1.2rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .post-content .faq-q {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--bioluminescent);
+            margin-bottom: 0.4rem;
+        }
+        .post-content .faq-a {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding-left: 1rem;
+            border-left: 2px solid var(--glass-border);
+        }
+        .post-content .badge {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .post-content .badge-blue { background: rgba(0, 240, 255, 0.1); color: var(--bioluminescent); }
+        .post-content .badge-green { background: rgba(0, 255, 150, 0.1); color: #00ff96; }
+        .post-content .badge-orange { background: rgba(255, 180, 0, 0.1); color: #ffb400; }
+        .post-content .feature-img {
+            width: 100%;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--glass-border);
+        }
+        .post-content .cta-section {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(0, 200, 255, 0.05));
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+        .post-content .cta-section h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .post-content .cta-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">AI成绩管理分析系统</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Education Tool</span>
+            <h1 class="page-hero-title">AI成绩管理分析系统</h1>
+            <p class="page-hero-desc">面向山西长治地区初高中学生的智能成绩管理与AI分析平台</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+
+                <!-- Hero -->
+                <div class="hero-section">
+                    <img src="../images/hero_cover.svg" alt="AI成绩管理分析系统">
+                    <div class="hero-content">
+                        <div class="hero-badge">v5.2 正式版</div>
+                        <h2>AI成绩管理分析系统</h2>
+                        <p>集成绩录入、数据统计、AI智能分析于一体，帮助学生和家长全面掌握学习状况</p>
+                    </div>
+                </div>
+
+                <!-- 一、系统简介 -->
+                <h2>一、系统简介</h2>
+                <p>AI成绩管理分析系统是一款专为山西长治地区初高中学生打造的成绩管理工具。系统集成绩录入、数据统计、AI智能分析于一体，帮助学生和家长全面掌握学习状况，科学规划升学目标。</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon blue">📝</div>
+                        <h3>成绩管理</h3>
+                        <p>轻松录入和管理各科成绩</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon green">📊</div>
+                        <h3>统计分析</h3>
+                        <p>多维度图表展示成绩趋势</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon orange">🤖</div>
+                        <h3>AI分析</h3>
+                        <p>智能分析成绩并推荐学校</p>
+                    </div>
+                </div>
+
+                <!-- 二、注册与登录 -->
+                <h2>二、注册与登录</h2>
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>注册账号</h4>
+                            <p>打开网站首页，点击"立即注册"按钮，填写用户名、密码和昵称，点击"注册"即可完成。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>登录系统</h4>
+                            <p>在登录页面输入用户名和密码，点击"登录"进入系统主界面。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>修改个人资料</h4>
+                            <p>点击右上角用户名，选择"个人资料"，可修改昵称、邮箱、电话和登录密码。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>提示：</strong>请妥善保管您的账号密码。如忘记密码，请联系管理员重置。
+                </div>
+
+                <!-- 三、成绩录入 -->
+                <h2>三、成绩录入</h2>
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>选择年级</h4>
+                            <p>点击顶部菜单"新建成绩"，选择学生所在年级（初一到高三）。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>选择考试类型</h4>
+                            <p>系统预设了"期中考试"和"期末考试"，您也可以在"设置"中自定义添加其他类型。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>填写考试日期</h4>
+                            <p>选择考试日期（可选），不填写不影响成绩录入和统计。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>输入各科成绩</h4>
+                            <p>系统会根据所选年级自动显示对应科目。只需填写实际参加考试的科目成绩，未参加的科目留空即可。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>保存成绩单</h4>
+                            <p>确认无误后点击"保存成绩单"，系统会自动计算总分和得分率。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>科目说明：</strong>初中默认科目为语文、数学、英语（各120分满分）；高中默认科目为语文、数学、英语（各150分满分）。您可以在"设置"中添加更多科目。
+                </div>
+
+                <!-- 四、成绩查看与管理 -->
+                <h2>四、成绩查看与管理</h2>
+                <div class="feature-grid">
+                    <div class="feature-card" style="text-align:left;">
+                        <div class="feature-icon blue">📋</div>
+                        <h3>成绩单列表</h3>
+                        <p>在"成绩单"页面查看所有录入的成绩记录，显示总分、得分率、考试信息等。支持按年级和考试类型筛选。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <div class="feature-icon green">🔍</div>
+                        <h3>成绩详情</h3>
+                        <p>点击"查看"按钮进入详情页，可查看各科分数、得分率、总分和满分对比。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <div class="feature-icon orange">✏️</div>
+                        <h3>编辑成绩</h3>
+                        <p>点击"编辑"按钮可修改已录入的成绩信息，修改后保存即可更新。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <div class="feature-icon" style="background:rgba(255,100,100,0.1);">🗑️</div>
+                        <h3>删除成绩</h3>
+                        <p>点击"删除"按钮可移除不需要的成绩记录，删除后无法恢复。</p>
+                    </div>
+                </div>
+
+                <!-- 五、统计分析 -->
+                <h2>五、统计分析</h2>
+                <p>点击顶部菜单"统计分析"，系统提供丰富的数据图表帮助您全面了解学习状况。</p>
+
+                <h3>学段/年级筛选</h3>
+                <p>支持按以下维度筛选数据：</p>
+                <div class="feature-grid" style="grid-template-columns:repeat(2,1fr);">
+                    <div class="feature-card" style="text-align:left;padding:1rem;">
+                        <span class="badge badge-blue">初中</span>
+                        <p style="margin-top:0.4rem">初中全部 / 初一 / 初二 / 初三</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;padding:1rem;">
+                        <span class="badge badge-green">高中</span>
+                        <p style="margin-top:0.4rem">高中全部 / 高一 / 高二 / 高三</p>
+                    </div>
+                </div>
+
+                <h3>统计图表</h3>
+                <div class="feature-grid">
+                    <div class="feature-card" style="text-align:left;">
+                        <h3>📊 概览统计</h3>
+                        <p>考试次数、平均得分率、最高分、最低分等关键指标一目了然。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <h3>🥧 年级分布</h3>
+                        <p>饼图展示各年级考试次数分布，了解考试覆盖情况。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <h3>📈 总分趋势</h3>
+                        <p>折线图展示历次考试得分率变化趋势，直观反映进步或退步。</p>
+                    </div>
+                    <div class="feature-card" style="text-align:left;">
+                        <h3>📉 单科趋势</h3>
+                        <p>选择具体科目，查看该科目历次考试的得分率变化。</p>
+                    </div>
+                </div>
+
+                <!-- 六、AI智能分析 -->
+                <h2>六、AI智能分析</h2>
+                <p>系统核心功能，利用AI技术深度分析成绩，提供个性化建议和学校推荐。</p>
+
+                <img class="feature-img" src="../images/feature_analysis.svg" alt="AI分析功能">
+
+                <h3>6.1 进行AI分析</h3>
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>选择成绩单</h4>
+                            <p>在"AI全面分析"页面，先切换"初中"或"高中"标签，然后勾选要分析的成绩单（可多选）。</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>选择分析类型</h4>
+                            <p>系统提供三种分析类型，点击卡片选择：</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card" style="border-top:3px solid var(--bioluminescent);">
+                        <h3>📈 成绩分析</h3>
+                        <p>分析各科优劣势、成绩波动趋势，给出具体提分建议。</p>
+                    </div>
+                    <div class="feature-card" style="border-top:3px solid #00ff96;">
+                        <h3>🏫 学校匹配</h3>
+                        <p>根据成绩预测可报考的学校，推荐冲刺/稳妥/保底方案。</p>
+                    </div>
+                    <div class="feature-card" style="border-top:3px solid #ffb400;">
+                        <h3>📚 学习规划</h3>
+                        <p>制定针对性学习计划，推荐学习方法和重点突破方向。</p>
+                    </div>
+                </div>
+
+                <div class="step-list" style="margin-top:1.5rem;">
+                    <div class="step-item">
+                        <div class="step-number"></div>
+                        <div class="step-content">
+                            <h4>开始分析</h4>
+                            <p>点击"开始AI全面分析"按钮，等待10-30秒，AI将生成详细的分析报告。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>6.2 与AI对话</h3>
+                <p>分析完成后，在报告详情页底部有"继续提问"区域，您可以：</p>
+                <ul style="padding-left:1.5rem;margin:0.8rem 0;color:var(--text-secondary);">
+                    <li style="margin-bottom:0.4rem">针对分析结果追问细节，如"数学怎么提高？"</li>
+                    <li style="margin-bottom:0.4rem">了解升学建议，如"我还有希望考上太行中学吗？"</li>
+                    <li style="margin-bottom:0.4rem">获取学习规划，如"给我制定一个寒假复习计划"</li>
+                    <li>所有对话历史自动保存，下次查看报告时可继续</li>
+                </ul>
+
+                <h3>6.3 历史报告</h3>
+                <p>点击"历史报告"标签，可查看所有已保存的AI分析报告。支持按学段（初中/高中）和分析类型（成绩分析/学校匹配/学习规划）筛选。每条记录显示分析时间、分数、考试信息等。</p>
+
+                <!-- 七、学校匹配 -->
+                <h2>七、学校匹配功能</h2>
+                <p>系统根据学生学段自动匹配不同的学校数据库，AI会基于真实录取数据给出推荐。</p>
+
+                <img class="feature-img" src="../images/feature_school.svg" alt="学校匹配功能">
+
+                <h3>初中 → 高中推荐</h3>
+                <p>基于山西长治地区2025年中考统招录取分数线：</p>
+                <table>
+                    <thead>
+                        <tr><th>排名</th><th>学校</th><th>2025统招线</th><th>层次</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>太行中学</td><td>789分</td><td><span class="badge badge-blue">冲刺</span></td></tr>
+                        <tr><td>2</td><td>长治二中</td><td>773分</td><td><span class="badge badge-blue">冲刺</span></td></tr>
+                        <tr><td>3</td><td>长治一中</td><td>752分</td><td><span class="badge badge-orange">稳妥</span></td></tr>
+                        <tr><td>4</td><td>长治六中</td><td>728分</td><td><span class="badge badge-orange">稳妥</span></td></tr>
+                        <tr><td>5</td><td>长治五中</td><td>701分</td><td><span class="badge badge-green">保底</span></td></tr>
+                    </tbody>
+                </table>
+
+                <h3>高中 → 大学推荐</h3>
+                <p>基于2025年全国高校在山西录取分数线（部分展示）：</p>
+                <table>
+                    <thead>
+                        <tr><th>排名</th><th>高校</th><th>类型</th><th>参考分</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>清华大学</td><td>985/C9</td><td>680+</td></tr>
+                        <tr><td>2</td><td>北京大学</td><td>985/C9</td><td>678+</td></tr>
+                        <tr><td>3</td><td>复旦大学</td><td>985/C9</td><td>665+</td></tr>
+                        <tr><td>29</td><td>太原理工大学</td><td>211</td><td>517+</td></tr>
+                        <tr><td>30</td><td>山西大学</td><td>省内重点</td><td>505+</td></tr>
+                        <tr><td>37</td><td>长治医学院</td><td>省内本科</td><td>430+</td></tr>
+                        <tr><td>38</td><td>长治学院</td><td>省内本科</td><td>419+</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="tip-box">
+                    <strong>说明：</strong>以上分数线为2025年参考数据，每年会有波动。AI会根据学生当前成绩换算预估分，推荐冲刺、稳妥、保底三个层次的学校。
+                </div>
+
+                <!-- 八、个人设置 -->
+                <h2>八、个人设置</h2>
+                <h3>考试类型管理</h3>
+                <p>在"设置"页面可添加或删除考试类型。系统预设了"期中考试"和"期末考试"，您可以根据需要添加如"月考"、"周测"等。</p>
+
+                <h3>科目管理</h3>
+                <p>初中科目和高中科目分开管理。系统预设了语文、数学、英语三科，您可以添加物理、化学、生物、政治、历史、地理等更多科目，并设置满分值。</p>
+
+                <div class="info-box">
+                    <strong>注意：</strong>系统预设科目无法删除，但您可以添加任意数量的自定义科目。
+                </div>
+
+                <!-- 九、常见问题 -->
+                <h2>九、常见问题</h2>
+                <div class="faq-item">
+                    <div class="faq-q">Q：AI分析功能无法使用？</div>
+                    <div class="faq-a">A：AI分析需要管理员配置AI接口（DeepSeek或通义千问API密钥）后才能使用。请联系管理员完成配置。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Q：学校匹配结果准确吗？</div>
+                    <div class="faq-a">A：学校匹配基于长治地区最新中考录取分数线和全国高校在山西的录取数据，每年分数线会有波动，结果仅供参考。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Q：忘记密码怎么办？</div>
+                    <div class="faq-a">A：请联系管理员重置密码。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Q：成绩数据安全吗？</div>
+                    <div class="faq-a">A：您的成绩数据仅您本人可见，其他用户无法查看。系统采用加密存储，保障数据安全。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Q：支持哪些浏览器？</div>
+                    <div class="faq-a">A：推荐使用Chrome、Edge、Safari、Firefox等现代浏览器。不建议使用IE浏览器。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Q：可以在手机上使用吗？</div>
+                    <div class="faq-a">A：可以。系统支持手机浏览器访问，界面会自动适配手机屏幕。</div>
+                </div>
+
+                <!-- CTA -->
+                <div class="cta-section">
+                    <h3>立即开始使用</h3>
+                    <p>注册账号，录入成绩，让AI帮您分析学习状况、规划升学目标</p>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+services:
+  xuanmen:
+    image: nginx:alpine
+    container_name: xuanmen-wendao
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro

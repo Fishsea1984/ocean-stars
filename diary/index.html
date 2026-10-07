@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星海日记本 - 星海之境</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+/* 新建按钮 - 融入网站的精致小按钮 */
+.btn-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 22px;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(0, 200, 255, 0.04));
+  color: var(--bioluminescent);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s;
+  backdrop-filter: blur(10px);
+  margin-top: 1.2rem;
+  letter-spacing: 0.5px;
+}
+.btn-new:hover {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(0, 200, 255, 0.12));
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* 日记列表 */
+.diary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+.diary-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s;
+  cursor: pointer;
+}
+
+.diary-card:hover {
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow: var(--accent-glow);
+  transform: translateY(-4px);
+}
+
+.diary-card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, var(--ocean-mid), var(--ocean-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.diary-card-body {
+  padding: 1.5rem;
+}
+
+.diary-card-date {
+  font-size: 0.8rem;
+  color: var(--bioluminescent);
+  margin-bottom: 0.5rem;
+}
+
+.diary-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.diary-card-summary {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.diary-card-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.diary-card-actions button {
+  background: none;
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.diary-card-actions button:hover {
+  border-color: var(--bioluminescent);
+  color: var(--bioluminescent);
+}
+
+/* 编辑/阅读区域 */
+.editor-container {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2.5rem;
+  backdrop-filter: blur(20px);
+  display: none;
+}
+
+.editor-container.active {
+  display: block;
+  animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.editor-title {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  outline: none;
+}
+
+.editor-title::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.editor-title:focus {
+  border-bottom-color: var(--bioluminescent);
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.editor-toolbar button {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.editor-toolbar button:hover {
+  border-color: var(--bioluminescent);
+  color: var(--bioluminescent);
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.editor-content {
+  width: 100%;
+  min-height: 400px;
+  background: rgba(2, 11, 20, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  padding: 1.5rem;
+  outline: none;
+  resize: vertical;
+}
+
+.editor-content:focus {
+  border-color: var(--bioluminescent);
+  box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.08);
+}
+
+.editor-content img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+.editor-content video {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+/* 上传预览区域 */
+.upload-preview {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.upload-preview-item {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.upload-preview-item img, .upload-preview-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-preview-item .remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 按钮组 */
+.btn-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Noto Sans SC', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(0, 200, 255, 0.2));
+  color: var(--bioluminescent);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(0, 200, 255, 0.3));
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* 阅读模式 */
+.reader-container {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 3rem;
+  backdrop-filter: blur(20px);
+  display: none;
+}
+
+.reader-container.active {
+  display: block;
+  animation: fadeUp 0.4s ease;
+}
+
+.reader-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.reader-date {
+  font-size: 0.9rem;
+  color: var(--bioluminescent);
+  margin-bottom: 2rem;
+}
+
+.reader-body {
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--text-secondary);
+}
+
+.reader-body img {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 1.5rem 0;
+  border: 1px solid var(--glass-border);
+}
+
+.reader-body video {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 1.5rem 0;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* 隐藏文件输入 */
+input[type="file"] {
+  display: none;
+}
+
+/* 视频链接弹窗 */
+.video-link-dialog {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1000;
+}
+.video-link-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+.video-link-box {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 480px;
+  backdrop-filter: blur(30px);
+  animation: fadeUp 0.3s ease;
+}
+.video-link-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.video-link-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.video-link-input {
+  width: 100%;
+  background: rgba(2, 11, 20, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: var(--text-primary);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.video-link-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+.video-link-input:focus {
+  border-color: var(--bioluminescent);
+}
+.video-link-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .diary-grid { grid-template-columns: 1fr; }
+  .editor-container, .reader-container { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<canvas id="universe"></canvas>
+<div class="ocean-gradient"></div>
+<div class="water-ripple"></div>
+
+<div class="content">
+  <nav>
+    <a href="../index.html" class="logo">星海之境</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">首页</a></li>
+      <li><a href="../xuanmen/index.html">玄门问道</a></li>
+      <li><a href="index.html" class="active">日记</a></li>
+      <li><a href="../records/index.html">记录</a></li>
+      <li><a href="../posts/articles.html">文章</a></li>
+      <li><a href="../index.html#about">关于</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="../index.html">首页</a>
+    <span class="sep">/</span>
+    <span class="current">星海日记本</span>
+  </div>
+
+  <div class="page-top-spacer"></div>
+
+  <div class="page-hero">
+    <span class="page-hero-label">Ocean Diary</span>
+    <h1 class="page-hero-title" id="adminTrigger" style="cursor:pointer;user-select:none;">📖 星海日记本</h1>
+    <p class="page-hero-desc">记录灵感、保存回忆，文字、图片、视频皆可珍藏</p>
+  </div>
+
+  <!-- 日记列表 -->
+  <div id="diaryList">
+    <div class="diary-grid" id="diaryGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-state-icon">🌊</div>
+      <div class="empty-state-text">还没有日记</div>
+    </div>
+  </div>
+
+  <!-- 编辑器 -->
+  <div class="editor-container" id="editorContainer" style="display:none;">
+    <input type="text" class="editor-title" id="editorTitle" placeholder="请输入日记标题...">
+    <div class="editor-toolbar">
+      <button onclick="document.getElementById('imageInput').click()">🖼️ 插入图片</button>
+      <button onclick="document.getElementById('videoInput').click()">🎬 上传视频</button>
+      <button onclick="showVideoLinkDialog()">🔗 视频链接</button>
+      <button onclick="formatText('bold')"><b>B</b></button>
+      <button onclick="formatText('italic')"><i>I</i></button>
+    </div>
+    <input type="file" id="imageInput" accept="image/*" multiple onchange="handleFiles(this, 'image')">
+    <input type="hidden" name="MAX_FILE_SIZE" value="104857600">
+    <input type="file" id="videoInput" accept="video/*" onchange="handleFiles(this, 'video')">
+
+    <!-- 视频链接输入弹窗 -->
+    <div class="video-link-dialog" id="videoLinkDialog" style="display:none;">
+      <div class="video-link-overlay" onclick="closeVideoLinkDialog()"></div>
+      <div class="video-link-box">
+        <div class="video-link-title">🔗 粘贴视频链接</div>
+        <div class="video-link-hint">支持哔哩哔哩、优酷、YouTube等视频网址</div>
+        <input type="text" class="video-link-input" id="videoLinkInput" placeholder="粘贴视频网址，如 https://www.bilibili.com/video/BV...">
+        <div class="video-link-actions">
+          <button class="btn btn-primary" onclick="insertVideoLink()" style="padding:8px 24px;font-size:0.85rem;">插入</button>
+          <button class="btn btn-secondary" onclick="closeVideoLinkDialog()" style="padding:8px 24px;font-size:0.85rem;">取消</button>
+        </div>
+      </div>
+    </div>
+    <div class="upload-preview" id="uploadPreview"></div>
+    <textarea class="editor-content" id="editorContent" placeholder="在这里写下你的灵感...
+
+支持直接粘贴图片、拖拽上传。
+文字会自动保存到服务器，不会丢失。"></textarea>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btnSave">💾 保存日记</button>
+      <button class="btn btn-secondary" id="btnCancel">取消</button>
+    </div>
+  </div>
+
+  <!-- 阅读器 -->
+  <div class="reader-container" id="readerContainer">
+    <div class="reader-title" id="readerTitle"></div>
+    <div class="reader-date" id="readerDate"></div>
+    <div class="reader-body" id="readerBody"></div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="btnBack">← 返回列表</button>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-text">星海之境 | Ocean of Stars</p>
+    <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+  <p class="footer-beian">
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+  </p>
+  <p class="footer-beian footer-gaba">
+      <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+      <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+  </p>
+  </footer>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+// ======================== 日记本逻辑 ========================
+let diaries = [];
+let currentId = null;
+let uploadedFiles = [];
+
+// 纯静态站点：没有服务端写入接口
+function staticReadOnlyTip() {
+  alert('本站已切换为纯静态托管（GitHub Pages）。\n\n'
+      + '新增或修改日记：请在 GitHub 仓库里编辑 diary/diaries.json 并提交，网站会自动更新。');
+}
+
+
+// 加载日记列表
+async function loadDiaries() {
+  try {
+    const res = await fetch('diaries.json');
+    if (!res.ok) {
+      throw new Error('HTTP ' + res.status);
+    }
+    diaries = await res.json();
+    renderDiaryList();
+  } catch (e) {
+    console.error('加载失败:', e);
+    diaries = [];
+    const emptyText = document.querySelector('#emptyState .empty-state-text');
+    if (emptyText && location.protocol === 'file:') {
+      emptyText.innerHTML = '本地直接双击打开页面时，浏览器会拦截数据读取（file:// 协议限制）。<br>请通过网站地址访问，或在项目目录里启动本地服务：'
+        + '<br><code>python -m http.server 8000</code> 然后打开 http://localhost:8000/diary/';
+    } else if (emptyText) {
+      emptyText.textContent = '日记加载失败，请检查网络或稍后重试。';
+    }
+    renderDiaryList();
+  }
+}
+
+// 渲染日记列表
+function renderDiaryList() {
+  const grid = document.getElementById('diaryGrid');
+  const empty = document.getElementById('emptyState');
+
+  if (diaries.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+
+  grid.style.display = 'grid';
+  empty.style.display = 'none';
+
+  grid.innerHTML = diaries.map(d => {
+    const hasImage = d.images && d.images.length > 0;
+    const cover = hasImage ? `<img src="${d.images[0]}" class="diary-card-image" style="display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : '';
+    const placeholder = `<div class="diary-card-image" style="${hasImage ? 'display:none;' : ''}">📖</div>`;
+    return `
+      <div class="diary-card" data-id="${d.id}">
+        ${cover}${placeholder}
+        <div class="diary-card-body">
+          <div class="diary-card-date">${d.date}</div>
+          <div class="diary-card-title">${d.title || '无标题'}</div>
+          <div class="diary-card-summary">${d.summary || ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 点击卡片阅读
+  grid.querySelectorAll('.diary-card').forEach(card => {
+    card.addEventListener('click', () => readDiary(card.dataset.id));
+  });
+}
+
+
+
+// 阅读日记
+function readDiary(id) {
+  const d = diaries.find(x => x.id === id);
+  if (!d) return;
+
+  document.getElementById('readerTitle').textContent = d.title || '无标题';
+  document.getElementById('readerDate').textContent = d.date;
+
+  let body = d.content || '';
+  (d.images || []).forEach(src => {
+    body += `\n\n<img src="${src}" style="max-width:100%;border-radius:16px;margin:1.5rem 0;">`;
+  });
+  (d.videos || []).forEach(src => {
+    body += `\n\n<video src="${src}" controls preload="metadata" style="max-width:100%;border-radius:16px;margin:1.5rem 0;"></video>`;
+  });
+  (d.videoLinks || []).forEach(embed => {
+    body += `\n\n${embed}`;
+  });
+
+  document.getElementById('readerBody').innerHTML = body.replace(/\n/g, '<br>');
+
+  document.getElementById('diaryList').style.display = 'none';
+  document.getElementById('editorContainer').classList.remove('active');
+  document.getElementById('readerContainer').classList.add('active');
+
+
+  currentId = id;
+}
+
+
+
+
+// 返回列表
+function backToList() {
+  document.getElementById('diaryList').style.display = 'block';
+  document.getElementById('editorContainer').classList.remove('active');
+  document.getElementById('readerContainer').classList.remove('active');
+  currentId = null;
+}
+
+
+
+
+// 富文本格式
+function formatText(cmd) {
+  const textarea = document.getElementById('editorContent');
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = textarea.value;
+  const selected = text.substring(start, end);
+
+  let wrapped = selected;
+  if (cmd === 'bold') wrapped = `**${selected}**`;
+  if (cmd === 'italic') wrapped = `*${selected}*`;
+
+  textarea.value = text.substring(0, start) + wrapped + text.substring(end);
+  textarea.focus();
+  textarea.setSelectionRange(start + wrapped.length, start + wrapped.length);
+}
+
+// ======================== 视频链接功能 ========================
+function showVideoLinkDialog() {
+  document.getElementById('videoLinkDialog').style.display = 'block';
+  document.getElementById('videoLinkInput').value = '';
+  setTimeout(() => document.getElementById('videoLinkInput').focus(), 100);
+}
+
+function closeVideoLinkDialog() {
+  document.getElementById('videoLinkDialog').style.display = 'none';
+}
+
+// 将视频链接转为嵌入HTML
+function videoUrlToEmbed(url) {
+  url = url.trim();
+
+  // 哔哩哔哩: https://www.bilibili.com/video/BVxxxxx 或 b23.tv短链
+  let bvMatch = url.match(/bilibili\.com\/video\/(BV[\w]+)/i);
+  if (bvMatch) {
+    return `<iframe src="//player.bilibili.com/player.html?bvid=${bvMatch[1]}&high_quality=1" 
+      style="width:100%;max-width:640px;height:360px;border:none;border-radius:16px;margin:1.5rem 0;" 
+      allowfullscreen="true" scrolling="no"></iframe>`;
+  }
+  // BV号直接输入
+  let bvDirect = url.match(/^(BV[\w]+)$/i);
+  if (bvDirect) {
+    return `<iframe src="//player.bilibili.com/player.html?bvid=${bvDirect[1]}&high_quality=1" 
+      style="width:100%;max-width:640px;height:360px;border:none;border-radius:16px;margin:1.5rem 0;" 
+      allowfullscreen="true" scrolling="no"></iframe>`;
+  }
+  // b23.tv 短链（无法直接转换，提示用户）
+  if (url.includes('b23.tv')) {
+    return null; // 返回null让用户知道需要用完整链接
+  }
+
+  // 优酷: https://v.youku.com/v_show/id_XMTxxxx.html
+  let youkuMatch = url.match(/youku\.com\/.*id_([a-zA-Z0-9=]+)/i);
+  if (youkuMatch) {
+    return `<iframe src="//player.youku.com/embed/${youkuMatch[1]}" 
+      style="width:100%;max-width:640px;height:360px;border:none;border-radius:16px;margin:1.5rem 0;" 
+      allowfullscreen="true"></iframe>`;
+  }
+
+  // YouTube: https://www.youtube.com/watch?v=xxx 或 youtu.be/xxx
+  let ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/i);
+  if (ytMatch) {
+    return `<iframe src="//www.youtube.com/embed/${ytMatch[1]}" 
+      style="width:100%;max-width:640px;height:360px;border:none;border-radius:16px;margin:1.5rem 0;" 
+      allowfullscreen="true"></iframe>`;
+  }
+
+  return null;
+}
+
+function insertVideoLink() {
+  const url = document.getElementById('videoLinkInput').value.trim();
+  if (!url) {
+    alert('请输入视频链接');
+    return;
+  }
+
+  const embed = videoUrlToEmbed(url);
+  if (!embed) {
+    alert('无法识别该视频链接。\n\n支持：\n· 哔哩哔哩（bilibili.com/video/BVxxx）\n· 优酷（v.youku.com）\n· YouTube（youtube.com）\n\n注意：b23.tv短链请先在浏览器打开，复制完整链接后再粘贴。');
+    return;
+  }
+
+  // 将嵌入代码保存为视频链接类型
+  const idx = uploadedFiles.length;
+  uploadedFiles.push({ type: 'videoLink', src: url, embed: embed });
+
+  // 在预览区显示
+  const preview = document.getElementById('uploadPreview');
+  preview.innerHTML += `
+    <div class="upload-preview-item" id="file-${idx}" style="width:200px;height:120px;background:rgba(0,240,255,0.05);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
+      <div style="font-size:1.5rem;">🔗</div>
+      <div style="font-size:0.7rem;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;padding:0 8px;">${url}</div>
+      <button class="remove-btn" onclick="removeFile(${idx})">×</button>
+    </div>
+  `;
+
+  closeVideoLinkDialog();
+}
+
+
+// 事件绑定
+// 纯静态站点：写操作入口已移除，绑定做空值保护
+  const bind = (id, fn) => { const el = document.getElementById(id); if (el) el.addEventListener('click', fn); };
+  bind('btnSave', staticReadOnlyTip);
+  bind('btnCancel', backToList);
+  bind('btnBack', backToList);
+  bind('btnEdit', staticReadOnlyTip);
+  bind('btnDelete', staticReadOnlyTip);
+
+// 初始化
+loadDiaries();
+</script>
+</body>
+</html>

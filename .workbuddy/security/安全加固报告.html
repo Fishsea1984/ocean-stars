@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星海之境 · 安全加固报告</title>
+<style>
+  :root{
+    --bg:#060b16; --bg2:#0b1424; --card:#0f1c31; --line:#1d3050;
+    --txt:#dce8f7; --dim:#8399b8; --cyan:#00f0ff; --red:#ff5a6a;
+    --amber:#ffb02e; --green:#2ee6a8; --blue:#4a9eff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#060b16,#08101d 60%,#060b16);
+       color:var(--txt);font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+       line-height:1.75;padding:32px 18px 80px}
+  .wrap{max-width:960px;margin:0 auto}
+  header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:34px}
+  .kicker{color:var(--cyan);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase}
+  h1{margin:.35em 0 .2em;font-size:1.9rem;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:.9rem}
+  h2{font-size:1.18rem;margin:2.6em 0 .9em;padding-left:12px;border-left:3px solid var(--cyan)}
+  h3{font-size:1rem;margin:1.6em 0 .5em;color:#bcd4f0}
+  p{margin:.6em 0}
+  .lead{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+        padding:18px 20px;margin:0 0 8px}
+  .lead b{color:var(--cyan)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#12213a;color:#bcd4f0;font-weight:600;white-space:nowrap}
+  td.c{text-align:center;white-space:nowrap}
+  code{background:#101d33;border:1px solid var(--line);border-radius:4px;
+       padding:1px 6px;font-family:Consolas,Monaco,monospace;font-size:.85em;color:#8fe9ff}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.74rem;
+         font-weight:700;letter-spacing:.03em;white-space:nowrap}
+  .b-high{background:rgba(255,90,106,.14);color:var(--red);border:1px solid rgba(255,90,106,.45)}
+  .b-mid{background:rgba(255,176,46,.13);color:var(--amber);border:1px solid rgba(255,176,46,.45)}
+  .b-low{background:rgba(74,158,255,.13);color:var(--blue);border:1px solid rgba(74,158,255,.42)}
+  .b-ok{background:rgba(46,230,168,.12);color:var(--green);border:1px solid rgba(46,230,168,.4)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        padding:16px 20px;margin:14px 0}
+  .step{border-left:3px solid var(--amber);background:var(--bg2);
+        border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0}
+  .step h3{margin-top:0;color:var(--amber)}
+  .warn{border:1px solid rgba(255,90,106,.4);background:rgba(255,90,106,.07);
+        border-radius:10px;padding:14px 18px;margin:16px 0}
+  .warn strong{color:var(--red)}
+  ul{margin:.5em 0;padding-left:1.35em}
+  li{margin:.28em 0}
+  .mono{font-family:Consolas,Monaco,monospace;font-size:.85rem}
+  pre{background:#0a1425;border:1px solid var(--line);border-radius:8px;
+      padding:12px 14px;overflow-x:auto;font-size:.83rem;color:#a9e6ff}
+  footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--dim);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Security Hardening Report</div>
+  <h1>星海之境 · 网站安全加固报告</h1>
+  <div class="sub">站点 <code>https://www.yhtaoism.com</code> &nbsp;·&nbsp; 审计日期 2026-09-22 &nbsp;·&nbsp; 基于真实代码 + 线上探测</div>
+</header>
+
+<div class="lead">
+  <p><b>总体结论：存在多个高危漏洞，必须尽快修复。</b>其中「日记写入接口完全无鉴权」是导致你两次数据被清空的<strong>直接原因</strong>——任何人都可以远程删除你的全部日记、图片和视频，不需要任何登录。</p>
+  <p>本次已完成<strong>代码层</strong>的全部修复（7 个文件加固 + 新增鉴权模块），并产出<strong>服务器层</strong>的 Nginx 规则。你只需按「第四部分」做 3 步部署即可生效。</p>
+</div>
+
+<h2>一、漏洞清单（按严重程度）</h2>
+
+<table>
+  <tr><th>级别</th><th>问题</th><th>验证 / 影响</th><th>状态</th></tr>
+  <tr>
+    <td class="c"><span class="badge b-high">高危</span></td>
+    <td>日记写入接口无任何鉴权<br><span class="mono">save.php / delete.php / upload.php</span></td>
+    <td>线上实测 <code>delete.php</code> 返回 200 可访问。任何人不登录即可<strong>新增、篡改、删除全部日记</strong>——这是数据被清空的根因。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-high">高危</span></td>
+    <td>上传文件后缀取自<strong>客户端文件名</strong></td>
+    <td>原代码用 <code>pathinfo($file['name'])</code> 取后缀，攻击者可上传名为 <code>x.php</code> 的伪装文件（潜在 GetShell）。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-high">高危</span></td>
+    <td>126&nbsp;MB 整站备份包放在网站目录</td>
+    <td><code>blog.zgrecruit.com_20260916_214002.tar.gz</code> 就在站点根目录。一旦你打包上传，等于把<strong>整站源码（含密钥）公开</strong>出去。线上暂未泄露。</td>
+    <td class="c"><span class="badge b-ok">已移出</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-mid">中危</span></td>
+    <td>日记原始数据可被直接下载</td>
+    <td>实测 <code>/diary/data/20260617_231739.json</code> 返回 200，绕过了页面逻辑直接拿到原文。</td>
+    <td class="c"><span class="badge b-low">待配置</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-mid">中危</span></td>
+    <td>诊断页 <span class="mono">ai/api/test.php</span> 公开暴露</td>
+    <td>实测可读：PHP 8.2.31、cURL 版本、上传限制，并<strong>回显 API Key 前 6 位与后 4 位</strong>。你填上 Key 后即泄露。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-mid">中危</span></td>
+    <td>新闻页存在<strong>存储型 XSS</strong></td>
+    <td>新闻页用 <code>innerHTML</code> 直接插入 RSS 的标题/摘要，恶意源可注入脚本盗取会话。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-mid">中危</span></td>
+    <td>AI 接口无鉴权、无限流</td>
+    <td>配置 Key 后任何人可反复调用，<strong>刷爆你的 DeepSeek 额度</strong>。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-mid">中危</span></td>
+    <td><span class="mono">tools/auth.js</span> 客户端认证</td>
+    <td>该文件线上可公开下载（7&nbsp;KB）。前端 JS 里的"密码校验"可被查看源码直接绕过，等于没有保护。</td>
+    <td class="c"><span class="badge b-low">待确认</span></td>
+  </tr>
+  <tr>
+    <td class="c"><span class="badge b-low">低危</span></td>
+    <td>其他</td>
+    <td>CORS 通配 <code>*</code>（已收紧）；RSS 抓取不校验证书、未防 XXE（已修复）；缺少安全响应头（已给配置）；<code>?force</code> 无节流（已加 60 秒节流）。</td>
+    <td class="c"><span class="badge b-ok">已修复</span></td>
+  </tr>
+</table>
+
+<h2>二、已完成的代码加固</h2>
+
+<h3>新增：统一鉴权模块</h3>
+<ul>
+  <li><code>_sec/auth.php</code>——所有写操作的统一登录校验（HTTP Basic Auth，服务端比对，前端无法绕过）</li>
+  <li><code>_sec/config.php</code>——口令的「盐 + SHA-256」哈希，<strong>不含明文</strong></li>
+</ul>
+
+<h3>修改：日记接口</h3>
+<ul>
+  <li><code>diary/api/save.php</code>——加登录校验 / 仅接受 POST / 限长 / 媒体路径白名单</li>
+  <li><code>diary/api/delete.php</code>——加登录校验 / 仅接受 POST / 删除时 <code>basename</code> 防路径穿越</li>
+  <li><code>diary/api/upload.php</code>——加登录校验 / <strong>后缀只由服务端识别的 MIME 决定</strong> / 图片二次解码校验 / 文件名随机化</li>
+  <li><code>diary/api/list.php</code>——移除通配 CORS（并预留"日记只给自己看"的开关）</li>
+  <li><code>diary/index.html</code>——未登录时给出清晰提示，不再是莫名的"保存失败"</li>
+</ul>
+
+<h3>修改：其他接口</h3>
+<ul>
+  <li><code>ai/api/chat.php</code>——IP 限流（10 分钟 30 次）/ 角色白名单（阻断提示词注入）/ 单条限长 / 支持环境变量存放密钥</li>
+  <li><code>ai/api/test.php</code>——需登录才可访问 / <strong>不再回显任何密钥片段</strong></li>
+  <li><code>news/api/fetch.php</code>——输出清洗防 XSS / 链接仅允许 http(s) / <code>LIBXML_NONET</code> 防 XXE / 校验证书 / <code>?force</code> 节流 60 秒</li>
+  <li><code>_sec/.htaccess</code>、<code>diary/data/.htaccess</code>、<code>diary/uploads/.htaccess</code>——Apache 环境的兜底防护</li>
+</ul>
+
+<h2>三、加固后的访问规则</h2>
+<table>
+  <tr><th>操作</th><th>是否公开</th><th>说明</th></tr>
+  <tr><td>浏览日记（<code>list.php</code>）</td><td class="c"><span class="badge b-ok">公开</span></td><td>站点本来公开展示日记；如需私有，见下方"可选增强"</td></tr>
+  <tr><td>新增 / 编辑日记</td><td class="c"><span class="badge b-high">需登录</span></td><td>浏览器弹出登录框，输入管理员口令</td></tr>
+  <tr><td>删除日记</td><td class="c"><span class="badge b-high">需登录</span></td><td>同上</td></tr>
+  <tr><td>上传图片 / 视频</td><td class="c"><span class="badge b-high">需登录</span></td><td>同上</td></tr>
+  <tr><td>AI 咨询对话</td><td class="c"><span class="badge b-low">公开限流</span></td><td>每 IP 10 分钟 30 次</td></tr>
+</table>
+
+<h2>四、你需要手动做的 3 步</h2>
+
+<div class="step">
+<h3>第 1 步：上传加固后的文件</h3>
+<p>把下面这些文件上传到服务器<strong>覆盖</strong>（宝塔 → 文件管理）：</p>
+<pre>_sec/                      （整个目录，新增）
+diary/api/save.php
+diary/api/delete.php
+diary/api/upload.php
+diary/api/list.php
+diary/index.html
+ai/api/chat.php
+ai/api/test.php
+news/api/fetch.php</pre>
+<p><span class="badge b-high">切勿</span> 不要删除或覆盖 <code>diary/data/</code>、<code>diary/uploads/</code>、<code>records/images/</code> 这三个数据目录。</p>
+</div>
+
+<div class="step">
+<h3>第 2 步：配置 Nginx 规则</h3>
+<p>宝塔 → 网站 → 你的站点 → 设置 → <strong>配置文件</strong>，把 <code>nginx-security.conf</code> 里的规则整段粘贴进 <code>server { }</code> 内，保存并重载。</p>
+<p>这一步解决：日记原始数据被直接下载、上传目录防执行、隐藏文件与备份包被下载、安全响应头缺失。</p>
+</div>
+
+<div class="step">
+<h3>第 3 步：拿到并修改管理口令</h3>
+<p>我生成的初始口令存放在项目里的 <code>.workbuddy/security/管理口令.txt</code>，用户名是 <code>admin</code>。首次登录后建议立刻改成你自己的口令——方法是重新生成 <code>_sec/config.php</code>（改完告诉我，我帮你重新生成）。</p>
+</div>
+
+<div class="warn">
+<strong>⚠️ 上传时的关键注意事项（这次务必遵守）</strong>
+<p>你之前两次数据丢失，都是因为「删除旧目录 → 整体上传」。请改成：</p>
+<ul>
+  <li>永远用<strong>覆盖文件</strong>，不要"删除目录再上传"；</li>
+  <li>或者只上传 <code>*.html / *.css / *.js / *.php</code>，<strong>绝不触碰</strong> <code>diary/data</code>、<code>diary/uploads</code>、<code>records/images</code>；</li>
+  <li>改版前先把这三个目录单独备份一份。</li>
+</ul>
+</div>
+
+<h2>五、可选进一步增强</h2>
+<ul>
+  <li><strong>日记也设为私有</strong>：在 <code>diary/api/list.php</code> 顶部取消鉴权那行注释即可（文件里已写好开关）。</li>
+  <li><strong>AI 密钥改用环境变量</strong>：宝塔 → 网站 → PHP → 环境变量里加 <code>DEEPSEEK_API_KEY</code>，代码会自动读取，不再写死在文件里。</li>
+  <li><strong><code>tools/auth.js</code> 的客户端认证改到服务端</strong>：目前任何人查看源码就能绕过。如这几个计算器是付费/内部工具，需要我把校验挪到服务端。这一步涉及你的业务逻辑，需要你确认后我再动。</li>
+  <li><strong>定期备份</strong>：建议对 <code>diary/data</code> + <code>diary/uploads</code> + <code>records/images</code> 做定时打包。</li>
+</ul>
+
+<footer>
+  报告由「星海之境」站点安全审计生成 · 2026-09-22 · 所有结论均基于实际代码阅读与线上 HTTP 探测，未做推测。
+</footer>
+
+</div>
+</body>
+</html>

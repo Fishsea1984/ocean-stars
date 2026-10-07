@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新民装饰城 · 五级详细工作计划 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ============================================================
+           新民装饰城五级工作计划 — 深色玻璃拟态主题覆盖
+           ============================================================ */
+        .post-content .app {
+            max-width: 1440px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 头部玻璃卡片 */
+        .post-content .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .post-content .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .post-content .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--bioluminescent), rgba(0, 200, 255, 0.6));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #001a2e;
+            font-size: 22px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+        }
+
+        .post-content .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .post-content .header-title .sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .post-content .contract-badge {
+            background: rgba(0, 240, 255, 0.08);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--bioluminescent);
+            border: 1px solid var(--glass-border);
+            white-space: nowrap;
+        }
+
+        /* 控制栏 */
+        .post-content .control-bar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 12px 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .post-content .control-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .post-content .ctrl-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: var(--text-secondary);
+        }
+
+        .post-content .ctrl-btn:hover {
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        .post-content .ctrl-btn.active {
+            background: linear-gradient(135deg, var(--bioluminescent), rgba(0, 200, 255, 0.6));
+            color: #001a2e;
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.25);
+        }
+
+        .post-content .reset-btn {
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: var(--text-secondary);
+        }
+
+        .post-content .reset-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.4);
+            color: #ff6b6b;
+        }
+
+        /* 视图容器 */
+        .post-content .view-container {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .post-content .view-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 年度视图 */
+        .post-content .yearly-plan {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 28px 32px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .post-content .yearly-plan h2 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--bioluminescent);
+        }
+
+        .post-content .yearly-plan .plan-text {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            white-space: pre-line;
+            background: rgba(0, 20, 40, 0.35);
+            padding: 18px 22px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            min-height: 120px;
+            color: var(--text-primary);
+        }
+
+        .post-content .yearly-plan .edit-area {
+            display: none;
+            width: 100%;
+            min-height: 200px;
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-family: inherit;
+            resize: vertical;
+            margin-top: 12px;
+            background: rgba(0, 10, 25, 0.6);
+            color: var(--text-primary);
+        }
+
+        .post-content .yearly-plan .edit-area:focus {
+            outline: 2px solid var(--bioluminescent);
+        }
+
+        .post-content .yearly-plan .save-btn {
+            border: none;
+            background: linear-gradient(135deg, var(--bioluminescent), rgba(0, 200, 255, 0.6));
+            color: #001a2e;
+            padding: 8px 24px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            display: none;
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+        }
+
+        .post-content .yearly-plan .save-btn:hover {
+            filter: brightness(1.15);
+        }
+
+        .post-content .yearly-plan .edit-toggle {
+            border: none;
+            background: rgba(0, 240, 255, 0.08);
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-primary);
+            margin-left: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .post-content .yearly-plan .edit-toggle:hover {
+            background: rgba(0, 240, 255, 0.15);
+        }
+
+        /* 季度视图 */
+        .post-content .quarter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .post-content .quarter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .post-content .quarter-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .post-content .quarter-card-head {
+            padding: 14px 20px;
+            background: rgba(0, 240, 255, 0.04);
+            border-bottom: 1px solid var(--glass-border);
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .post-content .quarter-card-body {
+            padding: 16px 20px 20px;
+        }
+
+        .post-content .quarter-card-body .q-row {
+            margin-bottom: 12px;
+        }
+
+        .post-content .quarter-card-body .q-row-label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--bioluminescent);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .post-content .quarter-card-body .q-row-text {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            background: rgba(0, 20, 40, 0.35);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            white-space: pre-line;
+            min-height: 40px;
+            margin-top: 4px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: var(--text-primary);
+        }
+
+        .post-content .quarter-card-body .q-row-text:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            background: rgba(0, 240, 255, 0.04);
+        }
+
+        /* 月度视图 */
+        .post-content .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .post-content .month-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-content .month-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            border-color: rgba(0, 240, 255, 0.25);
+        }
+
+        .post-content .month-card-head {
+            padding: 14px 18px 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0, 240, 255, 0.04);
+        }
+
+        .post-content .month-num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* 评级标签 — 玻璃药丸 */
+        .post-content .rating-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 999px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            user-select: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .post-content .rating-tag.excellent {
+            background: rgba(0, 240, 255, 0.12);
+            color: var(--bioluminescent);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+        }
+        .post-content .rating-tag.excellent:hover {
+            background: rgba(0, 240, 255, 0.2);
+        }
+        .post-content .rating-tag.qualified {
+            background: rgba(77, 166, 255, 0.12);
+            color: #4da6ff;
+            border: 1px solid rgba(77, 166, 255, 0.25);
+        }
+        .post-content .rating-tag.qualified:hover {
+            background: rgba(77, 166, 255, 0.2);
+        }
+        .post-content .rating-tag.unqualified {
+            background: rgba(255, 107, 107, 0.12);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.25);
+        }
+        .post-content .rating-tag.unqualified:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .post-content .rating-tag .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .post-content .rating-tag.excellent .dot {
+            background: var(--bioluminescent);
+            box-shadow: 0 0 6px var(--bioluminescent);
+        }
+        .post-content .rating-tag.qualified .dot {
+            background: #4da6ff;
+            box-shadow: 0 0 6px #4da6ff;
+        }
+        .post-content .rating-tag.unqualified .dot {
+            background: #ff6b6b;
+            box-shadow: 0 0 6px #ff6b6b;
+        }
+
+        .post-content .month-card-body {
+            padding: 14px 18px 10px 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .post-content .month-card-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .post-content .month-card-body::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 4px;
+        }
+
+        .post-content .work-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .post-content .work-row-label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--bioluminescent);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .post-content .work-row-text {
+            font-size: 0.82rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: rgba(0, 20, 40, 0.35);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            min-height: 38px;
+            white-space: pre-line;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .post-content .work-row-text:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            background: rgba(0, 240, 255, 0.04);
+        }
+
+        .post-content .month-card-foot {
+            padding: 10px 18px 14px 18px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: rgba(0, 240, 255, 0.02);
+        }
+
+        .post-content .foot-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .post-content .foot-btn {
+            border: none;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-content .foot-btn:hover {
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        /* 评级弹出选择器 */
+        .post-content .rating-popup {
+            display: none;
+            position: fixed;
+            background: rgba(5, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            padding: 8px;
+            z-index: 100;
+            min-width: 150px;
+        }
+
+        .post-content .rating-popup.open {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .post-content .rating-option {
+            border: none;
+            background: transparent;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .post-content .rating-option:hover {
+            background: rgba(0, 240, 255, 0.08);
+        }
+
+        .post-content .rating-option .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .post-content .rating-option .dot.excellent-dot {
+            background: var(--bioluminescent);
+            box-shadow: 0 0 6px var(--bioluminescent);
+        }
+        .post-content .rating-option .dot.qualified-dot {
+            background: #4da6ff;
+            box-shadow: 0 0 6px #4da6ff;
+        }
+        .post-content .rating-option .dot.unqualified-dot {
+            background: #ff6b6b;
+            box-shadow: 0 0 6px #ff6b6b;
+        }
+
+        /* 周 / 日常 视图 */
+        .post-content .supplement-view {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+        }
+
+        .post-content .supplement-view .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .post-content .supplement-item {
+            background: rgba(0, 20, 40, 0.3);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border: 1px solid var(--glass-border);
+            transition: 0.2s ease;
+        }
+
+        .post-content .supplement-item:hover {
+            border-color: rgba(0, 240, 255, 0.25);
+            background: rgba(0, 240, 255, 0.03);
+        }
+
+        .post-content .supplement-item .item-head {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-content .supplement-item .item-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .post-content .supplement-item .item-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .post-content .supplement-item .item-body .col {
+            background: rgba(0, 10, 25, 0.4);
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            white-space: pre-line;
+            color: var(--text-primary);
+        }
+
+        .post-content .supplement-item .item-body .col .col-label {
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--bioluminescent);
+            margin-bottom: 4px;
+        }
+
+        .post-content .supp-sm-btn {
+            border: none;
+            background: transparent;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 2px 10px;
+            border-radius: 999px;
+            transition: 0.2s ease;
+        }
+
+        .post-content .supp-sm-btn:hover {
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        /* 内部页脚覆盖 */
+        .post-content .app-footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            padding: 12px 0;
+            border-top: 1px solid var(--glass-border);
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            .post-content .header {
+                padding: 16px 18px;
+            }
+            .post-content .header-title h1 {
+                font-size: 1.05rem;
+            }
+            .post-content .control-bar {
+                padding: 10px 12px;
+            }
+            .post-content .ctrl-btn {
+                font-size: 0.72rem;
+                padding: 6px 12px;
+            }
+            .post-content .month-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .post-content .yearly-plan {
+                padding: 20px 16px;
+            }
+            .post-content .quarter-grid {
+                grid-template-columns: 1fr;
+            }
+            .post-content .supplement-view {
+                padding: 16px 14px;
+            }
+            .post-content .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+        }
+
+        .post-content .text-muted {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">新民装饰城五级工作计划</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Work Plan</span>
+            <h1 class="page-hero-title">📋 新民装饰城 · 五级详细工作计划</h1>
+            <p class="page-hero-desc">分阶段推进方案，从筹备到竣工全流程管控</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+                <div class="app" id="app">
+                    <!-- 头部 -->
+                    <header class="header">
+                        <div class="header-left">
+                            <div class="logo-icon">🏢</div>
+                            <div class="header-title">
+                                <h1>新民装饰城 · 五级详细计划</h1>
+                                <div class="sub">年度 · 季度 · 月度 · 周 · 日常（10+ 条目/月）</div>
+                            </div>
+                        </div>
+                        <div class="header-right">
+                            <span class="contract-badge">📅 <span>2025.05</span> — <span>2028.04</span></span>
+                        </div>
+                    </header>
+
+                    <!-- 控制栏 -->
+                    <div class="control-bar">
+                        <div class="control-group">
+                            <button class="ctrl-btn active" data-view="yearly">📋 年度</button>
+                            <button class="ctrl-btn" data-view="quarterly">📊 季度</button>
+                            <button class="ctrl-btn" data-view="monthly">📆 月度</button>
+                            <button class="ctrl-btn" data-view="weekly">📅 周</button>
+                            <button class="ctrl-btn" data-view="daily">☀️ 日常</button>
+                        </div>
+                        <div>
+                            <button class="reset-btn" id="resetAllBtn">⟳ 重置全部</button>
+                        </div>
+                    </div>
+
+                    <!-- 视图容器 -->
+                    <div id="yearlyView" class="view-container active"></div>
+                    <div id="quarterlyView" class="view-container"></div>
+                    <div id="monthlyView" class="view-container"></div>
+                    <div id="weeklyView" class="view-container"></div>
+                    <div id="dailyView" class="view-container"></div>
+
+                    <div class="app-footer">新民装饰城 · 工作计划 ｜ 数据自动保存 ｜ 编辑需密码：7777777</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ============================================================
+        //  数据默认值（五级 · 高度细化）
+        // ============================================================
+
+        const defaultData = {
+            yearly: `【新民装饰城 · 年度总体目标（2025-2028）】
+
+        🎯 战略目标一：市场环境品质提升
+        1. 建立"每日巡查、每周评比、每月考核"的环境卫生长效机制。
+        2. 实现市场公共区域无垃圾、无污渍、无异味，达到商场级保洁标准。
+        3. 打造2条"示范街"（主干道及核心通道），作为市场形象标杆。
+
+        🎯 战略目标二：秩序安全管理强化
+        4. 确保全年无重大消防安全事故，消防通道100%畅通。
+        5. 车辆停放规范有序，主干道及出入口拥堵指数下降50%。
+        6. 商户经营行为合规，占道经营、乱堆乱放现象清零。
+
+        🎯 战略目标三：团队能力建设
+        7. 每季度开展一次保洁技能与安保应急演练培训。
+        8. 建立员工绩效考核体系，实行"优秀/合格/不合格"月度评定。
+        9. 优化排班制度，确保节假日及极端天气人员充足。
+
+        🎯 战略目标四：设备设施保障
+        10. 保洁车辆、高压水枪、消杀设备定期检修，完好率≥95%。
+        11. 监控系统、消防设施、应急物资年度全面检测，确保随时可用。
+
+        🎯 战略目标五：商户与顾客满意度
+        12. 商户满意度调查年度得分≥85分。
+        13. 顾客投诉率同比下降30%，投诉处理及时率100%。
+
+        🎯 战略目标六：绿色环保与可持续发展
+        14. 推行垃圾分类，建材废料、包装垃圾回收利用率提升至60%。
+        15. 推广节能保洁设备，降低水电能耗，打造低碳环保市场。`,
+
+            quarterly: {
+                Q1: { clean: `【第一季度 · 春季环境整治专项行动】（共12项）
+        1. 全域越冬垃圾清除，包括边角、绿化带、排水沟内积存杂物。
+        2. 彻底清洗主干道、广场、停车场地面油污及顽固污渍。
+        3. 公共设施（座椅、垃圾桶、导视牌、宣传栏）全面擦拭保养。
+        4. 公厕设施检修，更换老化配件，提升冬季使用体验。
+        5. 全面清理墙面小广告、牛皮癣，恢复立面整洁。
+        6. 雨水井、排水沟全面清淤疏通，确保春季排水畅通。
+        7. 灭鼠灭蟑专项行动，投放毒饵并建立警示标识。
+        8. 商户门前三包责任落实检查，签订年度承诺书。
+        9. 制定年度保洁工作计划，细化月度任务分解。
+        10. 保洁设备春季全面检修，更换磨损部件。
+        11. 开展春季保洁技能培训，规范作业流程。
+        12. 建立春季环境卫生台账，每日巡查记录。`,
+                    order: `【第一季度 · 春季秩序安全强化】（共12项）
+        1. 春节前安全隐患全面排查，覆盖消防、用电、设施三大领域。
+        2. 春节安保升级方案制定，落实24小时值班及巡逻排班。
+        3. 节后复工人员、车辆、装修活动规范管理，严防违规。
+        4. 消防设施春季全面检测，灭火器充装、消火栓试水。
+        5. 消防通道清理专项行动，严禁任何堵塞和占用。
+        6. 电动车违规停放、私拉电线充电专项整治。
+        7. 监控系统春季检修，摄像头角度调整、画面清晰度检测。
+        8. 围墙、围挡、隔离设施全面检查，破损即修。
+        9. 应急防暴器材点检，更新过期物资。
+        10. 组织全员消防演练，提升应急处置能力。
+        11. 商户文明经营宣导，规范店外摆放。
+        12. 完善秩序管理台账，细化巡查点位和频次。`
+                },
+                Q2: { clean: `【第二季度 · 防汛防暑与夏季保洁】（共12项）
+        1. 天台、檐沟、雨水管网全面清淤，确保排水系统畅通。
+        2. 防汛物资（沙袋、水泵、应急照明）盘点补充，定点存放。
+        3. 夏季灭蚊蝇、除臭专项行动，每日2次全域消杀。
+        4. 高温时段调整保洁作业时间，错峰作业保障人员健康。
+        5. 生活垃圾、湿垃圾一日多频次转运，严防腐败异味。
+        6. 公厕通风系统检修，增加排风扇，保持空气清新。
+        7. 暴雨天气应急保洁预案演练，确保雨后快速复原。
+        8. 商户防汛提醒及协助，重点区域（低洼、地下）提前布防。
+        9. 保洁车辆夏季检修，轮胎、空调、水路系统全面保养。
+        10. 防暑降温物资发放，为保洁员提供饮用水及防暑药品。
+        11. 雨季路面流黄、泥沙快速冲洗作业流程优化。
+        12. 建立夏季保洁质量抽查制度，每周不少于2次。`,
+                    order: `【第二季度 · 安全生产与夏季治安】（共12项）
+        1. 安全生产月专项检查，覆盖所有商户及公共区域。
+        2. 夏季高温用电安全检查，严查线路过载、私拉乱接。
+        3. 防汛应急预案演练，检验快速响应和协同能力。
+        4. 仓储区易燃建材堆放专项检查，落实防火间距。
+        5. 夜间巡逻路线加密，重点覆盖仓储区、偏僻角落。
+        6. 商户纠纷、交易矛盾现场疏导机制完善。
+        7. 防暑降温关怀，保障安保人员高温时段身体健康。
+        8. 消防演练落地，全员参与并考核应急处置流程。
+        9. 监控系统夜视功能测试，确保夜间画面清晰。
+        10. 车辆停放秩序专项整治，重点治理货运三轮违规滞留。
+        11. 商户防盗宣传，提高防范意识。
+        12. 应急队伍常态化待命，随时处置突发状况。`
+                },
+                Q3: { clean: `【第三季度 · 暑期攻坚与垃圾治理】（共12项）
+        1. 卫生死角专项清理，包括楼梯间、管井、设备平台等。
+        2. 商户装修垃圾、大件废料随产随清，严禁堆积。
+        3. 垃圾站异味深度治理，喷淋消杀每日6次。
+        4. 步道、停车场、转角死角深度清扫，消除积尘。
+        5. 绿植区域落叶、枯枝、杂草每周集中清理2次。
+        6. 公共区域灭蝇灯增设及维护，定期清理。
+        7. 公厕增加除臭球，保持空气清新。
+        8. 极端天气（大风、暴雨、高温）应急保洁预案执行。
+        9. 商户装修围挡整洁检查，防止垃圾外溢。
+        10. 保洁车辆定期检修，确保高温下正常运行。
+        11. 暑期保洁人员轮换制度落实，避免疲劳作业。
+        12. 建立暑期环境卫生日报机制，每日汇总问题。`,
+                    order: `【第三季度 · 夏季治安与防火防盗】（共12项）
+        1. 夏季治安防控升级，重点防范盗窃与寻衅滋事。
+        2. 装修施工人员持证、限时作业管控，防止扰民。
+        3. 东西区联动巡逻，偏僻点位每小时巡查一次。
+        4. 消防通道动态巡查，发现堵塞立即整改并记录。
+        5. 监控盲区、围挡破损、安防设施排查修复。
+        6. 夜间货物装卸、外来车辆过夜管控，登记造册。
+        7. 商户防盗宣传，提高防范意识。
+        8. 夏季防火专项检查，重点排查易燃易爆物品。
+        9. 应急队伍常态化待命，随时处置突发状况。
+        10. 门岗加强外来人员盘查，防范可疑人员进入。
+        11. 停车场秩序整治，规范非机动车停放。
+        12. 季度安防总结会议，分析问题并制定改进措施。`
+                },
+                Q4: { clean: `【第四季度 · 冬防与年终保洁】（共12项）
+        1. 秋季落叶专项清扫，主次干道不间断清理。
+        2. 室外供水、保洁设施防冻包裹防护，防止冻裂。
+        3. 枯草枯枝全面清除，消除冬季火灾隐患。
+        4. 边角杂物、易燃垃圾集中清理清运。
+        5. 公共区域防尘保洁，减少冬季扬尘扩散。
+        6. 垃圾房封闭管理，严防异味与鼠害。
+        7. 融雪剂、除雪工具提前准备，应对冰雪天气。
+        8. 公厕暖气设备开启，保障冬季正常使用。
+        9. 年终全域深度大扫除，全方位环境复盘。
+        10. 公共设施年终清洁保养，完好度维护。
+        11. 商户年终垃圾集中清运，做好收尾工作。
+        12. 年度保洁工作总结，制定下一年度改进计划。`,
+                    order: `【第四季度 · 冬防安保与年度收官】（共12项）
+        1. 冬防安全专项行动，防火、防盗、防冻。
+        2. 夜间加长值守时长，外围巡逻加密至每半小时。
+        3. 商户门窗密封、围挡破损、围墙隐患排查。
+        4. 取暖设备、电热器具违规使用严查。
+        5. 消防通道冬季杂物堆积专项清理。
+        6. 年度安防隐患梳理，建立整改闭环清单。
+        7. 监控摄像头角度调整，覆盖冬季重点死角。
+        8. 商户防盗提示发放，加强联防联控。
+        9. 年末防盗攻坚，全域库房、门店重点巡检。
+        10. 商户年末撤场、货物搬运秩序管控。
+        11. 全年消防、安保问题回头看闭环整改。
+        12. 年度安保工作复盘，总结经验并制定下一年计划。`
+                }
+            },
+
+            monthly: (function() {
+                const m = {};
+                const detailed = {
+                    1: { clean: `【1月 · 春节前深度保洁】（12项）
+        1. 主干道、广场每日高压冲洗2次，去除冬季积尘与油污。
+        2. 公共墙面、立柱、广告位、导视牌全面擦拭，无灰尘残留。
+        3. 公厕每日定时消杀（早、中、晚3次），铺设防滑垫。
+        4. 垃圾站及垃圾桶每日清洗消毒，确保日产日清。
+        5. 雨雪天气及时清扫积水、积雪，重点区域铺设防滑草垫。
+        6. 建材包装垃圾、废弃物料定点集中堆放，每日清运。
+        7. 商户门前三包区域协助整理，保持通道整洁。
+        8. 所有保洁工具及车辆年前检修保养。
+        9. 商户装修围挡节前安全检查，消除隐患。
+        10. 应急预案物资点检（除雪工具、融雪剂）。
+        11. 春节前突击清理卫生死角（楼梯间、管井）。
+        12. 节日装饰物清洁，保持美观。`,
+                        order: `【1月 · 春节安保升级】（12项）
+        1. 24小时全天候值守，夜间巡逻加密至每1小时一次。
+        2. 重点巡查市场围墙、边角死角、仓储区域，防范盗窃。
+        3. 消防通道、安全出口每日排查，严禁任何堵塞。
+        4. 商户门窗、库房锁具、用电设施每日安全检查。
+        5. 门岗严格进出人员、货车、装修车辆登记。
+        6. 冬季用火、取暖设备违规使用专项排查。
+        7. 监控系统全面检测，确保画面清晰、存储正常。
+        8. 应急防暴器材点检，确保随时可用。
+        9. 烟花爆竹禁放宣传及巡查，防范火灾。
+        10. 节前商户安全告知书发放，签署确认。
+        11. 夜间照明设施巡查，确保全区域亮化。
+        12. 春节值班排班及应急预案宣贯。` },
+                    2: { clean: `【2月 · 春节后大扫除】（12项）
+        1. 集中清理烟花爆竹碎屑、节日装饰残留垃圾。
+        2. 雨棚、连廊、公共设施积灰全面擦拭。
+        3. 商户外围积存杂物、废弃装饰物集中清运。
+        4. 排水沟、雨水篦子全面清理杂物。
+        5. 垃圾收集点强化消杀，增加除臭频次。
+        6. 公共区域地面顽固污渍高压水枪专项清理。
+        7. 公厕设施全面检修，更换损坏配件。
+        8. 春季灭蚊蝇前期准备，清理积水容器。
+        9. 商户节后装修垃圾集中清运。
+        10. 保洁车辆全面保养，迎接春季作业。
+        11. 节后突击清理停车场、通道残留垃圾。
+        12. 建立春季环境整治工作台账。`,
+                        order: `【2月 · 节后复工秩序整治】（12项）
+        1. 严格登记复工人员、装修施工人员，核验备案信息。
+        2. 车辆乱停乱放、占道经营常态化整治。
+        3. 消防器材完好性检查，灭火器压力逐一校验。
+        4. 夜间重点区域巡逻增加频次，防范节后盗窃。
+        5. 装修现场安全巡查，违规作业及时制止。
+        6. 应急通道、疏散标识完好性每日巡检。
+        7. 门岗加强货运车辆出入管理，防止超载。
+        8. 组织安保人员春季练兵，强化应急处置。
+        9. 复工商户消防安全告知，签订承诺书。
+        10. 监控系统复位检查，确保正常运行。
+        11. 停车场秩序恢复，规范车辆停放。
+        12. 节后治安形势分析及防控部署。` },
+                    3: { clean: `【3月 · 春季全域除尘】（12项）
+        1. 全域除尘行动，清除越冬积尘（含高处管线）。
+        2. 路面油污、地面污渍深度冲刷清洗。
+        3. 绿化带、边角落叶及枯草集中清理。
+        4. 公共玻璃、橱窗、雨棚立面专项清洁。
+        5. 排污沟渠、地下排水口全面清淤。
+        6. 建材垃圾严格分类，定点堆放，日产日清。
+        7. 垃圾中转站地面及设备深度清洗。
+        8. 春季大风天气后及时清扫，确保路面无扬尘。
+        9. 商户卷帘门、招牌清洁协助。
+        10. 公共区域消毒标准升级。
+        11. 保洁设备春季调试及保养。
+        12. 春季环境卫生评比启动。`,
+                        order: `【3月 · 春季消防及秩序强化】（12项）
+        1. 消防专项整治，严查堵塞消防通道行为。
+        2. 电动车违规停放、私拉电线充电排查整治。
+        3. 主次通道、偏僻点位定时巡检，不留死角。
+        4. 商户仓储货物堆放安全间距检查。
+        5. 外来闲散人员、流动摊贩劝离管控。
+        6. 监控设备、围挡、隔离设施日常检查。
+        7. 组织消防演练，提升应急逃生能力。
+        8. 更新消防台账，完善应急预案。
+        9. 春季大风天气高空坠物排查。
+        10. 商户装修备案及现场安全监管。
+        11. 车辆停放标识线补划，规范停车。
+        12. 季度秩序管理总结会议。` },
+                    4: { clean: `【4月 · 爱国卫生月专项整治】（12项）
+        1. 全域环境提质，清除卫生死角及蚊蝇滋生地。
+        2. 蚊虫滋生地排查清理，重点积水、杂物堆放处。
+        3. 市场外围道路、出入口深度保洁。
+        4. 建材废料、包装垃圾日产日清，严禁堆积过夜。
+        5. 公共卫生间、垃圾房高频次消杀（每日4次）。
+        6. 墙面小广告、牛皮癣全面清除。
+        7. 商户门前卫生责任落实，签订承诺书。
+        8. 灭鼠灭蟑同步进行，投放毒饵并做好警示。
+        9. 雨水篦子、排水口全面清理。
+        10. 公共区域通风系统清洁消毒。
+        11. 保洁员爱国卫生知识培训。
+        12. 建立爱国卫生月活动台账。`,
+                        order: `【4月 · 秩序规范化管理】（12项）
+        1. 全天候秩序管控，重点整治占道出店经营。
+        2. 停车秩序规范化，货车临时停放限时管控。
+        3. 夜间治安巡逻升级，重点库房及贵重材料区域加密。
+        4. 消防安全常态化检查，隐患台账每日更新。
+        5. 施工动火、切割等危险作业审批和现场监督。
+        6. 应急物资、防暴器材定期点检维护。
+        7. 监控盲区加装临时摄像头，消除安防死角。
+        8. 商户文明经营宣导，提升整体形象。
+        9. 车辆停放高峰期疏导预案执行。
+        10. 外来人员及车辆登记流程优化。
+        11. 消防通道标识及标线更新。
+        12. 秩序管理月度考评汇总。` },
+                    5: { clean: `【5月 · 五一节前深度保洁及汛前准备】（12项）
+        1. 全域深度保洁，含天台、檐沟、外立面。
+        2. 檐沟、天台、排水设施汛前全面清淤。
+        3. 垃圾桶、垃圾中转站彻底清洗消杀。
+        4. 雨季积水点位提前清理，保障排水通畅。
+        5. 户外公共设施防腐清洁、除尘养护。
+        6. 装修建筑垃圾随产随清，不堆积。
+        7. 防汛物资（沙袋、水泵）准备就绪。
+        8. 商户门前排水沟协助清理。
+        9. 五一节前突击清理通道及停车场。
+        10. 保洁车辆换季保养。
+        11. 公厕防潮除味措施加强。
+        12. 节前环境美化布置。`,
+                        order: `【5月 · 节前安全大检查及防汛演练】（12项）
+        1. 全域安全大排查（消防、用电、设施）。
+        2. 防汛设施（排水泵、应急照明）检查测试。
+        3. 人员密集区域秩序维护，预判节假日客流。
+        4. 电气线路、配电箱、商户用电安全巡查。
+        5. 围墙边界、消防水源、消火栓逐一检查。
+        6. 防汛应急预案演练，检验快速反应。
+        7. 监控系统节前全面检修。
+        8. 安保人员排班优化，确保假日人员充足。
+        9. 商户节前安全告知，防范假期风险。
+        10. 停车场节前清理，预留应急车位。
+        11. 消防通道及疏散标识复检。
+        12. 假日期间突发事件处置预案宣贯。` },
+                    6: { clean: `【6月 · 夏季高温保洁及安全生产】（12项）
+        1. 高温时段错峰作业，保障人员健康。
+        2. 全域灭蚊蝇、除臭、抑菌每日2次。
+        3. 生活垃圾、湿垃圾一日多频次转运。
+        4. 建材切割粉尘、装修废料及时清理。
+        5. 公厕、密闭空间通风消杀（每日4次）。
+        6. 雨后路面泥沙、流黄污渍快速冲洗。
+        7. 垃圾桶每日清洗，垃圾房降温除味。
+        8. 防暑降温物资配备，提供饮用水。
+        9. 保洁员夏季作业安全教育。
+        10. 垃圾车防臭密封检查。
+        11. 防汛应急保洁联动机制测试。
+        12. 夏季保洁质量专项检查。`,
+                        order: `【6月 · 安全生产月及夏季治安】（12项）
+        1. 安全生产月专项检查，全覆盖无死角。
+        2. 高温用电安全检查，严查线路过载、私拉乱接。
+        3. 24小时防汛值班，暴雨天气实时巡查。
+        4. 仓储区易燃建材堆放防火距离检查。
+        5. 商户纠纷、交易矛盾现场疏导。
+        6. 消防演练落地，全员应急处置能力考核。
+        7. 夜间巡逻调整路线，加大仓储区频次。
+        8. 防暑降温用品发放，关注人员身体状况。
+        9. 安全生产月宣传活动，张贴标语。
+        10. 电气线路专项检测（红外测温）。
+        11. 应急物资盘点及更新。
+        12. 安全生产月总结报告。` },
+                    7: { clean: `【7月 · 盛夏降尘及防涝保洁】（12项）
+        1. 主干道定时洒水抑尘，每日至少2次。
+        2. 高温易腐垃圾快速清运，杜绝异味。
+        3. 排水沟、积水坑、低洼地带清淤防涝。
+        4. 户外座椅、护栏、公共触点高频清洁消毒。
+        5. 仓储外围杂物、杂草集中清理。
+        6. 极端天气（大风、暴雨）后全域快速保洁。
+        7. 公共区域增加灭蝇灯，定期清理。
+        8. 保洁车辆定期检修，确保高温运行。
+        9. 商户装修垃圾防尘覆盖检查。
+        10. 公厕通风设备加强维护。
+        11. 雨后积水点专项清理。
+        12. 夏季保洁应急小组排班落实。`,
+                        order: `【7月 · 防汛防暑及夜间安全】（12项）
+        1. 暴雨、强对流天气前置巡查及应急疏导。
+        2. 低洼区域、地下管网、排水系统每日巡检。
+        3. 夜间防盗、防火双重点，巡逻加密。
+        4. 易燃易爆建材存储规范专项检查。
+        5. 门岗货车进出称重、卸货秩序管控。
+        6. 高温时段岗位值守纪律检查。
+        7. 商户防暑降温提醒，预防中暑。
+        8. 监控系统夜视功能测试。
+        9. 防汛沙袋及排水泵位置确认。
+        10. 夜间照明设施巡查，确保全亮。
+        11. 商户用电负荷监测，防止跳闸。
+        12. 夏季治安形势分析及布防调整。` },
+                    8: { clean: `【8月 · 暑期环境攻坚及垃圾治理】（12项）
+        1. 全域卫生无死角整治，重点边角垃圾。
+        2. 商户装修垃圾、大件废料及时外运。
+        3. 垃圾站异味治理，喷淋消杀每日6次。
+        4. 步道、停车场、转角死角深度清扫。
+        5. 绿植区域落叶、枯枝、杂草每周清理2次。
+        6. 公共区域蚊虫防治及环境综合治理。
+        7. 公厕增加除臭球，保持空气清新。
+        8. 商户装修围挡整洁检查，防止垃圾外溢。
+        9. 保洁设备高温维护保养。
+        10. 暑期保洁人员轮换，避免疲劳。
+        11. 商户门前三包协助整治。
+        12. 暑期环境卫生日报机制执行。`,
+                        order: `【8月 · 夏季治安及装修管控】（12项）
+        1. 夏季治安防控，重点防范盗窃与纠纷。
+        2. 装修施工人员持证、限时作业管控。
+        3. 东西区联动巡逻，偏僻点位加密。
+        4. 消防通道动态巡查，立即整改堵塞。
+        5. 监控盲区、围挡破损、安防设施排查。
+        6. 夜间货物装卸、外来车辆过夜管控。
+        7. 商户防盗宣传，提高防范意识。
+        8. 应急队伍常态化待命。
+        9. 装修噪音及扬尘管控。
+        10. 停车场秩序专项整治。
+        11. 外来人员盘查登记制度强化。
+        12. 夏季治安月度总结及部署。` },
+                    9: { clean: `【9月 · 秋季环境提升及双节前大扫除】（12项）
+        1. 全域落叶提前整治，主次干道每日清扫。
+        2. 中秋、国庆双节前立体大扫除（含高空玻璃）。
+        3. 玻璃雨棚、外立面、高空边角清洁。
+        4. 公共卫生间、垃圾房升级保洁标准。
+        5. 雨水管网、沉淀井集中清掏。
+        6. 促销活动垃圾快速清理，保障秩序。
+        7. 商户门前杂物清理，规范门前三包。
+        8. 节日装饰物清洁，保持美观。
+        9. 秋季除尘及灭蚊蝇加强。
+        10. 保洁车辆秋季换季保养。
+        11. 节前突击清理通道、停车场。
+        12. 秋季环境整治专项台账。`,
+                        order: `【9月 · 双节安全保卫及交通疏导】（12项）
+        1. 双节前消防安全全面体检排查。
+        2. 人流车流预判，规划疏导路线及临时停车场。
+        3. 库房、贵重建材门店防盗升级巡查。
+        4. 消防设施、应急照明、疏散标识复检。
+        5. 外来访客、货运车辆实名登记管理。
+        6. 突发事件快速响应队伍常态化待命。
+        7. 节前安防设备全面测试（含报警系统）。
+        8. 安保人员节前动员，明确岗位职责。
+        9. 停车场节前清理，预留应急通道。
+        10. 商户节前安全告知及检查。
+        11. 假日期间巡逻排班优化。
+        12. 双节秩序保障方案宣贯。` },
+                    10: { clean: `【10月 · 落叶清扫及节后环境恢复】（12项）
+        1. 秋季落叶专项清扫，主次干道不间断清理。
+        2. 国庆活动遗留垃圾、宣传物料及时清运。
+        3. 地面防滑保洁，秋季潮气区域重点处理。
+        4. 公共设施深度养护擦拭，美化环境。
+        5. 商户门前三包协助整治，整齐规范。
+        6. 垃圾收集容器检修、清洗、消杀保养。
+        7. 公厕暖气设备检查，为冬季准备。
+        8. 商户装修垃圾集中清理，恢复市场整洁。
+        9. 秋季落叶收集及处理流程优化。
+        10. 保洁设备秋季保养。
+        11. 节后突击清理停车场、通道。
+        12. 秋季环境卫生评比。`,
+                        order: `【10月 · 节后秩序恢复及冬季预备】（12项）
+        1. 黄金周后秩序恢复，整治反弹乱象。
+        2. 占道经营、店外堆放常态化回头看。
+        3. 夜间巡逻路线优化，覆盖全部仓储区。
+        4. 消防水源、灭火器材换季维护检查。
+        5. 非机动车乱停、三轮车违规通行管控。
+        6. 商户安全用电、库房收纳规范巡查。
+        7. 冬季防冻物资开始储备，提前部署。
+        8. 安保人员冬季技能培训。
+        9. 节后安全形势分析及防控部署。
+        10. 停车场秩序恢复专项整治。
+        11. 监控系统冬季前全面检测。
+        12. 秩序管理第四季度计划制定。` },
+                    11: { clean: `【11月 · 冬季换季清洁及防火防冻】（12项）
+        1. 清除枯草枯枝，消除冬季火灾隐患。
+        2. 室外供水、保洁设施防冻包裹防护。
+        3. 秋冬风干式保洁，减少地面积水防滑。
+        4. 边角杂物、易燃垃圾集中清理清运。
+        5. 公共区域防尘保洁，减少扬尘扩散。
+        6. 垃圾房封闭管理，严防异味与鼠害。
+        7. 公厕暖气开启，保障冬季正常使用。
+        8. 融雪剂、除雪工具提前准备。
+        9. 商户门前防滑措施提醒。
+        10. 保洁车辆冬季保养（防冻液、轮胎）。
+        11. 冬季保洁作业安全培训。
+        12. 冬季环境卫生应急预案制定。`,
+                        order: `【11月 · 冬防安全及年末防盗】（12项）
+        1. 冬防安全专项行动，防火、防盗、防冻。
+        2. 夜间加长值守时长，外围巡逻加密至每半小时。
+        3. 商户门窗密封、围挡破损、围墙隐患排查。
+        4. 取暖设备、电热器具违规使用严查。
+        5. 消防通道冬季杂物堆积专项清理。
+        6. 年度安防隐患梳理，建立整改清单。
+        7. 监控摄像头角度调整，覆盖冬季死角。
+        8. 商户防盗提示发放，加强联防联控。
+        9. 冬季防火专项检查（电气、明火）。
+        10. 防冻防滑物资储备检查。
+        11. 夜间照明设施巡查，确保全覆盖。
+        12. 冬防安全培训及演练。` },
+                    12: { clean: `【12月 · 年终大扫除及极端天气应急】（12项）
+        1. 全域深度大扫除，全方位环境复盘。
+        2. 防冻、防积雪物资配套保洁作业准备。
+        3. 全域易燃杂物清理，筑牢冬季防火底线。
+        4. 公共设施年终清洁保养，完好度维护。
+        5. 垃圾转运闭环管理，保障年末环境。
+        6. 雨雪冰冻天气应急保洁、除雪除冰。
+        7. 公厕设施年终检修，更换老化部件。
+        8. 商户年终垃圾集中清运，做好收尾。
+        9. 保洁设备年终全面检修保养。
+        10. 年度保洁工作台账整理归档。
+        11. 年终环境整治专项检查。
+        12. 下一年度保洁计划制定。`,
+                        order: `【12月 · 年末治安收官及年度总结】（12项）
+        1. 年末防盗攻坚，全域库房、门店重点巡检。
+        2. 冬季防火专项，严控明火、杂物堆放。
+        3. 商户年末撤场、货物搬运秩序管控。
+        4. 全年消防、安保问题回头看闭环整改。
+        5. 年度安保工作复盘，总结经验教训。
+        6. 极端冰雪天气应急值守与联动处置。
+        7. 年终安保设备全面检修保养。
+        8. 制定下一年度工作计划，做好交接。
+        9. 商户年末安全告知及检查。
+        10. 停车场年末清理及安全检查。
+        11. 监控系统年终全面检测。
+        12. 年度秩序管理总结会议。` }
+                };
+                for (let i = 1; i <= 12; i++) {
+                    m[i] = {
+                        clean: detailed[i].clean,
+                        order: detailed[i].order,
+                        evaluation: 'qualified'
+                    };
+                }
+                return m;
+            })(),
+
+            weekly: {
+                week1: { clean: `【第1周 · 基础保洁与秩序周】（6项）
+        1. 主干道及广场每日深度清扫2次（早7:00前、午14:00后）。
+        2. 所有垃圾桶清洗消毒，更换损坏内胆。
+        3. 商户遗弃建材包装集中清理，定点堆放。
+        4. 公共设施（座椅、导视牌）每日擦拭1次。
+        5. 公厕全面清洁消毒，更换除臭球。
+        6. 垃圾中转站地面冲洗消毒。`,
+                    order: `【第1周 · 秩序维护与培训周】（6项）
+        1. 秩序例会，文明用语及服务规范培训。
+        2. 门岗24小时值守，进出人员车辆登记。
+        3. 每2小时覆盖巡逻，重点检查消防通道。
+        4. 消防器材（灭火器）压力检查及记录。
+        5. 商户门前三包宣导及检查。
+        6. 监控系统画面巡检，确保正常运行。` },
+                week2: { clean: `【第2周 · 消防设施与排水整治周】（6项）
+        1. 重点冲洗停车区域地面油污及积尘。
+        2. 排水沟、雨水篦子全面清理疏通。
+        3. 污水排放系统检查及清洗。
+        4. 消防通道地面清洁，清除杂物。
+        5. 灭火器压力专项检查并记录。
+        6. 防暴器材（盾牌、钢叉）点检保养。`,
+                    order: `【第2周 · 消防设施检查周】（6项）
+        1. 灭火器逐一检查（压力、有效期、外观）。
+        2. 消防通道清理，确保4米净宽。
+        3. 消火栓试水测试，水压检查。
+        4. 消防水带、水枪完好性检查。
+        5. 应急照明及疏散指示牌检查。
+        6. 消防巡查记录填写及存档。` },
+                week3: { clean: `【第3周 · 车辆秩序与门前三包周】（6项）
+        1. 清理小广告“牛皮癣”，恢复立面整洁。
+        2. 商户门前三包区域协助整理。
+        3. 垃圾站消杀及除臭处理（每周3次）。
+        4. 停车场地面深度清扫。
+        5. 绿化带内垃圾及枯叶清理。
+        6. 商户装修围挡整洁检查。`,
+                    order: `【第3周 · 车辆秩序整治周】（6项）
+        1. 引导规范停车，清理占道停车。
+        2. 劝离违规滞留货运三轮及货车。
+        3. 停车场标识标线检查及补划。
+        4. 非机动车停放区整理规范。
+        5. 高峰期车辆疏导演练。
+        6. 货运车辆进出登记管理。` },
+                week4: { clean: `【第4周 · 深度消杀与应急演练周】（6项）
+        1. 公共卫生间深度保洁+全面除味。
+        2. 市场外围道路高压冲洗（含人行道）。
+        3. 垃圾桶集中清洗消毒（所有点位）。
+        4. 公共区域（门厅、通道）全面消杀。
+        5. 垃圾房除臭及灭蝇处理。
+        6. 保洁工具及车辆清洗消毒。`,
+                    order: `【第4周 · 突发事件演练周】（6项）
+        1. 纠纷快速处置模拟演练。
+        2. 保洁+秩序联动清理污染演练。
+        3. 消防应急疏散演练。
+        4. 防盗及突发事件响应测试。
+        5. 应急物资使用培训。
+        6. 演练总结及问题整改。` }
+            },
+
+            daily: {
+                clean: `【每日保洁工作清单】（10项）
+        1. 上午 7:00 前完成主干道、广场、停车场全面清扫。
+        2. 上午 8:00 前完成所有垃圾桶清理、消毒、套袋。
+        3. 公共卫生间每日 4 次消杀（8:00、11:00、14:00、17:00）。
+        4. 巡回保洁：重点区域（门厅、通道、电梯）每 2 小时清洁一次。
+        5. 垃圾中转站日产日清，每日冲洗消毒。
+        6. 商户门前三包区域每日协助整理 2 次（上午、下午各一次）。
+        7. 公共设施（座椅、导视牌）每日擦拭 1 次。
+        8. 发现地面污渍、油渍及时清理，不超 30 分钟。
+        9. 下班前 17:30 完成所有垃圾清运，工具归位。
+        10. 填写每日保洁日志，记录重点问题及处理情况。`,
+                order: `【每日秩序工作清单】（10项）
+        1. 门岗 24 小时值守，进出人员、车辆登记（含外来访客）。
+        2. 每 2 小时覆盖巡逻一次，重点检查消防通道、库房、围墙。
+        3. 早高峰（8:00-10:00）疏导车辆，规范停放。
+        4. 随时劝阻占道经营、乱堆乱放、店外经营行为。
+        5. 每日检查消防器材完好性（灭火器、消火栓）并记录。
+        6. 夜间巡逻不少于 4 次（22:00、0:00、2:00、4:00）。
+        7. 巡查发现隐患立即上报，30 分钟内处置。
+        8. 监控系统每日巡检，确保画面清晰、存储正常。
+        9. 商户装修现场每日巡查，违规作业及时制止。
+        10. 填写每日秩序日志，记录巡查情况及处置结果。`
+            }
+        };
+
+        // ============================================================
+        //  数据管理
+        // ============================================================
+
+        let appData = {};
+
+        function loadData() {
+            try {
+                const raw = localStorage.getItem('XL_Plan_5Level_v2');
+                if (raw) {
+                    appData = JSON.parse(raw);
+                    // 确保所有层级存在
+                    if (!appData.yearly) appData.yearly = defaultData.yearly;
+                    if (!appData.quarterly) appData.quarterly = JSON.parse(JSON.stringify(defaultData.quarterly));
+                    if (!appData.monthly) appData.monthly = JSON.parse(JSON.stringify(defaultData.monthly));
+                    if (!appData.weekly) appData.weekly = JSON.parse(JSON.stringify(defaultData.weekly));
+                    if (!appData.daily) appData.daily = JSON.parse(JSON.stringify(defaultData.daily));
+                    return;
+                }
+            } catch (_) {}
+            // 默认
+            appData = {
+                yearly: defaultData.yearly,
+                quarterly: JSON.parse(JSON.stringify(defaultData.quarterly)),
+                monthly: JSON.parse(JSON.stringify(defaultData.monthly)),
+                weekly: JSON.parse(JSON.stringify(defaultData.weekly)),
+                daily: JSON.parse(JSON.stringify(defaultData.daily))
+            };
+            saveData();
+        }
+
+        function saveData() {
+            localStorage.setItem('XL_Plan_5Level_v2', JSON.stringify(appData));
+        }
+
+        // ============================================================
+        //  工具函数
+        // ============================================================
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function promptPassword() {
+            const pwd = prompt('请输入管理密码：', '');
+            return pwd === '7777777';
+        }
+
+        function ratingLabel(r) {
+            if (r === 'excellent') return '优秀';
+            if (r === 'unqualified') return '不合格';
+            return '合格';
+        }
+
+        function ratingClass(r) {
+            if (r === 'excellent') return 'excellent';
+            if (r === 'unqualified') return 'unqualified';
+            return 'qualified';
+        }
+
+        // ============================================================
+        //  渲染各视图
+        // ============================================================
+
+        // 1. 年度
+        function renderYearly() {
+            const container = document.getElementById('yearlyView');
+            const content = appData.yearly || '';
+            container.innerHTML = `
+                <div class="yearly-plan">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                        <h2>📋 年度工作计划（2025-2028）</h2>
+                        <button class="edit-toggle" id="yearlyEditToggle">✏️ 编辑</button>
+                    </div>
+                    <div class="plan-text" id="yearlyShow">${escapeHtml(content)}</div>
+                    <textarea class="edit-area" id="yearlyEditArea">${escapeHtml(content)}</textarea>
+                    <button class="save-btn" id="yearlySaveBtn">💾 保存年度计划</button>
+                </div>
+            `;
+
+            const show = document.getElementById('yearlyShow');
+            const editArea = document.getElementById('yearlyEditArea');
+            const saveBtn = document.getElementById('yearlySaveBtn');
+            const toggle = document.getElementById('yearlyEditToggle');
+
+            toggle.addEventListener('click', () => {
+                if (!promptPassword()) return;
+                show.style.display = 'none';
+                editArea.style.display = 'block';
+                saveBtn.style.display = 'inline-block';
+                editArea.value = appData.yearly || '';
+            });
+
+            saveBtn.addEventListener('click', () => {
+                const val = editArea.value.trim();
+                if (val) {
+                    appData.yearly = val;
+                    saveData();
+                    show.textContent = val;
+                    show.style.display = 'block';
+                    editArea.style.display = 'none';
+                    saveBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // 2. 季度
+        function renderQuarterly() {
+            const container = document.getElementById('quarterlyView');
+            const qData = appData.quarterly;
+            const keys = ['Q1', 'Q2', 'Q3', 'Q4'];
+            const labels = { Q1: '第一季度 (1-3月)', Q2: '第二季度 (4-6月)', Q3: '第三季度 (7-9月)', Q4: '第四季度 (10-12月)' };
+
+            let html = `<div class="quarter-grid">`;
+            for (const k of keys) {
+                const d = qData[k] || { clean: '—', order: '—' };
+                html += `
+                    <div class="quarter-card">
+                        <div class="quarter-card-head">
+                            <span>${labels[k]}</span>
+                            <span style="font-size:0.75rem;font-weight:400;">
+                                <button class="supp-sm-btn" data-q="${k}" data-type="clean">✏️ 保洁</button>
+                                <button class="supp-sm-btn" data-q="${k}" data-type="order">✏️ 秩序</button>
+                            </span>
+                        </div>
+                        <div class="quarter-card-body">
+                            <div class="q-row">
+                                <div class="q-row-label">🧹 保洁重点（12项）</div>
+                                <div class="q-row-text" data-q="${k}" data-type="clean">${escapeHtml(d.clean)}</div>
+                            </div>
+                            <div class="q-row">
+                                <div class="q-row-label">🛡️ 秩序重点（12项）</div>
+                                <div class="q-row-text" data-q="${k}" data-type="order">${escapeHtml(d.order)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+
+            // 绑定编辑事件
+            container.querySelectorAll('.q-row-text').forEach(el => {
+                el.addEventListener('click', () => {
+                    const q = el.dataset.q;
+                    const type = el.dataset.type;
+                    if (!q || !type) return;
+                    if (!promptPassword()) return;
+                    const old = appData.quarterly[q]?.[type] || '';
+                    const val = prompt(`编辑 ${q} ${type === 'clean' ? '保洁' : '秩序'} 内容（建议保留编号）：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        if (!appData.quarterly[q]) appData.quarterly[q] = { clean: '', order: '' };
+                        appData.quarterly[q][type] = val.trim();
+                        saveData();
+                        renderQuarterly();
+                    }
+                });
+            });
+
+            container.querySelectorAll('.supp-sm-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const q = btn.dataset.q;
+                    const type = btn.dataset.type;
+                    if (!q || !type) return;
+                    if (!promptPassword()) return;
+                    const old = appData.quarterly[q]?.[type] || '';
+                    const val = prompt(`编辑 ${q} ${type === 'clean' ? '保洁' : '秩序'} 内容（建议保留编号）：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        if (!appData.quarterly[q]) appData.quarterly[q] = { clean: '', order: '' };
+                        appData.quarterly[q][type] = val.trim();
+                        saveData();
+                        renderQuarterly();
+                    }
+                });
+            });
+        }
+
+        // 3. 月度
+        function renderMonthly() {
+            const container = document.getElementById('monthlyView');
+            const data = appData.monthly;
+            let html = `<div class="month-grid">`;
+
+            for (let m = 1; m <= 12; m++) {
+                const d = data[m] || { clean: '—', order: '—', evaluation: 'qualified' };
+                const ev = d.evaluation || 'qualified';
+                const cls = ratingClass(ev);
+                const label = ratingLabel(ev);
+
+                html += `
+                    <div class="month-card" data-month="${m}">
+                        <div class="month-card-head">
+                            <span class="month-num">${m}月</span>
+                            <button class="rating-tag ${cls}" data-month="${m}" data-action="toggleRating">
+                                <span class="dot"></span> ${label}
+                            </button>
+                        </div>
+                        <div class="month-card-body">
+                            <div class="work-row">
+                                <div class="work-row-label">🧹 保洁（12项）</div>
+                                <div class="work-row-text" data-month="${m}" data-type="clean">
+                                    ${escapeHtml(d.clean)}
+                                </div>
+                            </div>
+                            <div class="work-row">
+                                <div class="work-row-label">🛡️ 秩序（12项）</div>
+                                <div class="work-row-text" data-month="${m}" data-type="order">
+                                    ${escapeHtml(d.order)}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="month-card-foot">
+                            <span style="font-size:0.65rem;color:var(--text-secondary);opacity:0.7;">${ev === 'excellent' ? '🌟 优秀' : ev === 'unqualified' ? '⚠️ 待改进' : '✅ 达标'}</span>
+                            <div class="foot-actions">
+                                <button class="foot-btn" data-action="editMonth" data-month="${m}" data-type="clean">✏️ 保洁</button>
+                                <button class="foot-btn" data-action="editMonth" data-month="${m}" data-type="order">✏️ 秩序</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            container.innerHTML = html;
+
+            // 评判
+            container.querySelectorAll('.rating-tag[data-action="toggleRating"]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const month = parseInt(el.dataset.month);
+                    showRatingPicker(el, month);
+                });
+            });
+
+            // 点击文本编辑
+            container.querySelectorAll('.work-row-text').forEach(el => {
+                el.addEventListener('click', () => {
+                    const month = parseInt(el.dataset.month);
+                    const type = el.dataset.type;
+                    if (!month || !type) return;
+                    if (!promptPassword()) return;
+                    const old = appData.monthly[month]?.[type] || '';
+                    const val = prompt(`编辑 ${month}月 ${type === 'clean' ? '保洁' : '秩序'} 内容（建议保留编号）：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        appData.monthly[month][type] = val.trim();
+                        saveData();
+                        renderMonthly();
+                    }
+                });
+            });
+
+            // 底部按钮
+            container.querySelectorAll('.foot-btn[data-action="editMonth"]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const month = parseInt(el.dataset.month);
+                    const type = el.dataset.type;
+                    if (!month || !type) return;
+                    if (!promptPassword()) return;
+                    const old = appData.monthly[month]?.[type] || '';
+                    const val = prompt(`编辑 ${month}月 ${type === 'clean' ? '保洁' : '秩序'} 内容（建议保留编号）：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        appData.monthly[month][type] = val.trim();
+                        saveData();
+                        renderMonthly();
+                    }
+                });
+            });
+        }
+
+        // 评判选择器
+        function showRatingPicker(anchor, month) {
+            document.querySelectorAll('.rating-popup').forEach(el => el.remove());
+            const popup = document.createElement('div');
+            popup.className = 'rating-popup open';
+            const options = [
+                { value: 'excellent', label: '🌟 优秀', cls: 'excellent-dot' },
+                { value: 'qualified', label: '✅ 合格', cls: 'qualified-dot' },
+                { value: 'unqualified', label: '⚠️ 不合格', cls: 'unqualified-dot' }
+            ];
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'rating-option';
+                btn.innerHTML = `<span class="dot ${opt.cls}"></span> ${opt.label}`;
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!promptPassword()) return;
+                    if (appData.monthly[month]) {
+                        appData.monthly[month].evaluation = opt.value;
+                        saveData();
+                        renderMonthly();
+                    }
+                    popup.remove();
+                });
+                popup.appendChild(btn);
+            });
+
+            const rect = anchor.getBoundingClientRect();
+            popup.style.top = (rect.bottom + 6) + 'px';
+            popup.style.left = Math.min(rect.left, window.innerWidth - 160) + 'px';
+            document.body.appendChild(popup);
+
+            const close = (e) => {
+                if (!popup.contains(e.target) && e.target !== anchor) {
+                    popup.remove();
+                    document.removeEventListener('click', close);
+                }
+            };
+            setTimeout(() => document.addEventListener('click', close), 10);
+        }
+
+        // 4. 周计划
+        function renderWeekly() {
+            const container = document.getElementById('weeklyView');
+            const data = appData.weekly;
+            const keys = ['week1', 'week2', 'week3', 'week4'];
+            const names = {
+                week1: '📌 第1周 · 基础保洁与秩序',
+                week2: '🔥 第2周 · 消防设施与排水整治',
+                week3: '🚦 第3周 · 车辆秩序与门前三包',
+                week4: '🧼 第4周 · 深度消杀与应急演练'
+            };
+
+            let html = `
+                <div class="supplement-view">
+                    <div class="section-title">
+                        <span>📅 每周例行工作计划 <span class="text-muted" style="font-weight:400;font-size:0.8rem;">（循环执行）</span></span>
+                        <button class="reset-btn" id="resetWeeklyBtn">⟳ 重置周计划</button>
+                    </div>
+            `;
+
+            for (const k of keys) {
+                const d = data[k] || { clean: '—', order: '—' };
+                html += `
+                    <div class="supplement-item">
+                        <div class="item-head">
+                            <span>${names[k] || k}</span>
+                            <span>
+                                <button class="supp-sm-btn" data-wk="${k}" data-type="clean">✏️ 保洁</button>
+                                <button class="supp-sm-btn" data-wk="${k}" data-type="order">✏️ 秩序</button>
+                            </span>
+                        </div>
+                        <div class="item-body">
+                            <div class="col"><div class="col-label">🧹 保洁</div>${escapeHtml(d.clean)}</div>
+                            <div class="col"><div class="col-label">🛡️ 秩序</div>${escapeHtml(d.order)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            container.innerHTML = html;
+
+            container.querySelectorAll('.supp-sm-btn').forEach(el => {
+                el.addEventListener('click', () => {
+                    if (!promptPassword()) return;
+                    const wk = el.dataset.wk;
+                    const type = el.dataset.type;
+                    const old = appData.weekly[wk]?.[type] || '';
+                    const val = prompt(`编辑 ${wk} ${type === 'clean' ? '保洁' : '秩序'} 内容：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        if (!appData.weekly[wk]) appData.weekly[wk] = { clean: '', order: '' };
+                        appData.weekly[wk][type] = val.trim();
+                        saveData();
+                        renderWeekly();
+                    }
+                });
+            });
+
+            document.getElementById('resetWeeklyBtn')?.addEventListener('click', () => {
+                if (confirm('重置周计划为默认模板？')) {
+                    appData.weekly = JSON.parse(JSON.stringify(defaultData.weekly));
+                    saveData();
+                    renderWeekly();
+                }
+            });
+        }
+
+        // 5. 日常
+        function renderDaily() {
+            const container = document.getElementById('dailyView');
+            const daily = appData.daily || { clean: '', order: '' };
+
+            container.innerHTML = `
+                <div class="supplement-view">
+                    <div class="section-title">
+                        <span>☀️ 日常工作计划 <span class="text-muted" style="font-weight:400;font-size:0.8rem;">（每日固定执行）</span></span>
+                        <button class="reset-btn" id="resetDailyBtn">⟳ 重置日常计划</button>
+                    </div>
+                    <div class="supplement-item">
+                        <div class="item-head">
+                            <span>🧹 保洁日常（10项）</span>
+                            <button class="supp-sm-btn" data-daily="clean">✏️ 编辑</button>
+                        </div>
+                        <div class="item-body" style="grid-template-columns:1fr;">
+                            <div class="col" style="white-space:pre-line;">${escapeHtml(daily.clean)}</div>
+                        </div>
+                    </div>
+                    <div class="supplement-item">
+                        <div class="item-head">
+                            <span>🛡️ 秩序日常（10项）</span>
+                            <button class="supp-sm-btn" data-daily="order">✏️ 编辑</button>
+                        </div>
+                        <div class="item-body" style="grid-template-columns:1fr;">
+                            <div class="col" style="white-space:pre-line;">${escapeHtml(daily.order)}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.querySelectorAll('.supp-sm-btn[data-daily]').forEach(el => {
+                el.addEventListener('click', () => {
+                    if (!promptPassword()) return;
+                    const type = el.dataset.daily;
+                    const old = appData.daily[type] || '';
+                    const val = prompt(`编辑${type === 'clean' ? '保洁' : '秩序'}日常内容（建议保留编号）：`, old);
+                    if (val !== null && val.trim() !== '') {
+                        appData.daily[type] = val.trim();
+                        saveData();
+                        renderDaily();
+                    }
+                });
+            });
+
+            document.getElementById('resetDailyBtn')?.addEventListener('click', () => {
+                if (confirm('重置日常计划为默认模板？')) {
+                    appData.daily = JSON.parse(JSON.stringify(defaultData.daily));
+                    saveData();
+                    renderDaily();
+                }
+            });
+        }
+
+        // ============================================================
+        //  视图切换与初始化
+        // ============================================================
+
+        function switchView(view) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(view + 'View').classList.add('active');
+            document.querySelectorAll('.ctrl-btn[data-view]').forEach(el => {
+                el.classList.toggle('active', el.dataset.view === view);
+            });
+            if (view === 'yearly') renderYearly();
+            else if (view === 'quarterly') renderQuarterly();
+            else if (view === 'monthly') renderMonthly();
+            else if (view === 'weekly') renderWeekly();
+            else if (view === 'daily') renderDaily();
+        }
+
+        function resetAll() {
+            if (!confirm('重置所有层级（年度、季度、月度、周、日常）为默认详细模板？')) return;
+            if (!promptPassword()) return;
+            appData = {
+                yearly: defaultData.yearly,
+                quarterly: JSON.parse(JSON.stringify(defaultData.quarterly)),
+                monthly: JSON.parse(JSON.stringify(defaultData.monthly)),
+                weekly: JSON.parse(JSON.stringify(defaultData.weekly)),
+                daily: JSON.parse(JSON.stringify(defaultData.daily))
+            };
+            saveData();
+            const activeView = document.querySelector('.view-container.active')?.id?.replace('View', '') || 'yearly';
+            switchView(activeView);
+        }
+
+        function init() {
+            loadData();
+
+            document.querySelectorAll('.ctrl-btn[data-view]').forEach(el => {
+                el.addEventListener('click', () => switchView(el.dataset.view));
+            });
+
+            document.getElementById('resetAllBtn').addEventListener('click', resetAll);
+
+            switchView('yearly');
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

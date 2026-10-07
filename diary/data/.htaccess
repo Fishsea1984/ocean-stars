@@ -1,0 +1,2 @@
+# 禁止直接下载日记原始数据（Apache 环境生效）
+Require all denied

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智薪通 · 工资管理申报发放系统 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-content .formula-step {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+        .post-content .step-title {
+            background: rgba(0, 240, 255, 0.06);
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--bioluminescent);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .post-content .step-content {
+            padding: 1.2rem;
+        }
+        .post-content .step-content p {
+            margin-bottom: 0.8rem;
+            line-height: 1.9;
+        }
+        .post-content .step-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .post-content .step-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+        .post-content .formula-text {
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            word-break: break-word;
+            border: 1px solid var(--glass-border);
+            display: inline-block;
+            margin: 4px 0;
+        }
+        .post-content .result-number {
+            font-weight: 800;
+            color: var(--bioluminescent);
+            font-size: 1.1rem;
+        }
+        .post-content .compensation-card {
+            background: rgba(0, 240, 255, 0.04);
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .post-content .compensation-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            min-width: 150px;
+        }
+        .post-content .compensation-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .post-content .compensation-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--bioluminescent);
+        }
+        .post-content .footnote {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            border: 1px solid var(--glass-border);
+            line-height: 2;
+        }
+        .post-content hr {
+            margin: 1.2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+        }
+        .post-content .sub-section {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .post-content .sub-section::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: var(--bioluminescent);
+            border-radius: 2px;
+            margin-right: 8px;
+            vertical-align: text-bottom;
+        }
+        .post-content .highlight-box {
+            background: rgba(0, 240, 255, 0.04);
+            border-left: 3px solid var(--bioluminescent);
+            border-radius: 0 12px 12px 0;
+            padding: 0.8rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+        .post-content .highlight-box p {
+            margin-bottom: 0.5rem;
+        }
+        .post-content .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        .post-content .role-card {
+            background: rgba(0, 240, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .post-content .role-card .role-name {
+            font-weight: 700;
+            color: var(--bioluminescent);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .post-content .role-card ul {
+            margin-bottom: 0;
+        }
+        .post-content .role-card li {
+            margin-bottom: 0.3rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">智薪通工资管理系统</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Enterprise Tool</span>
+            <h1 class="page-hero-title">💼 智薪通 · 工资管理申报发放系统</h1>
+            <p class="page-hero-desc">专为建筑与工程行业打造的工资管理系统，覆盖项目经理制薪、财务审核、员工信息全生命周期管理</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+
+                <!-- ========= 一、系统概述 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">一、系统概述</div>
+                    <div class="step-content">
+                        <p>智薪通是一套专为建筑与工程行业打造的工资管理系统，覆盖项目经理制薪、财务审核、员工信息全生命周期管理，让工资发放更规范、更透明、更高效。</p>
+                        <p>系统采用深色科技风界面，完美适配手机、平板、电脑，随时随地管理工资，不受设备限制。登录地址：<span class="formula-text">https://gz.zgrecruit.com/login.php</span></p>
+                    </div>
+                </div>
+
+                <!-- ========= 二、行业痛点 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">二、行业痛点</div>
+                    <div class="step-content">
+                        <p>传统工资管理面临的三大难题：</p>
+                        <div class="highlight-box">
+                            <p><strong>1. Excel满天飞</strong> — 每个项目经理各自用Excel做工资表，格式不统一，版本混乱，汇总困难。</p>
+                        </div>
+                        <div class="highlight-box">
+                            <p><strong>2. 审核流程混乱</strong> — 财务不知道哪个版本是最终版，审批靠微信转发，缺少审核记录和追溯。</p>
+                        </div>
+                        <div class="highlight-box">
+                            <p><strong>3. 人员管理失控</strong> — 员工入职离职频繁，身份证、银行卡信息散落各处，难以统一管理和查询。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 三、六大核心功能 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">三、六大核心功能</div>
+                    <div class="step-content">
+                        <p class="sub-section">1. 员工全生命周期管理</p>
+                        <p>项目经理可直接添加新员工、录入身份证号、银行卡信息，员工离职时一键标注，所有信息统一存储，随时可查。</p>
+
+                        <p class="sub-section">2. 工资表在线制作</p>
+                        <p>项目经理按月创建工资表，灵活添加员工、填写基本工资、补贴、扣款项，系统自动计算应发金额，告别手工Excel。</p>
+
+                        <p class="sub-section">3. 三级审核流程</p>
+                        <p>工资表从"录入中"到"待审核"再到"已通过"，财务可逐条审核、修改并批准，流程清晰，责任明确。</p>
+
+                        <p class="sub-section">4. 数据看板</p>
+                        <p>登录即可看到项目总数、员工人数、本月工资表状态等关键数据，管理者对全局一目了然。</p>
+
+                        <p class="sub-section">5. 操作日志追溯</p>
+                        <p>所有关键操作自动记录日志，谁在什么时间做了什么操作，全程可追溯，不可删除，保障数据安全。</p>
+
+                        <p class="sub-section">6. 移动端适配</p>
+                        <p>深色科技风界面，完美适配手机、平板、电脑，随时随地管理工资。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 四、三种角色权限 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">四、三种角色权限</div>
+                    <div class="step-content">
+                        <p>系统根据企业管理需求，设置了管理员、项目经理、财务三种角色，权限清晰分离：</p>
+
+                        <div class="role-card">
+                            <div class="role-name">【系统管理员】拥有最高权限，负责系统配置与全局管理：</div>
+                            <ul>
+                                <li>用户账号管理</li>
+                                <li>项目创建与分配</li>
+                                <li>员工信息总览</li>
+                                <li>操作日志查看</li>
+                                <li>项目经理指派</li>
+                            </ul>
+                        </div>
+
+                        <div class="role-card">
+                            <div class="role-name">【项目经理】负责自己项目的员工管理和工资表制作：</div>
+                            <ul>
+                                <li>添加/编辑员工信息</li>
+                                <li>录入身份证与银行卡</li>
+                                <li>标注员工离职状态</li>
+                                <li>创建月度工资表</li>
+                                <li>提交工资表审核</li>
+                                <li>修改电话号码</li>
+                            </ul>
+                        </div>
+
+                        <div class="role-card">
+                            <div class="role-name">【财务人员】负责审核各项目提交的工资表：</div>
+                            <ul>
+                                <li>按项目查看工资表</li>
+                                <li>逐条审核工资明细</li>
+                                <li>修改并批准工资</li>
+                                <li>驳回不合规工资表</li>
+                                <li>添加审核备注</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 五、三步业务流程 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">五、三步业务流程</div>
+                    <div class="step-content">
+                        <p>简洁高效的三步流程，让工资管理从混乱变得井然有序：</p>
+
+                        <div class="highlight-box">
+                            <p><strong>第一步：制薪</strong></p>
+                            <p>项目经理登录系统，选择项目和月份，添加员工并填写基本工资、补贴、扣款等信息，系统自动计算应发金额。</p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <p><strong>第二步：提交审核</strong></p>
+                            <p>工资表填写完成后，项目经理一键提交，状态变为"待审核"，财务端实时可见。</p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <p><strong>第三步：审核通过</strong></p>
+                            <p>财务逐条审核，可修改金额后批准，也可驳回要求修改。审核通过后工资表锁定，不可再更改。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 六、安全保障 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">六、安全保障</div>
+                    <div class="step-content">
+                        <p>工资数据属于企业核心机密，系统从多个层面保障数据安全：</p>
+
+                        <p class="sub-section">1. 密码加密存储</p>
+                        <p>使用PHP <span class="formula-text">password_hash</span> 算法加密存储，即使数据库泄露也无法还原明文密码。</p>
+
+                        <p class="sub-section">2. CSRF防护</p>
+                        <p>所有表单提交均携带CSRF令牌验证，防止跨站请求伪造攻击。</p>
+
+                        <p class="sub-section">3. SQL注入防护</p>
+                        <p>全系统使用PDO预处理语句，杜绝SQL注入风险。</p>
+
+                        <p class="sub-section">4. 操作日志不可删除</p>
+                        <p>所有关键操作自动记录，日志只增不删，为审计和追责提供完整证据链。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 七、系统亮点 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">七、系统亮点</div>
+                    <div class="step-content">
+                        <div class="compensation-card">
+                            <div class="compensation-item">
+                                <div class="compensation-label">角色权限</div>
+                                <div class="compensation-value">3种</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">管理更规范</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">状态流转</div>
+                                <div class="compensation-value">3步</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">流程更清晰</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">操作追溯</div>
+                                <div class="compensation-value">100%</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">审计无死角</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">Excel文件</div>
+                                <div class="compensation-value">0个</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">告别手工制表</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 八、技术架构 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">八、技术架构</div>
+                    <div class="step-content">
+                        <ul>
+                            <li><strong>后端：</strong>PHP + MySQL</li>
+                            <li><strong>前端：</strong>响应式设计，支持全终端访问</li>
+                            <li><strong>安全：</strong>CSRF防护 + SQL注入防护 + 密码加密</li>
+                        </ul>
+                        <p>登录地址：<span class="formula-text">https://gz.zgrecruit.com/login.php</span></p>
+                    </div>
+                </div>
+
+                <!-- ========= 文末信息 ========= -->
+                <div class="footnote">
+                    📌 <strong>系统信息</strong><br>
+                    ▪ 系统名称：智薪通 · 工资管理申报发放系统<br>
+                    ▪ 适用行业：建筑与工程行业<br>
+                    ▪ 登录地址：<span class="formula-text">https://gz.zgrecruit.com/login.php</span><br>
+                    ▪ 技术栈：PHP + MySQL + 响应式前端<br>
+                    ▪ 安全特性：密码加密存储、CSRF防护、SQL注入防护、操作日志不可删除<br>
+                    ▪ 支持终端：手机、平板、电脑全终端适配
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

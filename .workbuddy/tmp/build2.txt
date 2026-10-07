@@ -1,0 +1,15 @@
+bundle: 255433 字符, css: 35410 字符
+作用域化后 CSS: 41639 字符
+已生成 F:\ocean-stars-v2\xuanmen\index.html  (341.2 KB)
+  含站点样式表                   OK
+  含站点脚本                    OK
+  含导航 7 项                  OK
+  玄门问道高亮                   OK
+  应用挂载点                    OK
+  CSS 已作用域化                OK
+  无全局 body 污染              OK
+  无 html,body 满屏           OK
+  已去掉 Google 字体 @import    OK
+  页脚两行                     OK
+  含云存档面板                   OK
+  云存档脚本已注入                 OK

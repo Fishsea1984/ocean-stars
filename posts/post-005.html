@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英雄路等道路更新改造项目 · 房屋征收补偿安置方案 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-content .formula-step {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+        .post-content .step-title {
+            background: rgba(0, 240, 255, 0.06);
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--bioluminescent);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .post-content .step-content {
+            padding: 1.2rem;
+        }
+        .post-content .step-content p {
+            margin-bottom: 0.8rem;
+            line-height: 1.9;
+        }
+        .post-content .step-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .post-content .step-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+        .post-content .formula-text {
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            word-break: break-word;
+            border: 1px solid var(--glass-border);
+            display: inline-block;
+            margin: 4px 0;
+        }
+        .post-content .result-number {
+            font-weight: 800;
+            color: var(--bioluminescent);
+            font-size: 1.1rem;
+        }
+        .post-content .compensation-card {
+            background: rgba(0, 240, 255, 0.04);
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .post-content .compensation-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            min-width: 150px;
+        }
+        .post-content .compensation-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .post-content .compensation-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--bioluminescent);
+        }
+        .post-content .footnote {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            border: 1px solid var(--glass-border);
+            line-height: 2;
+        }
+        .post-content hr {
+            margin: 1.2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+        }
+        .post-content .sub-section {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .post-content .sub-section::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: var(--bioluminescent);
+            border-radius: 2px;
+            margin-right: 8px;
+            vertical-align: text-bottom;
+        }
+        .post-content .highlight-box {
+            background: rgba(0, 240, 255, 0.04);
+            border-left: 3px solid var(--bioluminescent);
+            border-radius: 0 12px 12px 0;
+            padding: 0.8rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">房屋征收补偿安置方案</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Government Policy</span>
+            <h1 class="page-hero-title">🏛️ 英雄路等道路更新改造项目 · 房屋征收补偿安置方案</h1>
+            <p class="page-hero-desc">潞州政办发[2026]6号 | 长治市潞州区人民政府办公室 | 涵盖征收范围、面积认定、补偿标准、政策性奖励及安置房源等完整内容</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+
+                <!-- ========= 一、征收与补偿原则 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">一、征收与补偿原则</div>
+                    <div class="step-content">
+                        <p>房屋征收与补偿遵循<span class="formula-text">决策民主</span>、<span class="formula-text">程序正当</span>、<span class="formula-text">公平补偿</span>、<span class="formula-text">结果公开</span>的原则。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 二、征收范围 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">二、征收范围</div>
+                    <div class="step-content">
+                        <p>英雄路、延安路、长兴路、威远门路、西二环路、站前路、紫金东西街、府后东西街、东大街、西大街、解放东西街道路两侧更新改造范围，以及根据城市更新改造工作需要进行调整的部分待定区域。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 三、征收主体 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">三、征收主体</div>
+                    <div class="step-content">
+                        <p>长治市潞州区人民政府</p>
+                    </div>
+                </div>
+
+                <!-- ========= 四、征收部门 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">四、征收部门</div>
+                    <div class="step-content">
+                        <p>长治市潞州区住房和城乡建设局</p>
+                    </div>
+                </div>
+
+                <!-- ========= 五、征收实施单位 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">五、征收实施单位</div>
+                    <div class="step-content">
+                        <ul>
+                            <li>长治市潞州区人民政府大辛庄街道办事处</li>
+                            <li>长治市潞州区人民政府北庄街道办事处</li>
+                            <li>长治市潞州区人民政府常青街道办事处</li>
+                            <li>长治市潞州区人民政府东街街道办事处</li>
+                            <li>长治市潞州区人民政府西街街道办事处</li>
+                            <li>长治市潞州区人民政府英雄中路街道办事处</li>
+                            <li>长治市潞州区人民政府英雄南路街道办事处</li>
+                            <li>长治市潞州区人民政府太行西街街道办事处</li>
+                            <li>长治市潞州区人民政府延安南路街道办事处</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ========= 六、实施时间 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">六、实施时间</div>
+                    <div class="step-content">
+                        <p>签约期限为发布房屋征收决定公告之日起<span class="formula-text">20天</span>内。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 七、房屋面积认定 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">七、房屋面积认定</div>
+                    <div class="step-content">
+
+                        <p class="sub-section">(一) 国有土地上单元式住宅</p>
+                        <p>1. 单元式住宅已办理房屋产权手续的，按照<span class="formula-text">房屋产权登记面积</span>认定补偿安置面积。</p>
+                        <p>2. 单元式住宅其他有效手续已载明面积但未办理房屋产权手续的，由区政府组织相关单位进行调查、认定，并将认定结果予以公示。</p>
+
+                        <hr>
+
+                        <p class="sub-section">(二) 国有土地上独院房屋</p>
+                        <p>1. <strong>土地使用面积认定：</strong>独院房屋按照合法有效证件登记面积或其他有效手续为依据认定房屋土地使用面积，未进行登记的根据第三方机构出具的测绘报告予以认定房屋土地使用面积。</p>
+
+                        <p>2. <strong>房屋建筑面积认定：</strong></p>
+                        <p>(1) 独院房屋已办理房屋产权手续的，按照房屋产权登记面积结合现状为依据认定房屋建筑面积。</p>
+                        <p>(2) 独院房屋未办理房屋产权手续的，由区政府组织相关单位进行调查、认定，并将认定结果予以公示。</p>
+
+                        <p>3. <strong>补偿安置面积认定：</strong></p>
+                        <div class="highlight-box">
+                            <p style="margin-bottom:0.5rem;">&#9312; 二层以下（含二层）建筑面积 &lt; 土地使用面积 &times; 1.5 倍</p>
+                            <p style="margin-bottom:0.5rem;">&rarr; 按 <span class="formula-text">1.5倍</span> 认定补偿安置面积，不足部分缴纳建安成本 <span class="result-number">700元/m&sup2;</span></p>
+                        </div>
+                        <div class="highlight-box">
+                            <p style="margin-bottom:0.5rem;">&#9313; 二层以下（含二层）建筑面积 &ge; 土地使用面积 &times; 1.5 倍</p>
+                            <p style="margin-bottom:0.5rem;">&rarr; 按<span class="formula-text">现状</span>认定补偿安置面积，补偿面积上限不超过土地使用面积 <span class="formula-text">2倍</span></p>
+                        </div>
+                        <div class="highlight-box">
+                            <p style="margin-bottom:0.5rem;">&#9314; 三层及以上房屋</p>
+                            <p style="margin-bottom:0.5rem;">&rarr; 已取得合法有效证件的：按普通商品房评估价给予补偿，不再置换安置住房面积</p>
+                            <p style="margin-bottom:0.5rem;">&rarr; 未取得有效证件的：按建安成本 <span class="result-number">700元/m&sup2;</span> 进行补偿</p>
+                        </div>
+                        <div class="highlight-box">
+                            <p style="margin-bottom:0;">&#9315; 单元式住宅及独院房屋未经审批在公共区域私自搭建的其他建筑物、构筑物 <strong>不予认定补偿</strong>。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 八、补偿方式及标准 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">八、补偿方式及标准</div>
+                    <div class="step-content">
+
+                        <p class="sub-section">(一) 补偿方式</p>
+                        <p>1. 征收补偿实行<span class="formula-text">实物安置</span>、<span class="formula-text">货币补偿</span>两种方式，被征收户只能选择其中一种。</p>
+                        <p>2. 国有土地上住宅房屋产权为全产权的，直接给予补偿。</p>
+                        <p>3. 国有土地上住宅房屋为部分产权的，由实际产权人提出意见后出具有效手续，按照意见对所有权人进行补偿。</p>
+                        <p>4. 在征收范围内的其他非住宅建筑物、构筑物及附着物，经第三方评估机构评估后，依据评估价格给予货币补偿。</p>
+
+                        <hr>
+
+                        <p class="sub-section">(二) 补偿标准</p>
+                        <p>1. <strong>住宅房屋补偿标准</strong></p>
+                        <p>(1) 选择实物安置的，按照被征收房屋补偿安置面积选取安置房，同时享受附着物补偿（仅限独院）、搬迁补助费、过渡费及相关政策性奖励等。</p>
+                        <p>(2) 选择货币补偿的，按照被征收房屋补偿安置面积和评估单价确定。被征收房屋的评估单价，由第三方机构参照被征收房屋周边普通商品房市场价格评估确定，同时享受附着物补偿（仅限独院）、搬迁补助费、过渡费及相关政策性奖励等。</p>
+
+                        <hr>
+
+                        <p>2. <strong>经营性补助费</strong></p>
+                        <p>住宅房屋自行改为营业房、有合法经营手续的，按住宅房屋实际经营面积，再给予 <span class="result-number">500元/m&sup2;</span> 的经营性补助。</p>
+
+                        <hr>
+
+                        <p>3. <strong>搬迁补助费</strong></p>
+                        <p>(1) 住宅房：按照认定的建筑面积 <span class="result-number">20元/m&sup2;</span> 计算。选择实物安置的给予2次搬迁补助费，选择货币补偿的给予1次搬迁补助费。</p>
+                        <p>(2) 非住宅房：按照认定的建筑面积计算。</p>
+
+                        <!-- 搬迁补助费 compensation cards -->
+                        <div class="compensation-card">
+                            <div class="compensation-item">
+                                <div class="compensation-label">住宅房</div>
+                                <div class="compensation-value">20元/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">商业用房</div>
+                                <div class="compensation-value">80元/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">生产用房</div>
+                                <div class="compensation-value">100元/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">办公用房</div>
+                                <div class="compensation-value">50元/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">仓储用房</div>
+                                <div class="compensation-value">80元/m&sup2;</div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <p>4. <strong>过渡费</strong></p>
+                        <p>被征收户采取自行过渡。过渡费按照房屋认定的建筑面积 <span class="result-number">15元/月/m&sup2;</span> 计算。</p>
+
+                        <!-- 过渡费 compensation cards -->
+                        <div class="compensation-card">
+                            <div class="compensation-item">
+                                <div class="compensation-label">过渡费标准</div>
+                                <div class="compensation-value">15元/月/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">实物安置（期房）</div>
+                                <div class="compensation-value">24个月</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">一次性发放，超出按月续发</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">实物安置（现房）</div>
+                                <div class="compensation-value">至交付后6个月</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">自签约之日起算</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">货币补偿</div>
+                                <div class="compensation-value">6个月</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">一次性发放</div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <p>5. <strong>停产停业损失</strong></p>
+                        <p>因征收造成企业停产停业的，参照长治市人民政府相关规定给予停产停业补助。</p>
+
+                        <hr>
+
+                        <p>6. <strong>附着物补偿</strong></p>
+                        <p>附着物补偿按照市政府确定的指导价评估后予以补偿。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 九、政策性奖励 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">九、政策性奖励</div>
+                    <div class="step-content">
+
+                        <p class="sub-section">(一) 面积奖</p>
+                        <p>被征收户签订征收补偿协议后，按照房屋认定的建筑面积（不含独院房屋三层及以上未取得合法有效证件的建筑面积）给予 <span class="result-number">400元/m&sup2;</span> 奖励，奖励上限为 <span class="formula-text">200 m&sup2;</span>。</p>
+                        <p>国有土地上单元式住宅可享受每户 <span class="formula-text">10 m&sup2;</span> 的面积奖励。</p>
+
+                        <hr>
+
+                        <p class="sub-section">(二) 交房奖</p>
+                        <p>被征收户在协议约定期限内交回被征收房屋，给予 <span class="result-number">2万元</span> 奖励。</p>
+
+                        <!-- 奖励 compensation cards -->
+                        <div class="compensation-card">
+                            <div class="compensation-item">
+                                <div class="compensation-label">面积奖励标准</div>
+                                <div class="compensation-value">400元/m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">面积奖励上限</div>
+                                <div class="compensation-value">200 m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">单元式住宅额外奖励</div>
+                                <div class="compensation-value">10 m&sup2;</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">交房奖励</div>
+                                <div class="compensation-value">20,000元</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 十、安置房源 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">十、安置房源</div>
+                    <div class="step-content">
+
+                        <p class="sub-section">(一) 安置房地点</p>
+                        <p>被征收户选择征收部门提供的安置房源，安置房小区拟定为：</p>
+                        <ul>
+                            <li><span class="formula-text">潞府花园小区</span></li>
+                            <li><span class="formula-text">惠民新城小区</span></li>
+                            <li><span class="formula-text">圣人澧园小区</span>等</li>
+                        </ul>
+
+                        <hr>
+
+                        <p class="sub-section">(二) 选房方法</p>
+                        <p>被征收户根据<span class="formula-text">签订协议时间先后顺序</span>选取安置房。</p>
+
+                        <hr>
+
+                        <p class="sub-section">(三) 选购标准</p>
+                        <p>被征收户选择实物安置的，安置房超出应安置面积部分按阶梯价购买：</p>
+                        <div class="highlight-box">
+                            <p style="margin-bottom:0.5rem;">&#9312; 超出部分 &le; 20 m&sup2;（含）&rarr; 按 <span class="formula-text">成本价</span> 购买</p>
+                            <p style="margin-bottom:0.5rem;">&#9313; 超出部分 &gt; 20 m&sup2; &rarr; 按 <span class="formula-text">市场价</span> 购买</p>
+                            <p style="margin-bottom:0;">&#9314; 不足应安置面积部分 &rarr; 按房屋评估价给予货币补偿</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 十一、其他事项 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">十一、其他事项</div>
+                    <div class="step-content">
+                        <p>(一) 征收部门按补偿协议约定的方式和时间支付征收补偿款。被征收户应当在补偿协议约定或者补偿决定确定的搬迁期限内完成搬迁。</p>
+                        <p>(二) 腾空的被征收房屋由征收实施单位进行验收。被征收户需结清水、电、燃气、有线电视等附属设施费用，按规定进行销户，统一拆除。</p>
+                        <p>(三) 非国有土地上的住宅房屋补偿参照本方案国有土地上住宅房屋补偿标准（房地合一）执行。</p>
+                        <p>(四) 集体土地上住宅房屋征收补偿后，所腾退土地权属归区政府所有，由土地所属乡镇、街道及村（社区）代为管理，不得私自占用投资建设。</p>
+                        <p>(五) 在本方案中确定的签约期限未签约的，或者被征收房屋所有权人不明确的，由房屋征收部门报请潞州区人民政府依照相关规定，按照本方案作出补偿决定，并在房屋征收范围内予以公告。被征收户在法定期限内不申请行政复议或者不提起行政诉讼，且在补偿决定规定期限内不搬迁的，由潞州区人民政府依法申请人民法院强制执行。</p>
+                        <p>(六) 本方案未尽事宜按国家、省、市相关规定执行，本方案由征收部门负责解释。</p>
+                    </div>
+                </div>
+
+                <!-- ========= 文末信息 ========= -->
+                <div class="footnote">
+                    &#128220; <strong>发文信息</strong><br>
+                    &#9654; 文号：潞州政办发[2026]6号<br>
+                    &#9654; 发文单位：长治市潞州区人民政府办公室<br>
+                    &#9654; 发文日期：2026年4月20日印发<br>
+                    &#9654; 本页面内容根据政府文件OCR识别整理，仅供查阅参考，以官方原件为准。
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

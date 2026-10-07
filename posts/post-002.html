@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>史家大院 · 土地分摊完整计算 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-content .image-section {
+            background: rgba(0, 240, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .post-content .image-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--bioluminescent);
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.08);
+            padding: 4px 18px;
+            border-radius: 30px;
+        }
+        .post-content .image-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+        .post-content .formula-step {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+        .post-content .step-title {
+            background: rgba(0, 240, 255, 0.06);
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--bioluminescent);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .post-content .step-content {
+            padding: 1.2rem;
+        }
+        .post-content .calc-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            align-items: baseline;
+        }
+        .post-content .formula-text {
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            word-break: break-word;
+            border: 1px solid var(--glass-border);
+        }
+        .post-content .result-number {
+            font-weight: 800;
+            color: var(--bioluminescent);
+            font-size: 1.1rem;
+        }
+        .post-content .compensation-card {
+            background: rgba(0, 240, 255, 0.04);
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .post-content .compensation-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            min-width: 150px;
+        }
+        .post-content .compensation-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .post-content .compensation-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--bioluminescent);
+        }
+        .post-content .footnote {
+            background: rgba(0, 240, 255, 0.02);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            border: 1px solid var(--glass-border);
+            line-height: 2;
+        }
+        .post-content hr {
+            margin: 1.2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+        }
+        .post-content .total-row {
+            background: rgba(0, 240, 255, 0.04);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">史家大院土地分摊计算</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Land Apportionment</span>
+            <h1 class="page-hero-title">🏘️ 史家大院 · 土地分摊完整计算</h1>
+            <p class="page-hero-desc">最新表格数据（62.9×12.06 + 13.87×6.38 − 2.46×14.36）| 含1.5倍补偿面积 | 16户建筑占地明细</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+
+                <!-- ========= 图片区域 ========= -->
+                <div class="image-section">
+                    <div class="image-title">📐 史家大院原始登记及现状示意图</div>
+                    <img id="siteMap" src="../images/shidayuan.svg" alt="史家大院示意图" style="max-width:100%; border-radius: 16px; margin-top: 8px;" onerror="this.onerror=null; this.src=''; this.alt='图片未找到'; this.parentElement.style.display='none';">
+                    <div class="image-note">史家大院土地及建筑分布示意图</div>
+                </div>
+
+                <!-- ========= 一、土地面积计算 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">📐 第1步：土地面积计算</div>
+                    <div class="step-content">
+                        <div class="calc-row">
+                            <span class="formula-text">总占地面积 = 62.9×12.06 + 13.87×6.38 − 2.46×14.36</span>
+                            <span>= 758.574 + 88.4906 − 35.3256 = <span class="result-number">811.739 m²</span></span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">总建筑占地面积 = Σ(各户长×宽) → 逐户求和</span>
+                            <span>计算明细见下表 → 合计 = <span class="result-number">508.9856 m²</span></span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">院落空地面积 = 总占地面积 − 总建筑占地面积</span>
+                            <span>= 811.739 − 508.9856 = <span class="result-number">302.7534 m²</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 二、各户建筑占地详细算式 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">🏠 第2步：各户建筑占地详细算式</div>
+                    <div class="step-content">
+                        <table>
+                            <thead>
+                                <tr><th>序号</th><th>姓名</th><th>算式（长×宽）</th><th>建筑占地 (m²)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>已拆除(3)</td><td class="formula-text">4.7 × 9.66</td><td>45.402</td></tr>
+                                <tr><td>2</td><td>史发胜(1)</td><td class="formula-text">5.4 × 3.7</td><td>19.98</td></tr>
+                                <tr><td>3</td><td>史发胜(2)</td><td class="formula-text">5.35 × 3.8</td><td>20.33</td></tr>
+                                <tr><td>4</td><td>史财旺(1)</td><td class="formula-text">7.35 × 3.7</td><td>27.195</td></tr>
+                                <tr><td>5</td><td>史财旺(2)</td><td class="formula-text">1.97 × 3.7</td><td>7.289</td></tr>
+                                <tr><td>6</td><td>史元锁(1)+史兴胜</td><td class="formula-text">8.65 × 3.75</td><td>32.4375</td></tr>
+                                <tr><td>7</td><td>史元锁(2)+史兴胜</td><td class="formula-text">7.6 × 3.8</td><td>28.88</td></tr>
+                                <tr><td>8</td><td>史发胜(3)</td><td class="formula-text">8.7 × 3.8</td><td>33.06</td></tr>
+                                <tr><td>9</td><td>史德胜(1)</td><td class="formula-text">5.5 × 12</td><td>66.0</td></tr>
+                                <tr><td>10</td><td>史发胜(4)</td><td class="formula-text">2.53 × 3.38</td><td>8.5514</td></tr>
+                                <tr><td>11</td><td>史发胜(6)</td><td class="formula-text">4.95 × 3.55</td><td>17.5725</td></tr>
+                                <tr><td>12</td><td>已拆除(2)</td><td class="formula-text">10.56×4.87 + 5.5×3.2</td><td>69.0272</td></tr>
+                                <tr><td>13</td><td>已拆除(1)</td><td class="formula-text">3.2 × 8.18</td><td>26.176</td></tr>
+                                <tr><td>14</td><td>史发胜(5)</td><td class="formula-text">3.15 × 9.7</td><td>30.555</td></tr>
+                                <tr><td>15</td><td>史德胜(2)</td><td class="formula-text">9.7 × 3.25</td><td>31.525</td></tr>
+                                <tr><td>16</td><td>已拆除(4)</td><td class="formula-text">4.45×4.7 + 3.3×7.3</td><td>45.005</td></tr>
+                            </tbody>
+                            <tfoot class="total-row"><td colspan="3" style="text-align:right">总建筑占地合计</td><td><strong>508.9856 m²</strong></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========= 三、分摊系数、公摊面积、合计面积 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">⚖️ 第3步：分摊系数 → 公摊面积 → 合计面积</div>
+                    <div class="step-content">
+                        <div class="calc-row">
+                            <span class="formula-text">分摊系数 kᵢ = 该户建筑占地 ÷ 总建筑占地 (508.9856)</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">公摊面积ᵢ = 院落空地面积 (302.7534) × kᵢ</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">合计面积ᵢ = 建筑占地ᵢ + 公摊面积ᵢ = 建筑占地 × (811.739/508.9856) = 建筑占地 × 1.59487</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr><th>姓名</th><th>建筑占地 (m²)</th><th>分摊系数 (算式)</th><th>分摊系数值</th><th>公摊面积 (m²)</th><th>合计面积 (m²)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>已拆除(3)</td><td>45.402</td><td class="formula-text">45.402/508.9856</td><td>0.08922</td><td>27.02</td><td>72.42</td></tr>
+                                <tr><td>史发胜(1)</td><td>19.98</td><td class="formula-text">19.98/508.9856</td><td>0.03926</td><td>11.89</td><td>31.87</td></tr>
+                                <tr><td>史发胜(2)</td><td>20.33</td><td class="formula-text">20.33/508.9856</td><td>0.03995</td><td>12.09</td><td>32.42</td></tr>
+                                <tr><td>史财旺(1)</td><td>27.20</td><td class="formula-text">27.195/508.9856</td><td>0.05345</td><td>16.18</td><td>43.38</td></tr>
+                                <tr><td>史财旺(2)</td><td>7.29</td><td class="formula-text">7.289/508.9856</td><td>0.01433</td><td>4.34</td><td>11.63</td></tr>
+                                <tr><td>史元锁(1)+史兴胜</td><td>32.44</td><td class="formula-text">32.4375/508.9856</td><td>0.06374</td><td>19.30</td><td>51.74</td></tr>
+                                <tr><td>史元锁(2)+史兴胜</td><td>28.88</td><td class="formula-text">28.88/508.9856</td><td>0.05674</td><td>17.18</td><td>46.06</td></tr>
+                                <tr><td>史发胜(3)</td><td>33.06</td><td class="formula-text">33.06/508.9856</td><td>0.06496</td><td>19.67</td><td>52.73</td></tr>
+                                <tr><td>史德胜(1)</td><td>66.00</td><td class="formula-text">66.0/508.9856</td><td>0.12968</td><td>39.26</td><td>105.26</td></tr>
+                                <tr><td>史发胜(4)</td><td>8.55</td><td class="formula-text">8.5514/508.9856</td><td>0.01680</td><td>5.09</td><td>13.64</td></tr>
+                                <tr><td>史发胜(6)</td><td>17.57</td><td class="formula-text">17.5725/508.9856</td><td>0.03452</td><td>10.45</td><td>28.02</td></tr>
+                                <tr><td>已拆除(2)</td><td>69.03</td><td class="formula-text">69.0272/508.9856</td><td>0.13564</td><td>41.06</td><td>110.09</td></tr>
+                                <tr><td>已拆除(1)</td><td>26.18</td><td class="formula-text">26.176/508.9856</td><td>0.05144</td><td>15.57</td><td>41.75</td></tr>
+                                <tr><td>史发胜(5)</td><td>30.56</td><td class="formula-text">30.555/508.9856</td><td>0.06004</td><td>18.18</td><td>48.74</td></tr>
+                                <tr><td>史德胜(2)</td><td>31.53</td><td class="formula-text">31.525/508.9856</td><td>0.06195</td><td>18.75</td><td>50.28</td></tr>
+                                <tr><td>已拆除(4)</td><td>45.01</td><td class="formula-text">45.005/508.9856</td><td>0.08843</td><td>26.77</td><td>71.78</td></tr>
+                            </tbody>
+                            <tfoot class="total-row"><td colspan="5" style="text-align:right">验算合计面积总和</td><td><strong>811.74 m²</strong></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========= 四、三户汇总 ========= -->
+                <div class="formula-step">
+                    <div class="step-title">🧑‍🌾 第4步：史发胜、史兴胜、史德胜 明细汇总</div>
+                    <div class="step-content">
+                        <div class="calc-row">
+                            <span class="formula-text">史发胜建筑面积合计 = 19.98 + 20.33 + 33.06 + 8.55 + 30.56 + 17.57 = 130.05 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史发胜公摊合计 = 11.89 + 12.09 + 19.67 + 5.09 + 18.18 + 10.45 = 77.37 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史发胜合计面积 = 130.05 + 77.37 = 207.42 m²</span>
+                        </div>
+                        <hr>
+                        <div class="calc-row">
+                            <span class="formula-text">史兴胜建筑面积合计 = 32.44 + 28.88 = 61.32 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史兴胜公摊合计 = 19.30 + 17.18 = 36.48 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史兴胜合计面积 = 61.32 + 36.48 = 97.80 m²</span>
+                        </div>
+                        <hr>
+                        <div class="calc-row">
+                            <span class="formula-text">史德胜建筑面积合计 = 66.00 + 31.53 = 97.53 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史德胜公摊合计 = 39.26 + 18.75 = 58.01 m²</span>
+                        </div>
+                        <div class="calc-row">
+                            <span class="formula-text">史德胜合计面积 = 97.53 + 58.01 = 155.54 m²</span>
+                        </div>
+                        <table>
+                            <thead><tr><th>户主</th><th>总建筑面积 (m²)</th><th>总公摊面积 (m²)</th><th>合计面积 (m²)</th></tr></thead>
+                            <tbody>
+                                <tr><td>史发胜</td><td>130.05</td><td>77.37</td><td>207.42</td></tr>
+                                <tr><td>史兴胜</td><td>61.32</td><td>36.48</td><td>97.80</td></tr>
+                                <tr><td>史德胜</td><td>97.53</td><td>58.01</td><td>155.54</td></tr>
+                                <tr class="total-row"><td>三户合计</td><td>288.90</td><td>171.86</td><td>460.76</td></tr>
+                            </tbody>
+                        </table>
+
+                        <!-- 1.5倍补偿面积 -->
+                        <div class="compensation-card">
+                            <div class="compensation-item">
+                                <div class="compensation-label">史发胜 1.5倍面积</div>
+                                <div class="compensation-value">311.13 m²</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">207.42 × 1.5</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">史兴胜 1.5倍面积</div>
+                                <div class="compensation-value">146.70 m²</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">97.80 × 1.5</div>
+                            </div>
+                            <div class="compensation-item">
+                                <div class="compensation-label">史德胜 1.5倍面积</div>
+                                <div class="compensation-value">233.31 m²</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">155.54 × 1.5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========= 五、备注说明 ========= -->
+                <div class="footnote">
+                    📌 <strong>完整计算依据（最新表格）</strong><br>
+                    ▪ 总占地面积：<span class="formula">62.9×12.06 + 13.87×6.38 − 2.46×14.36 = 811.739 m²</span><br>
+                    ▪ 已拆除(1) 修正：<span class="formula">3.2×8.18 = 26.176 m²</span>；已拆除(4) 修正：<span class="formula">4.45×4.7 + 3.3×7.3 = 45.005 m²</span><br>
+                    ▪ 总建筑占地 = <strong>508.9856 m²</strong>；院落空地 = <strong>302.7534 m²</strong><br>
+                    ▪ 分摊系数 = 建筑占地 / 508.9856；公摊面积 = 302.7534 × 分摊系数；合计面积 = 建筑占地 × 1.59487<br>
+                    ▪ <strong>1.5倍补偿面积</strong> = 合计面积 × 1.5，作为认定建筑补偿面积的参考值。<br>
+                    ▪ 根据原始调阅出来的土地参考依据，进行核实，核实后只作为还原历史材料，佐证是否进行补偿。具体补偿需要由策划公司测量再次根据实际家庭情进行分摊。
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

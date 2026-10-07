@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620">
+  <rect width="1000" height="620" fill="#0b1424"/>
+  <rect x="1" y="1" width="998" height="618" fill="none" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="2"/>
+  <text x="500" y="62" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="30" font-weight="600" fill="#dce8f7">史家大院 · 原始登记及现状示意</text>
+  <text x="500" y="92" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="16" fill="#8399b8">16 户建筑占地与公摊示意</text>
+  <rect x="90" y="120" width="820" height="410" fill="#12203a" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.8"/>
+  <rect x="94.0" y="124.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="192.5" y="176.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">01</text>
+  <rect x="299.0" y="124.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="397.5" y="176.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">02</text>
+  <rect x="504.0" y="124.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="602.5" y="176.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">03</text>
+  <rect x="709.0" y="124.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="807.5" y="176.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">04</text>
+  <rect x="94.0" y="226.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="192.5" y="278.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">05</text>
+  <rect x="299.0" y="226.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="397.5" y="278.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">06</text>
+  <rect x="504.0" y="226.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="602.5" y="278.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">07</text>
+  <rect x="709.0" y="226.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="807.5" y="278.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">08</text>
+  <rect x="94.0" y="329.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="192.5" y="381.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">09</text>
+  <rect x="299.0" y="329.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="397.5" y="381.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">10</text>
+  <rect x="504.0" y="329.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="602.5" y="381.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">11</text>
+  <rect x="709.0" y="329.0" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="807.5" y="381.2" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">12</text>
+  <rect x="94.0" y="431.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="192.5" y="483.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">13</text>
+  <rect x="299.0" y="431.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="397.5" y="483.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">14</text>
+  <rect x="504.0" y="431.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="602.5" y="483.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#00f0ff">15</text>
+  <rect x="709.0" y="431.5" width="197.0" height="94.5" fill="none" stroke="#00f0ff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="807.5" y="483.8" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="15" fill="#dce8f7">16</text>
+  <text x="500" y="580" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="14" fill="#8399b8">示意图 · 待替换为实测图纸</text>
+</svg>

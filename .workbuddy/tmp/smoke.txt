@@ -1,0 +1,28 @@
+页面 21 个，资源 282 个
+
+  [OK ] ai/index.html                                  200
+  [OK ] diary/index.html                               200
+  [OK ] index.html                                     200
+  [OK ] news/index.html                                200
+  [OK ] posts/articles.html                            200
+  [OK ] posts/post-001.html                            200
+  [OK ] posts/post-002.html                            200
+  [OK ] posts/post-003.html                            200
+  [OK ] posts/post-004.html                            200
+  [OK ] posts/post-005.html                            200
+  [OK ] posts/post-006.html                            200
+  [OK ] posts/post-007.html                            200
+  [OK ] posts/post-008.html                            200
+  [OK ] posts/post-010.html                            200
+  [OK ] records/index.html                             200
+  [OK ] records/trip-01-jinmengshan.html               200
+  [OK ] tools/compensation-system.html                 200
+  [OK ] tools/hengye-compensation.html                 200
+  [OK ] tools/herosouth-compensation.html              200
+  [OK ] tools/huadong-compensation.html                200
+  [OK ] tools/shangdang-compensation.html              200
+
+=== 结果 ===
+  页面访问失败: 0
+  资源引用缺失: 0
+  全站通过

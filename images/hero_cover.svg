@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#0b1424"/>
+  <rect x="1" y="1" width="1198" height="598" fill="none" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="600" cy="300" r="216" fill="none" stroke="#00f0ff" stroke-opacity="0.16" stroke-width="2"/>
+  <circle cx="600" cy="300" r="144" fill="none" stroke="#00f0ff" stroke-opacity="0.10" stroke-width="2"/>
+  <text x="600" y="294" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="46" font-weight="700" fill="#dce8f7">AI 成绩管理分析系统</text>
+  <text x="600" y="334" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="20" fill="#00f0ff">智能分析 · 学校推荐</text>
+  <text x="600" y="564" text-anchor="middle" font-family="Noto Sans SC,Microsoft YaHei,sans-serif" font-size="14" fill="#8399b8">封面示意图 · 待替换为实际截图</text>
+</svg>

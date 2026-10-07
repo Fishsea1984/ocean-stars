@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>潞州区英雄南路街道城市更新补偿计算系统 · 独院+单元楼双模 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ====== Glassmorphism Dark Calculator Theme ====== */
+
+        .calculator-page .title-card {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(0, 120, 180, 0.18));
+            border: 1px solid var(--glass-border-strong);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            padding: 36px 24px;
+            border-radius: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .calculator-page .title-card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            color: var(--text-primary);
+        }
+
+        .calculator-page .title-card p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .calculator-page .sub-badge {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--bioluminescent);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.35);
+            border-color: var(--glass-border-strong);
+        }
+
+        .project-header {
+            background: rgba(0, 240, 255, 0.04);
+            padding: 22px 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .project-name {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--bioluminescent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .project-name span:first-child { font-size: 1.6rem; }
+
+        .project-location {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: rgba(0, 240, 255, 0.06);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-top: 6px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .card-actions {
+            padding: 24px 20px 26px;
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .calc-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 240, 255, 0.04);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 60px;
+            padding: 14px 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .calc-link:hover {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--bioluminescent);
+            transform: translateX(6px);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
+        }
+
+        .calc-link .link-icon { font-size: 1.4rem; }
+        .calc-link .arrow { color: var(--bioluminescent); font-size: 1.2rem; }
+
+        .calculator-view {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .calculator-header {
+            background: linear-gradient(120deg, rgba(0, 240, 255, 0.08), rgba(0, 120, 180, 0.06));
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .calculator-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .project-badge {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--bioluminescent);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--glass-border-strong);
+        }
+
+        .calc-inner { padding: 28px; }
+
+        .input-group { margin-bottom: 24px; }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 1.5px solid var(--glass-border);
+            border-radius: 28px;
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-primary);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            outline: none;
+            border-color: var(--bioluminescent);
+            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+        }
+
+        .input-wrapper input::placeholder {
+            color: rgba(232, 244, 255, 0.35);
+            font-weight: 400;
+        }
+
+        .unit {
+            position: absolute;
+            right: 18px;
+            background: rgba(0, 240, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: var(--bioluminescent);
+            pointer-events: none;
+            border: 1px solid var(--glass-border);
+        }
+
+        .price-highlight {
+            background: rgba(0, 240, 255, 0.06);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 28px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--bioluminescent);
+            backdrop-filter: blur(8px);
+        }
+
+        .price-hint {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .info-tip {
+            background: rgba(0, 240, 255, 0.04);
+            border-radius: 20px;
+            padding: 14px 18px;
+            margin: 8px 0 24px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--bioluminescent);
+            line-height: 1.6;
+        }
+
+        .info-tip strong {
+            color: var(--bioluminescent);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .radio-group input[type="radio"] {
+            accent-color: var(--bioluminescent);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(98deg, rgba(0, 200, 220, 0.9), rgba(0, 150, 200, 0.9));
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 16px 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #021014;
+            border-radius: 44px;
+            margin: 16px 0 20px;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 18px rgba(0, 240, 255, 0.2);
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(98deg, rgba(0, 240, 255, 0.95), rgba(0, 180, 230, 0.95));
+            box-shadow: 0 12px 24px rgba(0, 240, 255, 0.3);
+        }
+
+        .results-wrapper {
+            animation: fadeSlideUp 0.35s ease-out;
+            display: none;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: rgba(2, 11, 20, 0.45);
+            border-radius: 32px;
+            margin-bottom: 28px;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+
+        .card-header {
+            padding: 18px 22px 12px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .cash-header {
+            background: rgba(0, 255, 150, 0.06);
+        }
+
+        .cash-header h3 { color: #4ade80; }
+
+        .house-header {
+            background: rgba(255, 170, 50, 0.06);
+        }
+
+        .house-header h3 { color: #fbbf24; }
+
+        .badge-icon {
+            font-size: 1.4rem;
+        }
+
+        .compensation-list { padding: 12px 20px 20px; }
+
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--glass-border);
+            font-size: 0.9rem;
+        }
+
+        .line-item span:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .line-item span:last-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .total-row {
+            border-top: 2px solid var(--glass-border-strong);
+            margin-top: 8px;
+            padding-top: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            background: rgba(0, 240, 255, 0.03);
+            border-radius: 0 0 12px 12px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .total-row span:last-child {
+            color: #4ade80;
+            font-size: 1.1rem;
+        }
+
+        .negative-value { color: #f87171 !important; }
+        .positive-value { color: #4ade80; }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid var(--glass-border-strong);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 240, 255, 0.08);
+            border-color: var(--bioluminescent);
+            color: var(--bioluminescent);
+        }
+
+        .page-footnote {
+            text-align: center;
+            font-size: 0.75rem;
+            padding: 16px 20px 20px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.15);
+            line-height: 1.6;
+        }
+
+        .visit-count {
+            margin: 20px auto 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding: 12px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 60px;
+            width: fit-content;
+            backdrop-filter: blur(8px);
+        }
+
+        @media (max-width: 680px) {
+            .projects-grid { grid-template-columns: 1fr; }
+            .calculator-page .title-card h1 { font-size: 1.3rem; }
+            .line-item { flex-wrap: wrap; gap: 6px; }
+            .calc-inner { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../xuanmen/index.html">玄门问道</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">英雄南路街道补偿计算系统</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Compensation Tool</span>
+            <h1 class="page-hero-title">🏘️ 英雄南路街道 · 城市更新补偿计算系统</h1>
+            <p class="page-hero-desc">演武社区（水利局片区）· 西南城社区（潞华散居民区）· 独院+单元楼双模</p>
+        </div>
+
+        <div class="page-body calculator-page">
+            <div class="post-content">
+
+                <div class="title-card">
+                    <h1>🏘️ 潞州区英雄南路街道城市更新补偿计算系统</h1>
+                    <p>演武社区（水利局片区）· 西南城社区（潞华散居民区）</p>
+                    <div class="sub-badge">阳光征收 · 独院+单元楼双模 · 实物货币双方案</div>
+                </div>
+
+                <div id="projectsView">
+                    <div class="projects-grid" id="projectsContainer"></div>
+                </div>
+
+                <div id="calculatorView" class="calculator-view"></div>
+
+                <div class="visit-count">
+                    <div>👥 今日访问：<span id="todayVisits">0</span> 人</div>
+                    <div>📊 累计访问：<span id="totalVisits">0</span> 人</div>
+                </div>
+
+                <div class="page-footnote">
+                    ⚖️ 依据《长治市潞州区人民政府关于英雄路等10条道路实施城市更新改造的通知》（潞州政通字〔2025〕2号）<br>
+                    最终以正式协议为准
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        <p class="footer-beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a>
+        </p>
+        <p class="footer-beian footer-gaba">
+            <img src="../images/gaba.svg" alt="公安备案" class="gaba-icon">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a>
+        </p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ======================= 项目配置 =======================
+        const PROJECTS = [
+            {
+                id: "yanwu",
+                name: "演武社区（水利局片区）",
+                location: "长治市潞州区英雄南路街道演武社区",
+                icon: "🏞️",
+                dyUnitPrice: 8900,
+                unitPrice: 100,
+                hasUnit: true
+            },
+            {
+                id: "xinancheng",
+                name: "西南城社区（潞华散居民区）",
+                location: "长治市潞州区英雄南路街道西南城社区",
+                icon: "🏯",
+                dyUnitPrice: 8587,
+                unitPrice: null,
+                hasUnit: false
+            }
+        ];
+
+        let currentProject = null;
+        let currentHouseType = "dy";
+
+        const projectsView = document.getElementById('projectsView');
+        const calculatorView = document.getElementById('calculatorView');
+
+        // 访问统计（可选）
+        function initVisitStats() {
+            const todayKey = 'lc_visit_date';
+            const totalKey = 'lc_total_visits';
+            const todaySpan = document.getElementById('todayVisits');
+            const totalSpan = document.getElementById('totalVisits');
+            const todayStr = new Date().toISOString().slice(0, 10);
+            let total = parseInt(localStorage.getItem(totalKey) || '0') + 1;
+            localStorage.setItem(totalKey, total);
+            let lastDate = localStorage.getItem(todayKey + '_date');
+            let todayCount = parseInt(localStorage.getItem(todayKey + '_count') || '0');
+            if (lastDate !== todayStr) {
+                todayCount = 1;
+                localStorage.setItem(todayKey + '_date', todayStr);
+            } else {
+                todayCount += 1;
+            }
+            localStorage.setItem(todayKey + '_count', todayCount);
+            if (todaySpan) todaySpan.innerText = todayCount;
+            if (totalSpan) totalSpan.innerText = total;
+        }
+
+        // 渲染项目
+        function renderProjects() {
+            const container = document.getElementById('projectsContainer');
+            if (!container) return;
+            container.innerHTML = PROJECTS.map(proj => {
+                let actions = `<div class="calc-link" data-project-id="${proj.id}" data-type="dy">
+                                <span class="link-icon">🏡</span>
+                                <span>${proj.id === 'yanwu' ? '独院/伙院' : '独院'} 补偿计算</span>
+                                <span class="arrow">→</span>
+                              </div>`;
+                if (proj.hasUnit) {
+                    actions += `<div class="calc-link" data-project-id="${proj.id}" data-type="unit">
+                                  <span class="link-icon">🏢</span>
+                                  <span>单元楼 补偿计算</span>
+                                  <span class="arrow">→</span>
+                                </div>`;
+                }
+                return `
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name"><span>${proj.icon}</span><span>${proj.name}</span></div>
+                            <div class="project-location">📍 ${proj.location}</div>
+                        </div>
+                        <div class="card-actions">${actions}</div>
+                    </div>
+                `;
+            }).join('');
+            document.querySelectorAll('.calc-link[data-project-id]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const projectId = el.getAttribute('data-project-id');
+                    const type = el.getAttribute('data-type');
+                    const proj = PROJECTS.find(p => p.id === projectId);
+                    if (proj) {
+                        if (type === 'unit' && !proj.hasUnit) {
+                            alert('该项目暂无单元楼计算，请选择独院计算。');
+                            return;
+                        }
+                        openCalculator(proj, type);
+                    }
+                });
+            });
+        }
+
+        function openCalculator(project, houseType) {
+            currentProject = project;
+            currentHouseType = houseType;
+            renderCalculatorView();
+            projectsView.style.display = 'none';
+            calculatorView.style.display = 'block';
+            calculatorView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function backToProjects() {
+            projectsView.style.display = 'block';
+            calculatorView.style.display = 'none';
+            currentProject = null;
+        }
+
+        // ========================= 独院计算器（已修正：全部按合法建筑面积计算） =========================
+        function renderDyCalculator() {
+            const unitPrice = currentProject.dyUnitPrice;
+            const html = `
+                <div class="calculator-header">
+                    <h2><span>🏡</span>${currentProject.id === 'yanwu' ? '独院/伙院' : '独院'}补偿计算 <span class="project-badge">${currentProject.name}</span></h2>
+                </div>
+                <div class="calc-inner">
+                    <div class="price-highlight">
+                        🏡 当前独院住宅补偿单价：<strong>${unitPrice}</strong> 元/㎡
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">🌱 合法土地面积 (㎡)</div>
+                        <div class="input-wrapper"><input type="number" id="dyLandArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">🏠 合法建筑面积 (㎡)</div>
+                        <div class="input-wrapper"><input type="number" id="dyBuildArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">🧱 附属物补偿 (元)</div>
+                        <div class="input-wrapper"><input type="number" id="dyAttachMoney" placeholder="请您输入" step="1000"><div class="unit">元</div></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">🏪 营业面积 (㎡)</div>
+                        <div class="input-wrapper"><input type="number" id="dyBusinessArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                    </div>
+
+                    <div class="info-tip">
+                        <strong>📌 补偿标准简览</strong><br>
+                        💰 货币补偿：住宅${unitPrice}元/㎡ · 搬迁20元/㎡ · 过渡15元/㎡/月 · 面积奖励≤200㎡按400元/㎡ · 交房奖2万 · 营业补助500元/㎡ · 地下室按1500元/㎡或储藏室按500元/㎡<br>
+                        🏗️ 实物置换：等量置换 · 先签先选 · 20平方米以内成本价购买 · 搬迁20元/㎡ · 过渡15元/㎡/月 · 面积奖励≤200㎡按400元/㎡ · 交房奖2万 · 营业补助500元/㎡ · 地下室按1500元/㎡或储藏室按500元/㎡
+                    </div>
+
+                    <button class="btn-primary" id="dyCalcBtn">✨ 立即精准计算 ✨</button>
+
+                    <div id="dyResults" class="results-wrapper">
+                        <div class="result-card">
+                            <div class="card-header cash-header"><div class="badge-icon">💰</div><h3>货币补偿方案</h3></div>
+                            <div class="compensation-list">
+                                <div class="line-item"><span>📌 认定补偿面积</span><span id="moneyAreaFinal">--</span></div>
+                                <div class="line-item"><span>🧱 临时建筑面积</span><span id="moneyTempArea">--</span></div>
+                                <div class="line-item"><span>🏡 房屋补偿 (住宅)</span><span id="moneyHouseComp">--</span></div>
+                                <div class="line-item"><span>🏚️ 临时建筑补偿</span><span id="moneyTempComp">--</span></div>
+                                <div class="line-item"><span>🚚 搬迁费</span><span id="moneyRelocFee">--</span></div>
+                                <div class="line-item"><span>📦 过渡费 (6个月)</span><span id="moneyTransition">--</span></div>
+                                <div class="line-item"><span>🎁 面积奖励 (≤200㎡)</span><span id="moneyAreaAward">--</span></div>
+                                <div class="line-item"><span>🏅 交房奖励</span><span id="moneyDeliveryAward">--</span></div>
+                                <div class="line-item"><span>🏪 营业补助</span><span id="moneyBusinessSubsidy">--</span></div>
+                                <div class="line-item"><span>🧱 附属物补偿</span><span id="moneyAttach">--</span></div>
+                                <div class="line-item"><span>🔄 补缴建安成本费</span><span id="moneyJianCost">--</span></div>
+                                <div class="line-item total-row"><span>💎 货币补偿总计</span><span id="moneyTotal">--</span></div>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="card-header house-header"><div class="badge-icon">🏗️</div><h3>实物置换 · 补助合计</h3></div>
+                            <div class="compensation-list">
+                                <div class="line-item"><span>🏠 应安置面积 (置换基数)</span><span id="realAreaFinal">--</span></div>
+                                <div class="line-item"><span>🧱 临时建筑面积</span><span id="realTempArea">--</span></div>
+                                <div class="line-item"><span>🏚️ 临时建筑补偿</span><span id="realTempComp">--</span></div>
+                                <div class="line-item"><span>🚚 搬迁费 (2次)</span><span id="realRelocFee">--</span></div>
+                                <div class="line-item"><span>📆 过渡费 (24个月)</span><span id="realTransition">--</span></div>
+                                <div class="line-item"><span>🎁 面积奖励 (≤200㎡)</span><span id="realAreaAward">--</span></div>
+                                <div class="line-item"><span>🏅 交房奖励</span><span id="realDeliveryAward">--</span></div>
+                                <div class="line-item"><span>🏪 营业补助</span><span id="realBusinessSubsidy">--</span></div>
+                                <div class="line-item"><span>🧱 附属物补偿</span><span id="realAttach">--</span></div>
+                                <div class="line-item"><span>🔄 补缴建安成本费</span><span id="realJianCost">--</span></div>
+                                <div class="line-item total-row"><span>✨ 实物补助总金额</span><span id="realTotal">--</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons"><button class="btn-secondary" id="backBtnDy">📋 返回项目列表</button></div>
+                </div>
+            `;
+            calculatorView.innerHTML = html;
+
+            function formatMoney(v) {
+                return v.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' 元';
+            }
+            function setAmt(id, v) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = formatMoney(v);
+            }
+            function setTxt(id, t) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = t;
+            }
+
+            function computeDy() {
+                const land = parseFloat(document.getElementById('dyLandArea')?.value) || 0;
+                const build = parseFloat(document.getElementById('dyBuildArea')?.value) || 0;
+                const attachMoney = parseFloat(document.getElementById('dyAttachMoney')?.value) || 0;
+                let busi = parseFloat(document.getElementById('dyBusinessArea')?.value) || 0;
+                busi = Math.min(busi, build);
+                const unitPriceVal = currentProject.dyUnitPrice;
+
+                // 认定面积
+                const land15 = land * 1.5;
+                const areaOrigin = build > land15 ? build : land15;
+                const tempArea = Math.max(0, build - land * 2);
+                const areaFinal = areaOrigin - tempArea;
+                const tempMoney = tempArea * 700;
+                const jianCost = build < land15 ? -(land15 - build) * 700 : 0;
+
+                // ✅ 全部按 合法建筑面积 build 计算
+                const awardArea = Math.min(build, 200);
+                const award = awardArea * 400;
+                const move = build * 20;
+                const trans = build * 15 * 6;
+                const deliver = 20000;
+                const bs = busi * 500;
+                const house = areaFinal * unitPriceVal;
+
+                // 货币总计
+                const totalMoney = house + tempMoney + move + trans + award + deliver + bs + attachMoney + jianCost;
+
+                // 实物
+                const hmove = build * 20 * 2;
+                const htrans = build * 15 * 24;
+                const totalReal = hmove + htrans + award + deliver + bs + tempMoney + attachMoney + jianCost;
+
+                // UI
+                setTxt('moneyAreaFinal', areaFinal.toFixed(2) + ' ㎡');
+                setTxt('moneyTempArea', tempArea.toFixed(2) + ' ㎡');
+                setAmt('moneyHouseComp', house);
+                setAmt('moneyTempComp', tempMoney);
+                setAmt('moneyRelocFee', move);
+                setAmt('moneyTransition', trans);
+                setAmt('moneyAreaAward', award);
+                setAmt('moneyDeliveryAward', deliver);
+                setAmt('moneyBusinessSubsidy', bs);
+                setAmt('moneyAttach', attachMoney);
+                setAmt('moneyJianCost', jianCost);
+                setAmt('moneyTotal', totalMoney);
+
+                setTxt('realAreaFinal', areaFinal.toFixed(2) + ' ㎡');
+                setTxt('realTempArea', tempArea.toFixed(2) + ' ㎡');
+                setAmt('realTempComp', tempMoney);
+                setAmt('realRelocFee', hmove);
+                setAmt('realTransition', htrans);
+                setAmt('realAreaAward', award);
+                setAmt('realDeliveryAward', deliver);
+                setAmt('realBusinessSubsidy', bs);
+                setAmt('realAttach', attachMoney);
+                setAmt('realJianCost', jianCost);
+                setAmt('realTotal', totalReal);
+
+                document.getElementById('dyResults').style.display = 'block';
+            }
+
+            const calcBtn = document.getElementById('dyCalcBtn');
+            const backBtn = document.getElementById('backBtnDy');
+            if (calcBtn) calcBtn.addEventListener('click', () => computeDy());
+            if (backBtn) backBtn.addEventListener('click', backToProjects);
+        }
+
+        // ========================= 单元楼计算器（已恢复正常计算 + 价格100元） =========================
+        function renderUnitCalculator() {
+            const HOUSE_PRICE = 100;
+            const RELOC_FEE_RATE = 20;
+            const TRANSITION_RATE = 15;
+            const AREA_AWARD_RATE = 400;
+            const DELIVERY_AWARD = 20000;
+            const BUSINESS_SUBSIDY_RATE = 500;
+            const BASEMENT_PRICE = 1500;
+            const STORAGE_PRICE = 500;
+            const EXTRA_AREA = 10;
+
+            const html = `
+                <div class="calculator-header">
+                    <h2><span>🏢</span>单元楼补偿计算 <span class="project-badge">${currentProject.name}</span></h2>
+                </div>
+                <div class="calc-inner">
+                    <div class="price-highlight">
+                        🏡 当前住宅补偿单价：<strong>100</strong> 元/㎡
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">🏠 合法建筑面积 (㎡)</div>
+                        <div class="input-wrapper"><input type="number" id="unitBuildArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">🏪 营业面积 (㎡)</div>
+                        <div class="input-wrapper"><input type="number" id="unitBusinessArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">📦 地下室 / 储藏室补偿</div>
+                        <div class="radio-group" id="unitStorageTypeGroup">
+                            <label><input type="radio" name="unitStorageType" value="basement" checked> 地下室</label>
+                            <label><input type="radio" name="unitStorageType" value="storage"> 储藏室</label>
+                        </div>
+                        <div class="input-wrapper"><input type="number" id="unitStorageArea" placeholder="请您输入" step="1"><div class="unit">㎡</div></div>
+                        <div class="price-hint" id="unitPriceHint">⚡ 当前单价：1500元/㎡</div>
+                    </div>
+
+                    <div class="info-tip">
+                        <strong>📌 补偿标准简览</strong><br>
+                        💰 货币补偿：住宅100元/㎡ · 搬迁20元/㎡ · 过渡15元/㎡/月 · 面积奖励≤200㎡按400元/㎡ · 交房奖2万 · 营业补助500元/㎡ · 地下室按1500元/㎡或储藏室按500元/㎡<br>
+                        🏗️ 实物置换：等量置换 · 先签先选 · 20平方米以内成本价购买 · 搬迁20元/㎡ · 过渡15元/㎡/月 · 面积奖励≤200㎡按400元/㎡ · 交房奖2万 · 营业补助500元/㎡ · 地下室按1500元/㎡或储藏室按500元/㎡
+                    </div>
+
+                    <button class="btn-primary" id="unitCalcBtn">✨ 立即精准计算 ✨</button>
+
+                    <div id="unitResults" class="results-wrapper">
+                        <div class="result-card">
+                            <div class="card-header cash-header"><div class="badge-icon">💰</div><h3>货币补偿方案</h3></div>
+                            <div class="compensation-list">
+                                <div class="line-item"><span>📌 认定补偿面积（含10㎡奖励）</span><span id="moneyRecognizedArea">--</span></div>
+                                <div class="line-item"><span>🏡 房屋补偿 (住宅)</span><span id="moneyHouseComp">--</span></div>
+                                <div class="line-item"><span>🚚 搬迁费</span><span id="moneyRelocFee">--</span></div>
+                                <div class="line-item"><span>📦 过渡费 (6个月)</span><span id="moneyTransition">--</span></div>
+                                <div class="line-item"><span>🎁 面积奖励 (≤200㎡)</span><span id="moneyAreaAward">--</span></div>
+                                <div class="line-item"><span>🏅 交房奖励</span><span id="moneyDeliveryAward">--</span></div>
+                                <div class="line-item"><span>🏪 营业补助</span><span id="moneyBusinessSubsidy">--</span></div>
+                                <div class="line-item"><span>📦 地下室/储藏室补偿</span><span id="moneyStorageComp">--</span></div>
+                                <div class="line-item total-row"><span>💎 货币补偿总计</span><span id="moneyTotal">--</span></div>
+                            </div>
+                        </div>
+                        <div class="result-card">
+                            <div class="card-header house-header"><div class="badge-icon">🏗️</div><h3>实物置换 · 补助合计</h3></div>
+                            <div class="compensation-list">
+                                <div class="line-item"><span>🏠 应安置面积（含10㎡奖励）</span><span id="realRecognizedArea">--</span></div>
+                                <div class="line-item"><span>🚚 搬迁费 (2次)</span><span id="realRelocFee">--</span></div>
+                                <div class="line-item"><span>📆 过渡费 (24个月)</span><span id="realTransition">--</span></div>
+                                <div class="line-item"><span>🎁 面积奖励 (≤200㎡)</span><span id="realAreaAward">--</span></div>
+                                <div class="line-item"><span>🏅 交房奖励</span><span id="realDeliveryAward">--</span></div>
+                                <div class="line-item"><span>🏪 营业补助</span><span id="realBusinessSubsidy">--</span></div>
+                                <div class="line-item"><span>📦 地下室/储藏室补偿</span><span id="realStorageComp">--</span></div>
+                                <div class="line-item total-row"><span>✨ 实物补助总金额</span><span id="realTotal">--</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons"><button class="btn-secondary" id="backBtnUnit">📋 返回项目列表</button></div>
+                </div>
+            `;
+            calculatorView.innerHTML = html;
+
+            function formatMoney(v) {
+                return v.toLocaleString('zh-CN') + ' 元';
+            }
+            function setAmt(id, v) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = formatMoney(v);
+            }
+            function setTxt(id, t) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = t;
+            }
+
+            const updatePriceHint = () => {
+                const isBasement = document.querySelector('input[name="unitStorageType"]:checked')?.value === 'basement';
+                const hint = document.getElementById('unitPriceHint');
+                if (hint) hint.innerHTML = isBasement ? '⚡ 当前单价：1500元/㎡ (地下室)' : '⚡ 当前单价：500元/㎡ (储藏室)';
+            };
+            const radios = document.querySelectorAll('input[name="unitStorageType"]');
+            radios.forEach(r => r.addEventListener('change', updatePriceHint));
+            updatePriceHint();
+
+            const computeUnit = () => {
+                let buildArea = parseFloat(document.getElementById('unitBuildArea')?.value) || 0;
+                let busiArea = parseFloat(document.getElementById('unitBusinessArea')?.value) || 0;
+                let storageArea = parseFloat(document.getElementById('unitStorageArea')?.value) || 0;
+                const isBasement = document.querySelector('input[name="unitStorageType"]:checked')?.value === 'basement';
+                const storageUnitPrice = isBasement ? BASEMENT_PRICE : STORAGE_PRICE;
+                const storageComp = storageArea * storageUnitPrice;
+                if (busiArea > buildArea) busiArea = buildArea;
+
+                const recognizedArea = buildArea + EXTRA_AREA;
+                const houseComp = recognizedArea * HOUSE_PRICE;
+
+                // ✅ 全部按 合法建筑面积 buildArea 计算
+                const areaAward = Math.min(buildArea, 200) * AREA_AWARD_RATE;
+                const relocationFee = buildArea * RELOC_FEE_RATE;
+                const transition6 = buildArea * TRANSITION_RATE * 6;
+                const transition24 = buildArea * TRANSITION_RATE * 24;
+                const businessSubsidy = busiArea * BUSINESS_SUBSIDY_RATE;
+
+                const moneyTotal = houseComp + relocationFee + transition6 + areaAward + DELIVERY_AWARD + businessSubsidy + storageComp;
+                const realTotal = relocationFee * 2 + transition24 + areaAward + DELIVERY_AWARD + businessSubsidy + storageComp;
+
+                setTxt('moneyRecognizedArea', recognizedArea.toFixed(2) + ' ㎡');
+                setAmt('moneyHouseComp', houseComp);
+                setAmt('moneyRelocFee', relocationFee);
+                setAmt('moneyTransition', transition6);
+                setAmt('moneyAreaAward', areaAward);
+                setAmt('moneyDeliveryAward', DELIVERY_AWARD);
+                setAmt('moneyBusinessSubsidy', businessSubsidy);
+                setAmt('moneyStorageComp', storageComp);
+                setAmt('moneyTotal', moneyTotal);
+
+                setTxt('realRecognizedArea', recognizedArea.toFixed(2) + ' ㎡');
+                setAmt('realRelocFee', relocationFee * 2);
+                setAmt('realTransition', transition24);
+                setAmt('realAreaAward', areaAward);
+                setAmt('realDeliveryAward', DELIVERY_AWARD);
+                setAmt('realBusinessSubsidy', businessSubsidy);
+                setAmt('realStorageComp', storageComp);
+                setAmt('realTotal', realTotal);
+
+                document.getElementById('unitResults').style.display = 'block';
+            };
+
+            const calcBtn = document.getElementById('unitCalcBtn');
+            const backBtn = document.getElementById('backBtnUnit');
+            if (calcBtn) calcBtn.addEventListener('click', () => computeUnit());
+            if (backBtn) backBtn.addEventListener('click', backToProjects);
+        }
+
+        function renderCalculatorView() {
+            if (!currentProject) return;
+            if (currentHouseType === 'dy') {
+                renderDyCalculator();
+            } else {
+                renderUnitCalculator();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProjects();
+            projectsView.style.display = 'block';
+            calculatorView.style.display = 'none';
+            initVisitStats();
+        });
+    </script>
+</body>
+</html>

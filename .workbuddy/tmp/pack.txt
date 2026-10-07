@@ -1,0 +1,26 @@
+上传包已生成: F:\ocean-stars-upload.zip
+  文件 310 个，原始体积 88.3 MB，压缩包 87.4 MB
+
+已排除（安全原因，不发布到公网）：
+  目录 .git
+  目录 .github
+  目录 .well-known
+  目录 .workbuddy
+  目录 __pycache__
+  目录 functions
+  目录 scripts
+  目录 security
+  目录 server-api
+  文件 *.md（部署指南/安全方案/README）、.gitignore、.nojekyll
+
+已内置：xuanmen-save/save.php（玄门问道云存档接口）
+
+==========================================================
+上传步骤（宝塔）
+==========================================================
+1. 宝塔 → 文件 → 进入你的站点根目录（如 /www/wwwroot/你的域名）
+2. 点「上传」→ 选择 F:\ocean-stars-upload.zip → 上传
+3. 上传完成后右键该 zip →「解压」→ 解压到当前目录
+4. 解压后删除这个 zip 文件（别留在网站根目录）
+5. 浏览器打开 http://你的域名 检查；
+   再打开 /xuanmen-save/save.php?action=ping 看到 {"ok":true,...} 即云存档就绪
