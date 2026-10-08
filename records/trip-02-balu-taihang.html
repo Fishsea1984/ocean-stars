@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八路军纪念馆·太行溶洞 - 星海之境</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.trip-hero { text-align: center; padding: 2rem 0 3rem; }
+.trip-hero-tag { display: inline-block; font-size: 0.8rem; color: var(--bioluminescent); background: rgba(0, 240, 255, 0.15); padding: 6px 18px; border-radius: 20px; border: 1px solid rgba(0, 240, 255, 0.3); margin-bottom: 1.2rem; }
+.trip-hero-title { font-family: 'Noto Serif SC', serif; font-size: 2.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.8rem; }
+.trip-hero-sub { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8; max-width: 600px; margin: 0 auto; }
+.trip-hero-meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.trip-meta-item { text-align: center; }
+.trip-meta-value { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--bioluminescent); }
+.trip-meta-label { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 0.9rem; transition: color 0.3s; margin-bottom: 1.5rem; text-decoration: none; }
+.back-link:hover { color: var(--bioluminescent); }
+.gallery-wrap { margin: 2rem 0 4rem; }
+.day-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--glass-border); }
+.day-badge { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 700; color: var(--bioluminescent); text-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+.day-title { font-family: 'Noto Serif SC', serif; font-size: 1.3rem; color: var(--text-primary); font-weight: 600; }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+.photo-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.3s; }
+.photo-card:hover { border-color: rgba(0, 240, 255, 0.25); box-shadow: 0 0 30px rgba(0, 240, 255, 0.08); transform: translateY(-4px); }
+.photo-image-wrap { overflow: hidden; cursor: pointer; aspect-ratio: 4/3; background: var(--ocean-surface); }
+.photo-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.photo-card:hover .photo-image-wrap img { transform: scale(1.05); }
+.photo-caption { padding: 1rem 1.2rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; font-family: 'Noto Serif SC', serif; }
+.lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.92); z-index: 9999; justify-content: center; align-items: center; cursor: zoom-out; }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.15); }
+.lightbox-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 2rem; color: rgba(255,255,255,0.7); cursor: pointer; }
+.lightbox-close:hover { color: #fff; }
+.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; color: rgba(255,255,255,0.5); cursor: pointer; padding: 1rem; user-select: none; }
+.lightbox-nav:hover { color: #fff; }
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
+.lightbox-caption { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.8); font-size: 0.95rem; text-align: center; max-width: 80%; font-family: 'Noto Serif SC', serif; }
+.lightbox-counter { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.5); font-size: 0.85rem; font-family: 'Cinzel', serif; }
+@media (max-width: 600px) { .photo-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<canvas id="universe"></canvas>
+<div class="ocean-gradient"></div>
+<div class="water-ripple"></div>
+
+<div class="content">
+  <nav>
+    <a href="../index.html" class="logo">星海之境</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">首页</a></li>
+      <li><a href="../xuanmen/index.html">玄门问道</a></li>
+      <li><a href="../diary/index.html">日记</a></li>
+      <li><a href="index.html" class="active">记录</a></li>
+      <li><a href="../posts/articles.html">文章</a></li>
+      <li><a href="../index.html#about">关于</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="../index.html">首页</a>
+    <span class="sep">/</span>
+    <a href="index.html">旅途记录</a>
+    <span class="sep">/</span>
+    <span class="current">八路军纪念馆·太行溶洞</span>
+  </div>
+
+  <div class="page-top-spacer"></div>
+
+  <a href="index.html" class="back-link"><i class="fa fa-arrow-left"></i> 返回旅途记录</a>
+
+  <div class="trip-hero">
+    <span class="trip-hero-tag">红色记忆 · 地质奇观</span>
+    <h1 class="trip-hero-title">八路军纪念馆·太行溶洞</h1>
+    <p class="trip-hero-sub">从纪念馆前的石阶，到溶洞深处的钟乳石，一日的时光在历史与自然之间穿行。秋阳正好，脚步很慢，每一帧都值得被记住。</p>
+    <div class="trip-hero-meta">
+      <div class="trip-meta-item"><div class="trip-meta-value">2026</div><div class="trip-meta-label">国庆假期</div></div>
+      <div class="trip-meta-item"><div class="trip-meta-value">2</div><div class="trip-meta-label">处风景</div></div>
+      <div class="trip-meta-item"><div class="trip-meta-value">23</div><div class="trip-meta-label">张照片</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="day-header">
+      <div class="day-badge">DAY 1</div>
+      <div class="day-title">武乡 · 八路军太行纪念馆</div>
+    </div>
+    <div class="photo-grid">
+    </div>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="day-header">
+      <div class="day-badge">DAY 2</div>
+      <div class="day-title">太行溶洞 · 地底时光</div>
+    </div>
+    <div class="photo-grid">
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-text">星海之境 | Ocean of Stars</p>
+    <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+    <p class="footer-beian"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">晋ICP备2026013183号</a></p>
+    <p class="footer-beian footer-gaba"><img src="../images/gaba.svg" alt="公安备案" class="gaba-icon"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=14040302000255" target="_blank" rel="noopener noreferrer">晋公网安备 14040302000255号</a></p>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <span class="lightbox-close" id="lightboxClose">&times;</span>
+  <span class="lightbox-nav lightbox-prev" id="lightboxPrev" onclick="prevImage(event)">&#8249;</span>
+  <img id="lightboxImg" src="" alt="">
+  <span class="lightbox-nav lightbox-next" id="lightboxNext" onclick="nextImage(event)">&#8250;</span>
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const images = {json.dumps([c['path'] for c in converted], ensure_ascii=False)};
+const captions = {json.dumps([c['caption'] for c in converted], ensure_ascii=False)};
+let idx = -1;
+function openLightbox(src, start) {{ idx = start - 1; update(); document.getElementById('lightbox').classList.add('active'); }}
+function closeLightbox(e) {{ if (e.target.id === 'lightbox' || e.target.id === 'lightboxClose') document.getElementById('lightbox').classList.remove('active'); }}
+function update() {{ document.getElementById('lightboxImg').src = images[idx]; document.getElementById('lightboxCaption').textContent = captions[idx]; document.getElementById('lightboxCounter').textContent = (idx+1) + ' / ' + images.length; }}
+function nextImage(e) {{ e.stopPropagation(); idx = (idx + 1) % images.length; update(); }}
+function prevImage(e) {{ e.stopPropagation(); idx = (idx - 1 + images.length) % images.length; update(); }}
+document.addEventListener('keydown', function(e) {{ if (!document.getElementById('lightbox').classList.contains('active')) return; if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active'); if (e.key === 'ArrowRight') nextImage(e); if (e.key === 'ArrowLeft') prevImage(e); }});
+</script>
+</body>
+</html>
