@@ -12,8 +12,6 @@
 | 自定义域名 | ✅ | ✅（自动 HTTPS） |
 | 国内访问 | 时快时慢 | 时快时慢（半斤八两） |
 
-**决定性优势**：Cloudflare Pages 能跑服务端函数。玄门问道的云端存档可以直接放在
-同一个域名下（`/xuanmen-save`），**不需要你那台已经 502 的阿里云服务器**，也不存在
 跨域和混合内容的问题。
 
 ### 你的站 vs Cloudflare 免费额度（已核对官方限制）
@@ -101,14 +99,11 @@ npx wrangler pages deploy F:\ocean-stars-deploy --project-name=ocean-stars
 
 > 只有**方式 A（Wrangler 命令行）部署**的站点才支持本节；网页拖拽上传的请直接看第三节。
 
-项目里已经准备好了函数文件：`functions/xuanmen-save.js`。
-部署后接口地址就是 `https://ocean-stars.pages.dev/xuanmen-save`。
 
 ### 需要做一个绑定（R2 存储桶）
 
 1. Cloudflare 后台 → **Workers & Pages** → 你的 `ocean-stars` 项目
 2. **Settings** → **Functions** → **R2 bucket bindings** → **Add binding**
-3. Variable name 填 **`SAVES`**（必须一字不差），R2 bucket 选 **Create new**，名字填 `xuanmen-saves`
 4. 保存后，**重新部署一次**才会生效：
    ```bash
    npx wrangler pages deploy . --project-name=ocean-stars
@@ -119,10 +114,8 @@ npx wrangler pages deploy F:\ocean-stars-deploy --project-name=ocean-stars
 浏览器打开：
 
 ```
-https://ocean-stars.pages.dev/xuanmen-save?action=ping
 ```
 
-看到 `{"ok":true,"service":"xuanmen-save","engine":"cloudflare-pages",...}` 就成了。
 
 如果显示 `服务端未绑定 R2 存储（变量名应为 SAVES）`，说明第 3 步没绑好或没重新部署。
 
@@ -132,23 +125,16 @@ https://ocean-stars.pages.dev/xuanmen-save?action=ping
 
 站点是拖拽上传的、不想装 Node？把云存档做成一个**独立的 Worker**，全程网页操作：
 
-1. 准备好代码：`server-api/cloudflare-worker/xuanmen-save-worker.js`（已写好，直接复制全文）
-2. Cloudflare 后台 → **Workers & Pages** → **Create** → **Worker** → 名字随便（如 `xuanmen-save`）→ Deploy
-3. 点 **Edit code（编辑代码）** → 全选删掉 → 粘贴 `xuanmen-save-worker.js` 全文 → **Deploy**
 4. Worker 的 **Settings → Bindings → Add → R2 bucket**：
    - Variable name：`SAVES`
-   - R2 bucket：选 `xuanmen-saves`（没有就现场 Create）
 5. 验证：浏览器打开 `https://你的worker名.fishsea1984.workers.dev/?action=ping`
    看到 `{"ok":true,...}` 即成功
-6. 回到玄门问道页面 → 云存档面板最下面「修改」→ 填入
    `https://你的worker名.fishsea1984.workers.dev`（只填一次，浏览器会记住）
 
-页面上的云存档面板本来就会自动探测同域 `/xuanmen-save`（Pages Functions 用），
 探测不到时回退到你手动填的地址，所以两种方案互不冲突。
 
 ### 页面这边不用改任何东西
 
-玄门问道页面的云存档面板会**自动探测**同域的 `/xuanmen-save`：
 探测得到就用它（Cloudflare），探测不到就回退到你原来的服务器地址。
 面板最下面会显示当前实际用的地址，也可以点「修改」手动指定。
 

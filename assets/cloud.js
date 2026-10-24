@@ -34,7 +34,7 @@
 
   // cloud-sdk.global.js 在本脚本之前已同步加载，可直接初始化；
   // 若极端情况下 SDK 尚未就绪（如被改为 async/defer），则回退到 DOMContentLoaded 再初始化一次，
-  // 保证 window.OceanCloud 在玄门云存档 IIFE 读取前已就绪。
+  // 保证 window.OceanCloud 在任何读取它的模块之前已就绪。
   if (typeof window.WorkBuddyCloud !== "undefined") {
     boot();
   } else {
