@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>清心洞 · 像素修仙（重制版）</title>
+<style>
+  :root{
+    --bg:#06090d; --panel:rgba(14,19,26,.84); --line:rgba(196,214,232,.14);
+    --text:#e9e6dd; --dim:#93a0b0; --gold:#d9b46a; --jade:#79c9a3; --ember:#e4833f;
+    --sans:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    --serif:"Songti SC","STSong","Noto Serif CJK SC",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:radial-gradient(120% 90% at 50% 0%,#10161f 0%,#06090d 68%);
+    display:flex;align-items:center;justify-content:center;font-family:var(--sans);color:var(--text);
+    overflow:hidden;-webkit-font-smoothing:antialiased}
+  .stage{position:relative;aspect-ratio:960/620;width:min(calc(100vw - 20px), calc((100vh - 58px) * 960 / 620));
+    border-radius:16px;overflow:hidden;background:#080c11;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+  canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(10px)}
+  .topbar{position:absolute;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:flex-start;
+    gap:10px;padding:12px;pointer-events:none}
+  .realm-card{min-width:250px;padding:10px 14px}
+  .realm-line{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .realm-name{font-family:var(--serif);font-size:17px;letter-spacing:.06em;color:#f0e7d2}
+  .realm-rate{font-size:11px;color:var(--jade)}
+  .world-tag{font-size:11px;color:var(--dim);margin-top:2px}
+  .bar{height:7px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#4a8f74,var(--jade));width:0%}
+  .bar.body i{background:linear-gradient(90deg,#8a5a34,var(--gold))}
+  .bar-txt{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:3px}
+
+  .res-card{padding:10px 12px;display:grid;grid-template-columns:repeat(3,auto);gap:4px 14px;font-size:11.5px}
+  .res-card span{color:var(--dim)}
+  .res-card b{color:#e8e2d4;font-weight:600;margin-left:3px}
+
+  .area-nav{position:absolute;left:10px;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:6px}
+  .area-btn{width:82px;padding:7px 6px;border-radius:9px;border:1px solid var(--line);
+    background:var(--panel);color:var(--dim);font-size:11.5px;cursor:pointer;text-align:center;
+    font-family:var(--sans);transition:.15s}
+  .area-btn:hover{color:var(--text);border-color:rgba(217,180,106,.4)}
+  .area-btn.active{background:rgba(217,180,106,.16);color:var(--gold);border-color:rgba(217,180,106,.55)}
+  .area-btn small{display:block;font-size:11px;opacity:.6;margin-top:1px}
+
+  .right-btns{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:6px;width:88px}
+  .rbtn{padding:7px 4px;border-radius:9px;border:1px solid var(--line);background:var(--panel);
+    color:var(--dim);font-size:11.5px;cursor:pointer;text-align:center;font-family:var(--sans)}
+  .rbtn:hover{color:var(--text);border-color:rgba(121,201,163,.45)}
+  .rbtn.gold{border-color:rgba(217,180,106,.5);color:var(--gold)}
+  .spd{display:flex;gap:3px;margin-top:2px}
+  .spd button{flex:1;padding:5px 0;font-size:11px;border-radius:7px;border:1px solid var(--line);
+    background:rgba(255,255,255,.04);color:var(--dim);cursor:pointer}
+  .spd button.active{background:rgba(217,180,106,.2);color:var(--gold);border-color:rgba(217,180,106,.5)}
+
+  .bottom{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;align-items:flex-end;
+    gap:10px;padding:12px}
+  .status-card{padding:8px 12px;min-width:270px}
+  .s-act{font-size:13px;color:#f0e7d2}
+  .s-note{font-size:11px;color:var(--dim);margin-top:2px;min-height:14px}
+  .s-sub{font-size:11px;color:var(--jade);margin-top:4px}
+  .log-card{padding:8px 12px;width:330px;max-height:120px;overflow:hidden}
+  .log-item{font-size:11px;color:var(--dim);line-height:1.5;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .log-item.gold{color:var(--gold)} .log-item.fail{color:var(--ember)} .log-item.ice{color:var(--jade)}
+
+  .toast{position:absolute;left:50%;top:44%;transform:translateX(-50%);
+    font-family:var(--serif);font-size:26px;color:#f0e7d2;text-shadow:0 3px 14px rgba(0,0,0,.8);
+    pointer-events:none;opacity:0;transition:opacity .25s}
+  .toast.show{opacity:1}
+
+  .modal{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(4,7,11,.72);backdrop-filter:blur(3px);z-index:20}
+  .modal.show{display:flex}
+  .mbox{width:min(680px,92%);max-height:84%;overflow:auto;padding:16px 18px;border-radius:14px;
+    background:rgba(16,22,30,.97);border:1px solid var(--line)}
+  .mbox h3{margin:0 0 10px;font-family:var(--serif);font-size:17px;color:var(--gold);font-weight:600}
+  .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;
+    padding:7px 9px;border-radius:8px;background:rgba(255,255,255,.035);margin-bottom:6px;font-size:12.5px}
+  .mrow .t{color:var(--text)} .mrow .d{color:var(--dim);font-size:11px}
+  .mbtn{padding:4px 11px;border-radius:7px;border:1px solid rgba(217,180,106,.45);
+    background:rgba(217,180,106,.12);color:var(--gold);cursor:pointer;font-size:11.5px;font-family:var(--sans)}
+  .mbtn:hover{background:rgba(217,180,106,.24)}
+  .mbtn:disabled{opacity:.35;cursor:not-allowed}
+  .mclose{float:right;cursor:pointer;color:var(--dim);font-size:13px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .empty{color:var(--dim);font-size:12px;text-align:center;padding:14px}
+  .chat-body{max-height:230px;overflow:auto;margin-bottom:8px}
+  .chat-msg{margin-bottom:7px;font-size:12.5px}
+  .chat-msg .who{color:var(--jade);margin-right:6px}
+  .chat-msg.user .who{color:var(--gold)}
+  .chat-in{display:flex;gap:6px}
+  .chat-in input{flex:1;padding:6px 9px;border-radius:8px;border:1px solid var(--line);
+    background:rgba(255,255,255,.05);color:var(--text);font-size:12px;font-family:var(--sans)}
+  .journal-item{padding:6px 8px;border-radius:7px;background:rgba(255,255,255,.03);
+    margin-bottom:5px;font-size:12px}
+  .journal-item .day{color:var(--dim);margin-right:8px;font-size:11px}
+  .journal-item.gold .text{color:var(--gold)} .journal-item.fail .text{color:var(--ember)}
+  .herbpick{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .herbpick button{padding:4px 9px;border-radius:7px;border:1px solid var(--line);
+    background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;font-size:11.5px}
+  .hint{font-size:11px;color:var(--dim);margin:6px 0 2px}
+
+  .site-back{display:flex;align-items:center;gap:12px;padding:6px 14px 2px;font-family:var(--sans);font-size:12px}
+  .site-back a{color:var(--gold);text-decoration:none;border:1px solid rgba(217,180,106,.4);border-radius:8px;
+    padding:3px 11px;background:rgba(217,180,106,.08);transition:.2s}
+  .site-back a:hover{background:rgba(217,180,106,.22)}
+  .site-back-tip{color:var(--dim)}
+  /* ---------- 主线过场（全自动播放，无需操作） ---------- */
+  .cine{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .55s ease;z-index:15}
+  .cine.show{opacity:1}
+  .cine-bar{position:absolute;left:0;right:0;height:0;background:#03050a;transition:height .6s cubic-bezier(.2,.8,.2,1)}
+  .cine-bar.t{top:0}
+  .cine-bar.b{bottom:0}
+  .cine.show .cine-bar.t,.cine.show .cine-bar.b{height:9.5%}
+
+  .cine-ch{position:absolute;left:7%;top:24%;opacity:0;transform:translateY(14px);
+    transition:opacity .6s,transform .6s}
+  .cine-ch.show{opacity:1;transform:translateY(0)}
+  .cine-no{font-size:11px;letter-spacing:.5em;color:var(--gold);opacity:.85;margin-bottom:8px;
+    font-family:var(--serif)}
+  .cine-title{font-family:var(--serif);font-size:38px;letter-spacing:.16em;color:#f2ead6;
+    text-shadow:0 4px 24px rgba(0,0,0,.9),0 0 40px rgba(217,180,106,.25);line-height:1.25}
+  .cine-title::after{content:"";display:block;width:52px;height:2px;margin-top:12px;
+    background:linear-gradient(90deg,var(--gold),transparent)}
+  .cine-sub{font-size:11.5px;color:var(--dim);letter-spacing:.3em;margin-top:10px}
+
+  .cine-line{position:absolute;left:50%;bottom:12.5%;transform:translateX(-50%) translateY(10px);
+    width:min(74%,720px);text-align:center;opacity:0;transition:opacity .35s,transform .35s}
+  .cine-line.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .cine-who{font-family:var(--serif);font-size:13px;letter-spacing:.28em;color:var(--gold);
+    margin-bottom:7px;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+  .cine-text{font-family:var(--serif);font-size:17.5px;line-height:1.7;color:#eae4d4;
+    letter-spacing:.04em;text-shadow:0 3px 18px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.9)}
+  .cine-line.dim .cine-text{color:#a9b4c0;font-style:italic;font-size:16px}
+  .cine-skip{position:absolute;right:3.2%;top:12.5%;pointer-events:auto;cursor:pointer;
+    padding:4px 12px;border-radius:8px;border:1px solid rgba(217,180,106,.35);
+    background:rgba(8,12,18,.6);color:var(--gold);font-size:11px;font-family:var(--sans);
+    opacity:.6;transition:.2s}
+  .cine-skip:hover{opacity:1;background:rgba(217,180,106,.16)}
+  .cine-progress{position:absolute;left:50%;bottom:6.4%;transform:translateX(-50%);
+    display:flex;gap:5px;opacity:.75}
+  .cine-progress i{width:16px;height:2px;background:rgba(255,255,255,.22);display:block}
+  .cine-progress i.on{background:var(--gold)}
+
+</style>
+</head>
+<body>
+<div class="site-back">
+  <a href="../../index.html">← 返回星海之境</a>
+  <span class="site-back-tip">清心洞 · 像素修仙</span>
+</div>
+<div class="stage">
+  <canvas id="cv"></canvas>
+
+  <div class="topbar">
+    <div class="panel realm-card">
+      <div class="realm-line">
+        <div class="realm-name" id="realmName">练气一层</div>
+        <div class="realm-rate" id="rateTxt">+1.2/s</div>
+      </div>
+      <div class="world-tag" id="worldTag">第 1/21 界 · 凡尘</div>
+      <div class="bar"><i id="cultFill"></i></div>
+      <div class="bar-txt"><span id="cultTxt">法 0/60</span><span id="pathTxt">法修</span></div>
+      <div class="bar body"><i id="bodyFill"></i></div>
+      <div class="bar-txt"><span id="bodyTxt">体 0/72</span><span id="moodTxt">平静</span></div>
+    </div>
+    <div class="panel res-card">
+      <div><span>灵石</span><b id="vStone">0</b></div>
+      <div><span>战力</span><b id="vPower">0</b></div>
+      <div><span>神识</span><b id="vInsight">1</b></div>
+      <div><span>感悟</span><b id="vInsightExp">0</b></div>
+      <div><span>贡献</span><b id="vContrib">0</b></div>
+      <div><span>灵力</span><b id="vQi">100</b></div>
+      <div><span>灵草</span><b id="vHerbCnt">0</b></div>
+      <div><span>丹药</span><b id="vPillCnt">0</b></div>
+      <div><span>法宝</span><b id="vTreasureCnt">0</b></div>
+    </div>
+  </div>
+
+  <nav class="area-nav" id="areaNav"></nav>
+
+  <div class="right-btns">
+    <button class="rbtn gold" id="btnBreak">突破</button>
+    <button class="rbtn" id="btnBag">背包</button>
+    <button class="rbtn" id="btnArts">功法</button>
+    <button class="rbtn" id="btnPets">灵宠</button>
+    <button class="rbtn" id="btnRift">秘境</button>
+    <button class="rbtn" id="btnChat">问道</button>
+    <button class="rbtn" id="btnJournal">修行录</button>
+    <div class="spd" id="spdRow">
+      <button class="sp active" data-s="1">×1</button>
+      <button class="sp" data-s="2">×2</button>
+      <button class="sp" data-s="4">×4</button>
+    </div>
+    <button class="rbtn" id="btnAuto">自动：开</button>
+    <button class="rbtn" id="btnReset" style="color:#e4833f">重开</button>
+  </div>
+
+  <div class="bottom">
+    <div class="panel status-card">
+      <div class="s-act" id="sAct">静立</div>
+      <div class="s-note" id="sNote"></div>
+      <div class="bar" style="margin-top:5px"><i id="sFill"></i></div>
+      <div class="s-sub" id="sSub">洞府自转</div>
+    </div>
+    <div class="panel log-card" id="logList"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- 主线过场：自动播放，玩家无需操作 -->
+  <div class="cine" id="cine">
+    <div class="cine-bar t"></div>
+    <div class="cine-bar b"></div>
+    <div class="cine-ch" id="cineCh">
+      <div class="cine-no" id="cineNo">第一章</div>
+      <div class="cine-title" id="cineTitle">剑冢·第一声</div>
+      <div class="cine-sub" id="cineSub">人界 · 练气</div>
+    </div>
+    <div class="cine-line" id="cineLine">
+      <div class="cine-who" id="cineWho"></div>
+      <div class="cine-text" id="cineText"></div>
+    </div>
+    <div class="cine-progress" id="cineProg"></div>
+    <button class="cine-skip" id="cineSkip">跳过</button>
+  </div>
+
+  <div class="modal" id="fieldModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>灵田 · 种植与收获</h3>
+    <div id="fieldList"></div>
+    <div class="hint">选择灵草播下（自动行程会按境界选择）：</div>
+    <div class="herbpick" id="herbPick"></div>
+  </div></div>
+
+  <div class="modal" id="petModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>灵兽园</h3>
+    <div id="petList"></div>
+    <div class="hint" id="bondHint"></div>
+  </div></div>
+
+  <div class="modal" id="alchemyModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>丹房 · 炼丹</h3>
+    <div id="recipeList"></div>
+  </div></div>
+
+  <div class="modal" id="forgeModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>炼器台 · 锻造法宝</h3>
+    <div id="forgeList"></div>
+  </div></div>
+
+  <div class="modal" id="libraryModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>藏经阁 · 功法与神通</h3>
+    <div id="artsList"></div>
+    <div class="hint">神通（消耗感悟领悟）：</div>
+    <div id="skillList"></div>
+  </div></div>
+
+  <div class="modal" id="riftModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>秘境 · 外出历练</h3>
+    <div id="dungeonList"></div>
+  </div></div>
+
+  <div class="modal" id="bagModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>背包</h3>
+    <div class="hint">灵草</div><div class="grid2" id="bagHerbs"></div>
+    <div class="hint">丹药（点击服用）</div><div class="grid2" id="bagPills"></div>
+    <div class="hint">法宝</div><div class="grid2" id="bagTreasures"></div>
+  </div></div>
+
+  <div class="modal" id="journalModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>修行录 · 第 <span id="journalDay">1</span> 日</h3>
+    <div id="journalBody"></div>
+  </div></div>
+
+  <div class="modal" id="chatModal"><div class="mbox">
+    <span class="mclose" data-close>×</span><h3>问道 · 与清玄交谈</h3>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-in"><input id="chatInput" placeholder="有话但说…" /><button class="mbtn" id="chatSend">发送</button></div>
+  </div></div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
