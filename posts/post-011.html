@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房屋征收补偿协议与回迁安置选房系统 - 星海之境</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Cinzel:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-content { color: var(--text-primary); line-height: 1.9; font-size: 1rem; }
+        .post-content h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.55rem; font-weight: 700; margin: 2.6rem 0 1.1rem;
+            color: var(--text-primary);
+            border-left: 4px solid var(--bioluminescent); padding-left: 0.9rem;
+        }
+        .post-content h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem; font-weight: 600; margin: 1.8rem 0 0.8rem; color: var(--bioluminescent);
+        }
+        .post-content p { margin: 0.9rem 0; color: var(--text-secondary); }
+        .post-content strong { color: var(--text-primary); font-weight: 700; }
+        .post-content ul { margin: 0.8rem 0 0.8rem 1.2rem; color: var(--text-secondary); }
+        .post-content li { margin: 0.4rem 0; }
+        .post-content em { color: var(--bioluminescent); font-style: normal; }
+        .post-content hr {
+            margin: 2rem 0; border: none; height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+        }
+        .post-content table {
+            width: 100%; border-collapse: collapse; margin: 1.2rem 0;
+            font-size: 0.9rem; background: var(--glass-bg); border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+        .post-content th, .post-content td {
+            padding: 0.7rem 0.9rem; text-align: left; border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        .post-content th { background: rgba(0,240,255,0.07); color: var(--text-primary); font-weight: 700; }
+        .post-content tr:last-child td { border-bottom: none; }
+        .post-content .formula-step {
+            background: rgba(0,240,255,0.02); border-radius: 20px; margin: 1.5rem 0;
+            border: 1px solid var(--glass-border); overflow: hidden;
+        }
+        .post-content .step-title {
+            background: rgba(0,240,255,0.06); padding: 0.8rem 1.2rem; font-weight: 700;
+            font-size: 1.05rem; color: var(--bioluminescent); border-bottom: 1px solid var(--glass-border);
+        }
+        .post-content .step-content { padding: 1.2rem; }
+        .post-content .formula-text {
+            font-family: 'Courier New', monospace; background: rgba(255,255,255,0.05);
+            padding: 6px 12px; border-radius: 12px; font-size: 0.85rem; word-break: break-word;
+            border: 1px solid var(--glass-border); display: inline-block; margin: 0.3rem 0;
+        }
+        .post-content .result-number { font-weight: 800; color: var(--bioluminescent); font-size: 1.05rem; }
+        .post-content .callout {
+            background: rgba(0,240,255,0.04); border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--bioluminescent); border-radius: 16px;
+            padding: 1.1rem 1.4rem; margin: 1.6rem 0; color: var(--text-secondary);
+        }
+        .post-content .callout strong { color: var(--bioluminescent); }
+        .post-content .tagline {
+            text-align: center; font-family: 'Noto Serif SC', serif; font-size: 1.15rem;
+            color: var(--text-primary); margin: 2rem 0; opacity: 0.9;
+        }
+        .post-content .module-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.8rem; margin: 1.4rem 0;
+        }
+        .post-content .module-item {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 0.9rem 1rem;
+        }
+        .post-content .module-item b { color: var(--bioluminescent); display: block; margin-bottom: 0.3rem; }
+        .post-content .module-item span { font-size: 0.82rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <canvas id="universe"></canvas>
+    <div class="ocean-gradient"></div>
+    <div class="water-ripple"></div>
+
+    <div class="content">
+        <nav>
+            <a href="../index.html" class="logo">星海之境</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../diary/index.html">日记</a></li>
+                <li><a href="../records/index.html">记录</a></li>
+                <li><a href="../posts/articles.html" class="active">文章</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="sep">/</span>
+            <a href="../posts/articles.html">文章</a>
+            <span class="sep">/</span>
+            <span class="current">回迁安置选房系统</span>
+        </div>
+
+        <div class="page-top-spacer"></div>
+
+        <div class="page-hero">
+            <span class="page-hero-label">Relocation &amp; Compensation System</span>
+            <h1 class="page-hero-title">房屋征收补偿协议与回迁安置选房系统</h1>
+            <p class="page-hero-desc">一套自研的全流程管理平台 · 覆盖住户建档、补偿测算、协议生成、财务支付、交房验收、回迁选房与结算</p>
+        </div>
+
+        <div class="page-body">
+            <div class="post-content">
+
+                <p>征收项目的日常，往往是一地鸡毛：住户信息散落在十几个 Excel 里，街道、社区、评估公司各存一份；补偿口径靠"老师傅"记，同一套房两个人能算出两个数；协议用 Word 手改，改错一个数字就要重新打印、重新签字；付款、交房、选房各自一本账，月底对不上；领导要进度，只能等别人汇总。</p>
+
+                <p>我把这套活儿收进了一个系统——从<strong>住户建档、补偿测算、协议生成打印</strong>，到<strong>财务支付、交房验收、回迁选房与结算</strong>，做成了一条完整的业务闭环。它最初为某市辖区的棚户区/片区改造项目开发并实际投用，后来经过重构支持<strong>多项目隔离</strong>，可以作为同类征收项目的通用底座。这篇文章，把它完整地讲一遍。</p>
+
+                <div class="tagline">"同一个住户，在哪里看都是同一个数。"</div>
+
+                <h2>一、它到底解决了什么</h2>
+                <table>
+                    <thead>
+                        <tr><th>现实痛点</th><th>系统的做法</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>数据分散在十几个 Excel</td><td>一套住户档案，街道/社区/评估公司共用，按 <em>project_id</em> 隔离</td></tr>
+                        <tr><td>口径不一，两人算两笔账</td><td>补偿规则集中在配置项，全站只调一个计算入口 <em>calculateCompensation()</em></td></tr>
+                        <tr><td>协议用 Word 手改易错</td><td>Word 模板 + 占位符，生成即填数，明细行按条件自动删减</td></tr>
+                        <tr><td>付款/交房/选房对不上账</td><td>协议 → 领款单 → 收款单 → 交房单 → 选房结算，全链路可追溯</td></tr>
+                        <tr><td>进度不透明</td><td>领导看板 / 签约示意图 / 立面图，按楼栋、院落实时呈现</td></tr>
+                    </tbody>
+                </table>
+
+                <h2>二、系统全景：三大业务域</h2>
+
+                <h3>2.1 征收与补偿域</h3>
+                <div class="module-grid">
+                    <div class="module-item"><b>住户管理</b><span>建档、共有人、分户、批量导入导出</span></div>
+                    <div class="module-item"><b>签约示意图</b><span>楼栋立面/院落布局，点击直接办业务</span></div>
+                    <div class="module-item"><b>院落布局画板</b><span>上传航拍底图，拖动摆放每户</span></div>
+                    <div class="module-item"><b>补偿测算</b><span>四类口径，独院走土地认定</span></div>
+                    <div class="module-item"><b>协议生成</b><span>选模板/期数/方式，一键生成 docx</span></div>
+                    <div class="module-item"><b>协议预览</b><span>与下载同源渲染，所见即所印</span></div>
+                    <div class="module-item"><b>财务管理</b><span>分两期开领款单、收款单、补缴通知</span></div>
+                    <div class="module-item"><b>交房管理</b><span>验收单、交房奖励、交房示意图</span></div>
+                    <div class="module-item"><b>领导看板</b><span>全/单项目总览，云端零 PII 镜像</span></div>
+                </div>
+
+                <h3>2.2 回迁选房域（可按项目开关）</h3>
+                <div class="module-grid">
+                    <div class="module-item"><b>房源管理</b><span>小区/楼栋/户型批量导入，面积单价维护</span></div>
+                    <div class="module-item"><b>选房人核验</b><span>扫码/查号核验身份，叫号排队</span></div>
+                    <div class="module-item"><b>选房台</b><span>现场选房、锁定房源，防一房两家</span></div>
+                    <div class="module-item"><b>结算单</b><span>超面积分档计价、不足回购、地下室、维修基金</span></div>
+                    <div class="module-item"><b>确认书/合同</b><span>模板化生成，可直接打印</span></div>
+                    <div class="module-item"><b>差价收付</b><span>收款单、链式追加，原单冻结</span></div>
+                    <div class="module-item"><b>物业入住</b><span>核对收款与选房后办理入住</span></div>
+                    <div class="module-item"><b>选房模拟器</b><span>住户自助试算，免登录、零储存</span></div>
+                </div>
+
+                <p>除此之外还有一组<strong>通用能力</strong>：多项目隔离（所有业务表带 <em>project_id</em>，配置分「全局 / 项目」两层，项目配置永久覆盖全局）；十类角色（管理员、打印员、财务、交房、住户管理、选房员、核验叫号、选房财务、选房打印、物业）；敏感字段加密落库；关键动作操作留痕可导出；<strong>零外部依赖</strong>——不引 CDN、不引前端框架、不引字体服务，内网/离线可用；二维码纯 PHP 生成。</p>
+
+                <h2>三、补偿计算引擎：全站只调一个入口</h2>
+                <p>整套系统最硬核的地方，是一条铁律——<strong>计算入口只有一个</strong> <em>calculateCompensation(array $data): array</em>。协议预览、协议下载、列表、导出、财务、看板、公开试算<strong>全部调用它</strong>，不允许任何页面自己再算一遍。这是保证"同一个住户在哪里看都是同一个数"的前提。</p>
+
+                <h3>3.1 房屋类型决定口径</h3>
+                <table>
+                    <thead>
+                        <tr><th>类型</th><th>中文</th><th>计算口径</th><th>10㎡ 安置奖励</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>building</td><td>单元楼</td><td>楼房</td><td>有</td></tr>
+                        <tr><td>townhouse</td><td>联排式住宅楼</td><td>楼房</td><td>有</td></tr>
+                        <tr><td>single</td><td>独院</td><td>院落（土地认定）</td><td>无</td></tr>
+                        <tr><td>big_yard / small_yard</td><td>大/小伙院</td><td>院落（土地认定）</td><td>无</td></tr>
+                    </tbody>
+                </table>
+                <p>判定函数只有一处 <em>isBuildingLikeType()</em>，新增类型只需改这一处。即便把独院配置成"参照单元楼"，也只改单价与费用口径，<strong>不赠送 10㎡</strong>。</p>
+
+                <h3>3.2 认定补偿面积</h3>
+                <div class="formula-step">
+                    <div class="step-title">楼房类</div>
+                    <div class="step-content">
+                        <span class="formula-text">认定补偿面积 = 建筑面积 + 10㎡（安置奖励面积）</span>
+                        <p>10㎡ 只给楼房类；分户时按<strong>面积占比</strong>分摊，不是每人各加 10㎡。</p>
+                    </div>
+                </div>
+                <div class="formula-step">
+                    <div class="step-title">院落类（土地认定）</div>
+                    <div class="step-content">
+                        <span class="formula-text">认定补偿面积 = max(合法建筑面积, 合法土地面积 × 土地倍数)</span><br>
+                        <span class="formula-text">临时建筑面积 = max(0, 合法建筑面积 − 合法土地面积 × 2)</span><br>
+                        <span class="formula-text">计费基数 = min(合法建筑面积, 合法土地面积 × 2)</span>
+                        <p>土地倍数默认 1.5、双倍系数默认 2，均为配置项；计费基数只影响<strong>过渡费</strong>，不影响房屋补偿。</p>
+                    </div>
+                </div>
+
+                <h3>3.3 奖励项：两种方案，按项目二选一</h3>
+                <p>配置键 <em>bonus_mode</em> 存于 <em>project_config</em>，每个项目独立设置。</p>
+                <table>
+                    <thead>
+                        <tr><th>方案</th><th>公式（示例值）</th><th>说明</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A · 户奖励</td><td>第一期 80,000 / 第二期 40,000 / 第三期 0</td><td>按期数（协议字段 sign_stage）判定，第三期整行消失</td></tr>
+                        <tr><td>B · 面积奖励</td><td>min(建面, 200㎡) × 400 元/㎡</td><td>该方案下不计户奖励</td></tr>
+                    </tbody>
+                </table>
+                <div class="callout">
+                    <strong>经验：</strong>口径类改动最容易犯的错是"总额变了但没人发现"。每次改完 <em>includes/compensation.php</em> 后，必须跑内置自测（16 个用例）、与主系统交叉比对容差 0.01、抽查真实协议重印——差额必须为 0（除非本次就是要改钱）。
+                </div>
+
+                <h3>3.4 合计与分期</h3>
+                <div class="formula-step">
+                    <div class="step-title">合计构成</div>
+                    <div class="step-content">
+                        <span class="formula-text">合计 = 房屋补偿 + 面积奖励 + 户奖励 + 储藏室 + 搬迁费 + 回迁费 + 过渡费 + 临时建筑 + 营业补助 + 交房奖 + 附属物 − 补缴建安 − 模拟房改费</span><br>
+                        <span class="formula-text">第二期 = min(交房奖, 合计)　|　第一期 = 合计 − 第二期</span>
+                        <p>合计为负 → 视为<strong>补缴户</strong>，两期归零，走补缴通知单；第二期不能超过合计，避免扣减项把第一期压成负数。</p>
+                    </div>
+                </div>
+
+                <h2>四、回迁选房：防一房两家</h2>
+                <p>选房结算与补偿协议<strong>分开</strong>：协议里算的是"应得补偿"，选房时算的是"多退少补"。住宅超面积分档计价（示例：≤20㎡ 按成本价 7000、&gt;20㎡ 按市场价 10000），面积不足按回购单价（示例 8000）折现；地下室、维修基金另计。</p>
+                <p>现场最怕两个人同时抢一套房。<em>xz_pick_item.house_id</em> 建唯一索引，配合事务行锁——两个人同时选同一套房，只有一个能成功，另一个会提示"该房源已被选"。</p>
+
+                <h2>五、技术架构：零框架、零构建</h2>
+                <table>
+                    <thead>
+                        <tr><th>项</th><th>版本 / 说明</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>PHP</td><td>7.4+（生产验证于 8.2），需 openssl / zip / gd / pdo_mysql</td></tr>
+                        <tr><td>数据库</td><td>MySQL 5.6+ / MariaDB 10.x，utf8mb4</td></tr>
+                        <tr><td>Web 服务器</td><td>Nginx / Apache（附 deny 规则与 web.config）</td></tr>
+                        <tr><td>前端</td><td>原生 HTML + CSS + JS，无构建步骤</td></tr>
+                        <tr><td>文档生成</td><td>PHP ZipArchive 直接改写 docx 的 word/document.xml</td></tr>
+                        <tr><td>依赖</td><td>无 Composer、无 npm</td></tr>
+                    </tbody>
+                </table>
+                <p>代码刻意保持"零框架、零构建"，目的是让区县一级的运维人员能直接拷文件部署、出问题能看懂。五步即可上线：放目录 → 配数据库 → 建库 → 浏览器执行安装 → 删掉 install.php。</p>
+
+                <h2>六、安全与隐私：把 PII 当回事</h2>
+                <p>系统处理身份证号、手机号、银行卡号等敏感个人信息，属于《个人信息保护法》意义上的敏感场景。代码层面已落实的防护：</p>
+                <table>
+                    <thead>
+                        <tr><th>风险</th><th>处理方式</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>SQL 注入</td><td>全站 PDO 预处理，禁止拼接；动态列名走白名单</td></tr>
+                        <tr><td>XSS</td><td>输出统一 htmlspecialchars()；富文本白名单过滤</td></tr>
+                        <tr><td>CSRF</td><td>全站表单校验 token；删除类操作只接受 POST 并二次确认口令</td></tr>
+                        <tr><td>越权</td><td>角色 + 项目双维度校验；显示权限与出口权限分离</td></tr>
+                        <tr><td>敏感字段</td><td>身份证/手机号/银行卡 AES 加密存储；列表默认脱敏</td></tr>
+                        <tr><td>口令存储</td><td>password_hash()（bcrypt），不可逆</td></tr>
+                        <tr><td>会话</td><td>登录后重建 session id；闲置超时退出</td></tr>
+                        <tr><td>日志</td><td>关键操作留痕，保留期不少于 180 天（等保要求）</td></tr>
+                    </tbody>
+                </table>
+                <div class="callout">
+                    <strong>部署方必须完成的加固：</strong>修改数据库口令（别用 root）、改并删除 install.php、首登即改密、全站 HTTPS、includes/ 与 uploads/ 禁 Web 访问、上线后执行加密迁移、定期备份数据库与密钥文件（两者缺一不可）。开源仓库只保证代码层防护，上述事项由部署方负责。
+                </div>
+
+                <h2>七、开源与授权</h2>
+                <p>项目采用 <strong>MIT License</strong>（政府/国企采购场景可换 Apache-2.0 或 MulanPSL-2.0）。开源仓库与生产数据<strong>必须彻底分离</strong>：仓库不含任何真实姓名、身份证、手机号、银行卡、协议数据、财务流水、生产口令与内网地址；示例数据必须虚构。发布到公开仓库前，跑一遍 <em>tools/oss_preflight.php</em> 自检（文本特征扫描），再人工复核一遍。</p>
+
+                <hr>
+                <div class="callout">
+                    <strong>免责声明：</strong>本系统为业务工具，不构成任何法律或政策意见。补偿标准、协议条款、审批流程均以项目所在地现行有效的征收补偿方案与主管部门要求为准；使用本系统产生的任何协议，签署前须经法定程序审核。
+                </div>
+
+                <p style="text-align:center; margin-top:2.5rem; color:var(--text-primary); font-family:'Noto Serif SC',serif;">从一地鸡毛的 Excel，到一条可追溯的业务闭环——<br>这套系统，把征收补偿与回迁选房这件最磨人的事，做成了可以信赖的工具。</p>
+
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">星海之境 | Ocean of Stars</p>
+            <p class="footer-text">在星空与海洋的交汇处，遇见无限可能</p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
